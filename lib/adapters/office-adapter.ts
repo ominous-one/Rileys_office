@@ -11,10 +11,10 @@ const connectionSchema = z.object({
 
 const snapshotSchema = z.object({
   connection: connectionSchema,
-  projects: z.array(z.any()),
-  alerts: z.array(z.any()),
-  activity: z.array(z.any()),
-  conversations: z.array(z.any()),
+  projects: z.array(z.any()).default([]),
+  alerts: z.array(z.any()).default([]),
+  activity: z.array(z.any()).default([]),
+  conversations: z.array(z.any()).default([]),
 });
 
 export interface OfficeAdapter {
