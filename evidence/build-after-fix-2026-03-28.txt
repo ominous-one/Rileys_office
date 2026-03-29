@@ -1,0 +1,24 @@
+
+> rileys-office@0.1.0 build
+> next build
+
+   ▲ Next.js 15.2.4
+   - Experiments (use with caution):
+     ✓ typedRoutes
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./components/shell/bottom-nav.tsx:8:5
+Type error: Type '"/projects/rileys-office"' is not assignable to type 'Route'.
+
+[0m [90m  6 |[39m   { href[33m:[39m [32m'/activity'[39m[33m,[39m label[33m:[39m [32m'Activity'[39m }[33m,[39m[0m
+[0m [90m  7 |[39m   { href[33m:[39m [32m'/inbox'[39m[33m,[39m label[33m:[39m [32m'Inbox'[39m }[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m  8 |[39m   { href[33m:[39m [32m'/projects/rileys-office'[39m[33m,[39m label[33m:[39m [32m'Projects'[39m }[33m,[39m[0m
+[0m [90m    |[39m     [31m[1m^[22m[39m[0m
+[0m [90m  9 |[39m   { href[33m:[39m [32m'/agents/engineer-riley'[39m[33m,[39m label[33m:[39m [32m'Me'[39m }[33m,[39m[0m
+[0m [90m 10 |[39m ][33m;[39m[0m
+[0m [90m 11 |[39m[0m
+Next.js build worker exited with code: 1 and signal: null

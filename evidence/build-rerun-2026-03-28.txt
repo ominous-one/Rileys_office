@@ -1,0 +1,24 @@
+
+> rileys-office@0.1.0 build
+> next build
+
+   ▲ Next.js 15.2.4
+   - Experiments (use with caution):
+     ✓ typedRoutes
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./components/shell/bottom-nav.tsx:15:31
+Type error: Type 'string' is not assignable to type 'UrlObject | RouteImpl<string>'.
+
+[0m [90m 13 |[39m     [33m<[39m[33mnav[39m className[33m=[39m[32m"bottom-nav"[39m aria[33m-[39mlabel[33m=[39m[32m"Primary navigation"[39m[33m>[39m[0m
+[0m [90m 14 |[39m       {items[33m.[39mmap((item) [33m=>[39m ([0m
+[0m[31m[1m>[22m[39m[90m 15 |[39m         [33m<[39m[33mLink[39m key[33m=[39m{item[33m.[39mhref} href[33m=[39m{item[33m.[39mhref} className[33m=[39m[32m"bottom-nav__item"[39m[33m>[39m[0m
+[0m [90m    |[39m                               [31m[1m^[22m[39m[0m
+[0m [90m 16 |[39m           [33m<[39m[33mspan[39m[33m>[39m{item[33m.[39mlabel}[33m<[39m[33m/[39m[33mspan[39m[33m>[39m[0m
+[0m [90m 17 |[39m         [33m<[39m[33m/[39m[33mLink[39m[33m>[39m[0m
+[0m [90m 18 |[39m       ))}[0m
+Next.js build worker exited with code: 1 and signal: null
