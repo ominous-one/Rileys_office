@@ -1,0 +1,36 @@
+> rileys-office@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.14
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 16.9s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/8) ...
+   Generating static pages (2/8)
+   Generating static pages (4/8)
+   Generating static pages (6/8)
+ ✓ Generating static pages (8/8)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    3.44 kB         109 kB
+├ ○ /_not-found                            993 B         103 kB
+├ ○ /activity                              139 B         102 kB
+├ ƒ /agents/[agentid]                      139 B         102 kB
+├ ƒ /api/auth/login                        139 B         102 kB
+├ ƒ /api/auth/logout                       139 B         102 kB
+├ ƒ /api/live/snapshot                     139 B         102 kB
+├ ○ /inbox                                 139 B         102 kB
+└ ƒ /projects/[projectid]                  161 B         106 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/255-38b49df12a94ee57.js         46 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js  54.2 kB
+  └ other shared chunks (total)          2.12 kB
+
+ƒ Middleware                             34.2 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

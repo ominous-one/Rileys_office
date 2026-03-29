@@ -1,46 +1,32 @@
-# Implementation Summary — Riley's_Office Scene Pass
+# Riley's_Office — HQ World Beauty Wave Summary
 
-## Scope
-Transform Riley's_Office from a premium dashboard language into a game-like scene language across the three key surfaces:
-- HQ as a world / building scene
-- Project page as a room / office scene
-- Agent page as a workstation scene
+## Summary
+This wave materially upgrades the HQ world from a basic 3D foundation into a more atmospheric and premium-feeling scene. The headquarters now has a layered skyline, stronger command-floor composition, richer tower materials, emissive accents, ambient particles, and motion cues that create more depth without sacrificing fallback behavior or Vercel compatibility.
 
 ## Exact changed paths
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\app\page.tsx`
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\office\office-overview.tsx`
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\project\project-office-view.tsx`
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\desk\agent-desk-view.tsx`
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\shell\app-shell.tsx`
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\world\hq-world-canvas.tsx`
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\world\hq-world-experience.tsx`
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\styles\globals.css`
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\lib\mock\seed.ts`
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\README.md`
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\IMPLEMENTATION-SUMMARY.md`
 
-## What changed
-### HQ world scene
-- Introduced a skyline layer, world cards, district tower cards, and operator-row treatment.
-- Reframed project navigation as movement through a city map instead of scanning plain cards.
+## Implementation details
+- Rebuilt the HQ world composition to include a dedicated command floor, skyline silhouettes, light columns, star depth, spark particles, and rotating atmosphere rings.
+- Upgraded project towers with stronger metallic materials, facade light bands, roof plates, and animated data-ring accents tied to project color.
+- Strengthened scene lighting with multiple colored light sources and deeper fog for a more cinematic nocturnal look.
+- Improved the surrounding UX copy and supporting cards so the page explicitly communicates the beauty/atmosphere upgrades.
+- Upgraded the CSS fallback skyline with a richer sky wash, stronger floor perspective, light-band facades, and more premium card polish.
 
-### Project room scene
-- Built a fake-3D room with walls, floor plane, ambient props, blueprint zones, workstation row, and pinned delivery wall.
-- Preserved the existing governed data model while materially changing the screen's spatial read.
+## Validation summary
+- `npm run typecheck` ✅
+- `npm run build` ✅
+- Local browser verification reached the auth gate, but signing in with the default local credentials produced `ERR_TOO_MANY_REDIRECTS`, so no post-auth HQ screenshot was captured in this run.
 
-### Agent workstation scene
-- Built a desk scene with monitor silhouettes, desk surface, lamp glow, evidence shelf, side-channel display, and macro row.
-- Kept performance-friendly rendering through CSS-only environmental treatment.
-
-### Global visual system
-- Reworked the shell into a horizon/grid environment.
-- Added reusable scene styles, fake-isometric surfaces, layered glows, and mobile-safe responsive fallbacks.
-
-### Mock narrative refresh
-- Updated run summaries, alerts, activity feed, room names, and conversation text so content matches the new scene direction.
-
-## Validation target
-- Required next step for QA: run `npm run typecheck` and `npm run build`
-- This engineer wave prepared the package for QA handoff but did not include fresh validation logs in this run.
+## Evidence paths
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\typecheck-2026-03-28-3d-beauty-wave1.log`
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\build-2026-03-28-3d-beauty-wave1.log`
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\browser-note-2026-03-28-3d-beauty-wave1.md`
 
 ## Notes
-- `PROJECT.md` missing at `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\PROJECT.md`
-- `BRAND.md` missing at `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\BRAND.md`
+- `PROJECT.md` and `BRAND.md` were not present in the project root during this run.
+- The auth redirect loop appears outside the edited deliverables for this wave.
