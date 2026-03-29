@@ -7,33 +7,44 @@ import { getReadOnlyGuardMessage } from '@/lib/actions/governed-actions';
 export function ProjectOfficeView({ office }: { office: ProjectOffice }) {
   return (
     <main className="page-stack">
-      <section className="hero-card" style={{ ['--accent' as string]: office.project.accent }}>
-        <p className="eyebrow">Project Office</p>
-        <div className="row-between row-start">
+      <section className="hero-card hero-card--project" style={{ ['--accent' as string]: office.project.accent }}>
+        <div className="hero-card__backdrop" />
+        <div className="hero-card__eyebrow-row">
+          <p className="eyebrow">Project Suite</p>
+          <StatusPill state={office.project.health} />
+        </div>
+        <div className="hero-card__headline">
           <div>
             <h1>{office.project.name}</h1>
             <p className="lede">{office.project.mission}</p>
           </div>
-          <StatusPill state={office.project.health} />
+          <div className="hero-card__spotlight">
+            <span className="hero-card__spotlight-label">Current pressure</span>
+            <strong>{office.project.urgency} urgency</strong>
+            <span>{office.project.activeRun.progressLabel}</span>
+          </div>
         </div>
-        <div className="hero-subgrid">
-          <div>
-            <span className="label">Active run</span>
-            <p>{office.project.activeRun.summary}</p>
-          </div>
-          <div>
-            <span className="label">Urgency</span>
-            <p>{office.project.urgency}</p>
-          </div>
+        <div className="project-hero-grid">
+          <article className="metric-tile metric-tile--compact">
+            <span className="metric-tile__label">Run brief</span>
+            <strong>{office.project.activeRun.summary}</strong>
+          </article>
+          <article className="metric-tile metric-tile--compact">
+            <span className="metric-tile__label">Tagline</span>
+            <strong>{office.project.tagline}</strong>
+          </article>
         </div>
       </section>
 
-      <SectionCard title="Room map" eyebrow="Spatial view">
+      <SectionCard title="Room map" eyebrow="Spatial floorplan" tone="accent">
         <div className="card-grid">
           {office.rooms.map((room) => (
             <article key={room.id} className="room-card">
-              <div className="row-between">
-                <h3>{room.name}</h3>
+              <div className="row-between row-start">
+                <div>
+                  <span className="room-card__eyebrow">Office zone</span>
+                  <h3>{room.name}</h3>
+                </div>
                 <StatusPill state={room.state} />
               </div>
               <p>{room.purpose}</p>
@@ -42,12 +53,15 @@ export function ProjectOfficeView({ office }: { office: ProjectOffice }) {
         </div>
       </SectionCard>
 
-      <SectionCard title="Agent desks" eyebrow="Team floor">
+      <SectionCard title="Desk cluster" eyebrow="Assigned operators">
         <div className="list-stack">
           {office.project.agents.map((agent) => (
-            <Link key={agent.id} href={`/agents/${agent.id}`} className="list-card">
-              <div className="row-between">
-                <strong>{agent.name}</strong>
+            <Link key={agent.id} href={`/agents/${agent.id}`} className="list-card list-card--interactive">
+              <div className="row-between row-start">
+                <div>
+                  <strong>{agent.name}</strong>
+                  <p className="muted">{agent.role}</p>
+                </div>
                 <StatusPill state={agent.status} />
               </div>
               <p>{agent.currentTask}</p>
@@ -56,19 +70,21 @@ export function ProjectOfficeView({ office }: { office: ProjectOffice }) {
         </div>
       </SectionCard>
 
-      <SectionCard title="Delivery wall" eyebrow="Artifacts">
+      <SectionCard title="Delivery wall" eyebrow="Artifact lane" tone="glass">
         <div className="list-stack">
           {office.artifacts.map((artifact) => (
-            <article key={artifact.id} className="list-card">
-              <strong>{artifact.label}</strong>
+            <article key={artifact.id} className="list-card list-card--soft">
+              <div className="row-between row-start">
+                <strong>{artifact.label}</strong>
+                <span className="list-card__meta">{artifact.status.replace('_', ' ')}</span>
+              </div>
               <p className="muted">{artifact.path}</p>
-              <p>Status: {artifact.status}</p>
             </article>
           ))}
         </div>
       </SectionCard>
 
-      <SectionCard title="Governed actions" eyebrow="Read-mostly">
+      <SectionCard title="Governed actions" eyebrow="Read-only console">
         <p className="muted">{getReadOnlyGuardMessage()}</p>
         <div className="action-row">
           {office.actions.map((action) => (
