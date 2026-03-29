@@ -39,50 +39,50 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
             <div>
               <h1>Riley&apos;s Office</h1>
               <p className="lede">
-                A scene-first command world where projects become lit buildings, agents become live stations, and pressure reads like a city pulse instead of a dashboard.
+                A scene-first operator HQ where projects read as active rooms, agents read as staffed desks, and system pressure resolves into a credible office / war-room floor instead of a generic dashboard.
               </p>
             </div>
             <div className="hero-card__spotlight">
-              <span className="hero-card__spotlight-label">World state</span>
-              <strong>{projects.length} structures lit</strong>
+              <span className="hero-card__spotlight-label">HQ state</span>
+              <strong>{projects.length} active rooms</strong>
               <span>Refresh {connection.lastUpdated}</span>
             </div>
           </div>
 
           <div className="metric-strip metric-strip--scene">
             <article className="metric-tile metric-tile--scene">
-              <span className="metric-tile__label">Districts online</span>
+              <span className="metric-tile__label">Project rooms online</span>
               <strong>{projects.length}</strong>
-              <p>Buildings on the command map</p>
+              <p>Rooms visible from the operator floor</p>
             </article>
             <article className="metric-tile metric-tile--scene">
-              <span className="metric-tile__label">Live stations</span>
+              <span className="metric-tile__label">Staffed desks</span>
               <strong>{activeCount}</strong>
-              <p>Operator desks glowing right now</p>
+              <p>Operators active right now</p>
             </article>
             <article className="metric-tile metric-tile--scene">
-              <span className="metric-tile__label">Alarm beacons</span>
+              <span className="metric-tile__label">Active alerts</span>
               <strong>{alerts.length}</strong>
-              <p>Signals climbing above ambient noise</p>
+              <p>Issues rising above background load</p>
             </article>
           </div>
         </div>
 
         <div className="world-grid">
           <article className="world-card world-card--elevator">
-            <span className="label">Sky elevator</span>
-            <strong>{topProject?.name ?? 'No active district'}</strong>
-            <p>{topProject?.activeRun.summary ?? 'The city grid will populate as soon as snapshot data arrives.'}</p>
+            <span className="label">Front desk</span>
+            <strong>{topProject?.name ?? 'No active room'}</strong>
+            <p>{topProject?.activeRun.summary ?? 'The office floor will populate as soon as snapshot data arrives.'}</p>
           </article>
           <article className="world-card world-card--beacon">
-            <span className="label">Signal beacon</span>
-            <strong>{alerts[0]?.title ?? 'No priority beacons active'}</strong>
-            <p>{alerts[0]?.detail ?? 'The HQ skyline is stable right now.'}</p>
+            <span className="label">Ops wall</span>
+            <strong>{alerts[0]?.title ?? 'No priority alerts active'}</strong>
+            <p>{alerts[0]?.detail ?? 'The HQ floor is stable right now.'}</p>
           </article>
         </div>
       </section>
 
-      <SectionCard title="City map" eyebrow="Playable district view" tone="accent">
+      <SectionCard title="Office floor" eyebrow="Tap into rooms and teams" tone="accent">
         <div className="city-grid">
           {projects.map((project, index) => (
             <Link
@@ -99,7 +99,7 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
               </div>
               <div className="row-between row-start">
                 <div>
-                  <span className="project-card__eyebrow">{project.urgency} priority tower</span>
+                  <span className="project-card__eyebrow">{project.urgency} priority room</span>
                   <h3>{project.name}</h3>
                 </div>
                 <StatusPill state={project.health} />
@@ -112,16 +112,16 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
               </div>
             </Link>
           ))}
-          {projects.length === 0 ? <article className="list-card"><strong>No districts online</strong><p>Snapshot data is empty or still loading.</p></article> : null}
+          {projects.length === 0 ? <article className="list-card"><strong>No project rooms online</strong><p>Snapshot data is empty or still loading.</p></article> : null}
         </div>
       </SectionCard>
 
-      <SectionCard title="Street-level operations" eyebrow="World simulation feed" tone="glass">
+      <SectionCard title="Floor operations" eyebrow="Live operator readout" tone="glass">
         <div className="operations-grid operations-grid--scene">
           <article className="list-card list-card--soft">
-            <span className="label">Lobby floor</span>
+            <span className="label">Reception lane</span>
             <strong>Foot traffic</strong>
-            <p>{conversations[0]?.latestMessage ?? 'Thread activity appears once operators join the world.'}</p>
+            <p>{conversations[0]?.latestMessage ?? 'Thread activity appears once operators join the office.'}</p>
           </article>
           <article className="list-card list-card--soft">
             <span className="label">Power core</span>
@@ -129,14 +129,14 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
             <p>{topProject?.activeRun.progressLabel ?? 'No active run pressure detected.'}</p>
           </article>
           <article className="list-card list-card--soft">
-            <span className="label">Roof access</span>
+            <span className="label">Whiteboard lane</span>
             <strong>Atmosphere</strong>
-            <p>{activity[0]?.label ?? 'Ambient scene data will appear here when the feed is live.'}</p>
+            <p>{activity[0]?.label ?? 'Ambient office data will appear here when the feed is live.'}</p>
           </article>
         </div>
       </SectionCard>
 
-      <SectionCard title="Operator row" eyebrow="Station lights">
+      <SectionCard title="Desk row" eyebrow="Staffed workstations">
         <div className="list-stack">
           {agents.map((agent, index) => (
             <Link key={agent.id} href={`/agents/${agent.id}`} className="list-card list-card--interactive desk-link-card" style={{ ['--desk-accent' as string]: projects[index % Math.max(projects.length, 1)]?.accent ?? '#9d7bff' }}>
@@ -149,14 +149,14 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
                 <StatusPill state={agent.status} />
               </div>
               <p>{agent.currentTask}</p>
-              <span className="list-card__meta">Assigned to {agent.projectId}</span>
+              <span className="list-card__meta">Assigned to room {agent.projectId}</span>
             </Link>
           ))}
-          {agents.length === 0 ? <article className="list-card"><strong>No stations occupied</strong><p>Agent presence will appear once snapshot data is available.</p></article> : null}
+          {agents.length === 0 ? <article className="list-card"><strong>No desks staffed</strong><p>Agent presence will appear once snapshot data is available.</p></article> : null}
         </div>
       </SectionCard>
 
-      <SectionCard title="Alarm lane" eyebrow="Neon alerts">
+      <SectionCard title="Alert lane" eyebrow="Priority signals">
         <div className="list-stack">
           {alerts.map((alert) => (
             <article key={alert.id} className={`alert-card alert-card--${alert.level}`}>
@@ -167,11 +167,11 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
               <p>{alert.detail}</p>
             </article>
           ))}
-          {alerts.length === 0 ? <article className="list-card"><strong>No active alerts</strong><p>The world is stable right now.</p></article> : null}
+          {alerts.length === 0 ? <article className="list-card"><strong>No active alerts</strong><p>The office floor is stable right now.</p></article> : null}
         </div>
       </SectionCard>
 
-      <SectionCard title="Transit log" eyebrow="Moving through the world">
+      <SectionCard title="Ops log" eyebrow="Movement across the office">
         <div className="list-stack">
           {activity.map((event) => (
             <article key={event.id} className="timeline-item timeline-item--scene">
@@ -183,9 +183,11 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
               </div>
             </article>
           ))}
-          {activity.length === 0 ? <article className="list-card"><strong>No movement yet</strong><p>Live events will appear here when the feed is available.</p></article> : null}
+          {activity.length === 0 ? <article className="list-card"><strong>No office movement yet</strong><p>Live office events will appear here when the feed is available.</p></article> : null}
         </div>
       </SectionCard>
     </main>
   );
 }
+
+
