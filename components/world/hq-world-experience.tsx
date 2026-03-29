@@ -155,7 +155,7 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
         <div className="list-stack">
           <article className="list-card list-card--soft">
             <strong>Recognizable architecture</strong>
-            <p>Perimeter walls, front windows, reception frontage, circulation lane, and glass partitions replace the older abstract skyline vocabulary.</p>
+            <p>Perimeter walls, front windows, reception frontage, circulation lane, and glass partitions replace the older abstract sci-fi vocabulary.</p>
           </article>
           <article className="list-card list-card--soft">
             <strong>War-room center of gravity</strong>
@@ -179,8 +179,8 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
           {featuredProjects.map((project, index) => (
             <article
               key={project.id}
-              className="world-card world-card--district world-card--office"
-              style={{ ['--district-accent' as string]: project.accent, ['--district-elevation' as string]: `${index}` }}
+              className="world-card world-card--zone world-card--office"
+              style={{ ['--zone-accent' as string]: project.accent, ['--zone-elevation' as string]: `${index}` }}
             >
               <span className="project-card__eyebrow">{project.health} signal</span>
               <strong>{project.name}</strong>
@@ -233,3 +233,4 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
     </main>
   );
 }
+
