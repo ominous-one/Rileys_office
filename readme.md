@@ -1,19 +1,20 @@
 # Riley's_Office
 
-Riley's_Office is an iPhone-first OpenClaw command center presented as a scene-first mobile web app. This beauty pass advances the HQ world from a functional 3D foundation into a richer atmospheric skyline with stronger composition, lighting, materials, and fallback presentation.
+Riley's_Office is an iPhone-first OpenClaw command center presented as a scene-first mobile web app. This wave pushes the HQ world closer to a benchmark modern office: front glazing, reception desk, desk neighborhoods, a central war room, rear ops displays, whiteboard lane, lounge support space, and a safe non-WebGL fallback.
 
 ## What changed in this wave
-- the HQ world now stages itself as a premium nocturnal command campus instead of a simple floating tower pad
-- project districts gained stronger material definition, emissive roof plates, facade light bands, and animated data rings
-- the world gained skyline silhouettes, volumetric light columns, star depth, spark particles, and a more cinematic command-floor composition
-- the fallback path was upgraded to feel like a real skyline strip rather than a plain static placeholder
-- the app remains Vercel-friendly: the scene still loads client-side only and preserves a non-WebGL path
+- the HQ scene now uses recognizable office architecture instead of abstract tower/city metaphors
+- project areas are represented as workstation clusters with desks, chairs, monitors, and branded task lighting
+- the center of the room now reads as a war room with a large conference table, rear operations wall, and side whiteboard
+- the floor now has clearer circulation, perimeter walls, front windows, reception frontage, meeting-room glass, lounge furniture, and storage credenza accents
+- the fallback path now depicts an office floor with windows, reception, desk pods, war-room callouts, and board-room glazing rather than a skyline strip
+- the scene remains Vercel-safe and mobile-conscious with client-only 3D rendering plus reduced-motion / non-WebGL fallback handling
 
 ## Scene stack
 - **Renderer:** React Three Fiber
 - **Scene helpers:** Drei
 - **Engine:** Three.js
-- **Fallback:** semantic DOM skyline strip + linked district cards
+- **Fallback:** semantic DOM office-floor composition + linked project cards
 
 ## Key routes
 - `/` — HQ world scene
@@ -31,5 +32,5 @@ npm run build
 
 ## Notes
 - `PROJECT.md` and `BRAND.md` were not present in the project root during this run.
-- Local browser verification hit the existing auth gate and then `ERR_TOO_MANY_REDIRECTS` after sign-in with default local credentials, so scene validation for this wave is backed by code inspection plus fresh typecheck/build evidence.
+- Fresh validation for this wave is backed by local `npm run typecheck` and `npm run build` evidence.
 - See `IMPLEMENTATION-SUMMARY.md` for exact changed files and evidence paths.

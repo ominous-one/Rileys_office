@@ -3,37 +3,35 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import {
   ContactShadows,
-  Float,
   OrbitControls,
   PerspectiveCamera,
   RoundedBox,
-  Sparkles,
-  Stars,
 } from '@react-three/drei';
 import type { OfficeSnapshot, ProjectSummary } from '@/lib/domain/types';
 import { memo, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
-interface DistrictNode {
+interface DeskNode {
   project: ProjectSummary;
   position: [number, number, number];
-  height: number;
-  width: number;
-  depth: number;
+  accent: string;
+  row: number;
+  column: number;
+  activeAgents: number;
 }
 
-function buildDistrictLayout(snapshot: OfficeSnapshot): DistrictNode[] {
+function buildDeskLayout(snapshot: OfficeSnapshot): DeskNode[] {
   return snapshot.projects.map((project, index) => {
     const column = index % 3;
     const row = Math.floor(index / 3);
-    const activeAgents = project.agents.filter((agent) => agent.status === 'active').length;
 
     return {
       project,
-      position: [column * 3.15 - 3.15, 0.5, row * -2.75 + 1.15],
-      width: 1.52,
-      depth: 1.52,
-      height: 1.15 + activeAgents * 0.26 + (project.urgency === 'high' ? 0.52 : project.urgency === 'medium' ? 0.3 : 0.16),
+      row,
+      column,
+      accent: project.accent,
+      activeAgents: project.agents.filter((agent) => agent.status === 'active').length,
+      position: [column * 2.72 - 2.72, 0, row * -2.75 + 1.35],
     };
   });
 }
@@ -50,22 +48,422 @@ function hexToRgb(hex: string) {
   };
 }
 
-function SkylineBand() {
+function CeilingLights() {
+  const fixtures: Array<[number, number, number]> = [
+    [-3.9, 4.28, 2.75],
+    [0, 4.28, 2.75],
+    [3.9, 4.28, 2.75],
+    [-3.9, 4.28, 0.1],
+    [0, 4.28, 0.1],
+    [3.9, 4.28, 0.1],
+    [-3.9, 4.28, -2.55],
+    [0, 4.28, -2.55],
+    [3.9, 4.28, -2.55],
+  ];
+
   return (
-    <group position={[0, 0.2, -7.2]}>
-      {[-6.8, -5.5, -4.7, -3.5, -2.7, -1.4, -0.3, 1.2, 2.4, 3.8, 5.1, 6.5].map((x, index) => {
-        const width = 0.9 + (index % 3) * 0.25;
-        const height = 1.6 + (index % 5) * 0.48;
-        const depth = 0.8 + (index % 2) * 0.16;
+    <group>
+      {fixtures.map((position, index) => (
+        <group key={`light-${index}`} position={position}>
+          <RoundedBox args={[1.55, 0.09, 0.46]} radius={0.08} smoothness={4} castShadow>
+            <meshStandardMaterial color="#f9fbff" emissive="#ffffff" emissiveIntensity={0.6} metalness={0.18} roughness={0.2} />
+          </RoundedBox>
+          <mesh position={[0, -0.42, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[1.55, 0.5]} />
+            <meshBasicMaterial color="#f7fbff" transparent opacity={0.13} side={THREE.DoubleSide} depthWrite={false} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
+function WindowWall() {
+  return (
+    <group position={[0, 0, 4.78]}>
+      <RoundedBox args={[9.3, 3.05, 0.14]} radius={0.06} smoothness={4} position={[0, 1.65, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#edf2f7" roughness={0.92} />
+      </RoundedBox>
+      {[-3.05, 0, 3.05].map((x) => (
+        <group key={`window-bay-${x}`} position={[x, 1.58, 0.09]}>
+          <RoundedBox args={[2.3, 2.2, 0.05]} radius={0.04} smoothness={4}>
+            <meshStandardMaterial color="#c8d8ea" transparent opacity={0.3} metalness={0.45} roughness={0.08} />
+          </RoundedBox>
+          <mesh position={[0, 0, 0.03]}>
+            <planeGeometry args={[2.05, 1.95]} />
+            <meshBasicMaterial color="#dff3ff" transparent opacity={0.24} />
+          </mesh>
+          <mesh position={[0, 0.9, 0.04]}>
+            <planeGeometry args={[1.7, 0.08]} />
+            <meshBasicMaterial color="#f8fbff" transparent opacity={0.7} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
+function OfficeShell() {
+  return (
+    <group>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[12.2, 10.8]} />
+        <meshStandardMaterial color="#d7dde6" metalness={0.05} roughness={0.9} />
+      </mesh>
+
+      <mesh position={[0, 0.01, 1.05]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[10.6, 1.55]} />
+        <meshStandardMaterial color="#626a78" metalness={0.15} roughness={0.8} />
+      </mesh>
+
+      {[-4.3, -1.45, 1.45, 4.3].map((x) => (
+        <mesh key={`walk-line-${x}`} position={[x, 0.02, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[0.11, 10.15]} />
+          <meshStandardMaterial color="#eef4fb" roughness={0.92} />
+        </mesh>
+      ))}
+
+      <RoundedBox args={[12.2, 0.18, 0.35]} radius={0.04} smoothness={2} position={[0, 0.09, 5.18]} receiveShadow>
+        <meshStandardMaterial color="#f3f6fa" roughness={0.84} />
+      </RoundedBox>
+      <RoundedBox args={[12.2, 0.18, 0.35]} radius={0.04} smoothness={2} position={[0, 0.09, -5.18]} receiveShadow>
+        <meshStandardMaterial color="#f3f6fa" roughness={0.84} />
+      </RoundedBox>
+      <RoundedBox args={[0.35, 0.18, 10.8]} radius={0.04} smoothness={2} position={[-5.92, 0.09, 0]} receiveShadow>
+        <meshStandardMaterial color="#f3f6fa" roughness={0.84} />
+      </RoundedBox>
+      <RoundedBox args={[0.35, 0.18, 10.8]} radius={0.04} smoothness={2} position={[5.92, 0.09, 0]} receiveShadow>
+        <meshStandardMaterial color="#f3f6fa" roughness={0.84} />
+      </RoundedBox>
+
+      <RoundedBox args={[11.5, 3.25, 0.16]} radius={0.06} smoothness={4} position={[0, 1.62, -5.02]} castShadow receiveShadow>
+        <meshStandardMaterial color="#eef2f7" metalness={0.04} roughness={0.92} />
+      </RoundedBox>
+      <RoundedBox args={[0.16, 3.25, 10.1]} radius={0.05} smoothness={4} position={[-5.18, 1.62, -0.08]} castShadow receiveShadow>
+        <meshStandardMaterial color="#eef2f7" metalness={0.04} roughness={0.92} />
+      </RoundedBox>
+      <RoundedBox args={[0.16, 3.25, 10.1]} radius={0.05} smoothness={4} position={[5.18, 1.62, -0.08]} castShadow receiveShadow>
+        <meshStandardMaterial color="#eef2f7" metalness={0.04} roughness={0.92} />
+      </RoundedBox>
+
+      <RoundedBox args={[4.25, 2.5, 0.08]} radius={0.04} smoothness={4} position={[0, 1.28, -1.2]}>
+        <meshStandardMaterial color="#d9f0ff" transparent opacity={0.24} metalness={0.52} roughness={0.05} />
+      </RoundedBox>
+      <RoundedBox args={[0.08, 2.5, 2.85]} radius={0.04} smoothness={4} position={[-2.12, 1.28, -2.55]}>
+        <meshStandardMaterial color="#d9f0ff" transparent opacity={0.22} metalness={0.52} roughness={0.05} />
+      </RoundedBox>
+      <RoundedBox args={[0.08, 2.5, 2.85]} radius={0.04} smoothness={4} position={[2.12, 1.28, -2.55]}>
+        <meshStandardMaterial color="#d9f0ff" transparent opacity={0.22} metalness={0.52} roughness={0.05} />
+      </RoundedBox>
+
+      <mesh position={[0, 3.34, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[12.2, 10.8]} />
+        <meshStandardMaterial color="#f8fbff" roughness={0.96} metalness={0.02} />
+      </mesh>
+
+      <WindowWall />
+    </group>
+  );
+}
+
+function ReceptionDesk({ alerts }: { alerts: number }) {
+  return (
+    <group position={[0, 0, 3.92]}>
+      <RoundedBox args={[3.2, 0.82, 0.96]} radius={0.14} smoothness={4} position={[0, 0.41, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#cfb28a" metalness={0.14} roughness={0.62} />
+      </RoundedBox>
+      <RoundedBox args={[1.82, 0.42, 0.5]} radius={0.1} smoothness={4} position={[0, 0.95, -0.05]} castShadow>
+        <meshStandardMaterial color="#fafcff" roughness={0.32} metalness={0.06} />
+      </RoundedBox>
+      <mesh position={[0, 1.02, 0.2]}>
+        <planeGeometry args={[0.85, 0.16]} />
+        <meshBasicMaterial color="#58c8f6" transparent opacity={0.88} />
+      </mesh>
+      {Array.from({ length: Math.max(1, Math.min(alerts, 4)) }).map((_, index) => (
+        <mesh key={`reception-status-${index}`} position={[-0.48 + index * 0.32, 1.12, 0.2]}>
+          <sphereGeometry args={[0.05, 16, 16]} />
+          <meshStandardMaterial color={index < 2 ? '#63d5ff' : index === 2 ? '#ffbf72' : '#ff7b87'} emissive={index < 2 ? '#63d5ff' : index === 2 ? '#ffbf72' : '#ff7b87'} emissiveIntensity={1.8} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+function DeskCluster({ node }: { node: DeskNode }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const { r, g, b } = hexToRgb(node.accent);
+  const seatCount = Math.max(2, Math.min(node.project.agents.length, 4));
+  const activeSeats = Math.max(1, Math.min(node.activeAgents, seatCount));
+
+  useFrame((state) => {
+    if (!groupRef.current) return;
+    groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.7 + node.row + node.column * 0.25) * 0.016;
+  });
+
+  return (
+    <group ref={groupRef} position={node.position}>
+      <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[2.18, 2.25]} />
+        <meshStandardMaterial color="#bac7d6" roughness={0.94} />
+      </mesh>
+
+      <RoundedBox args={[1.85, 0.12, 0.86]} radius={0.08} smoothness={4} position={[0, 0.74, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#d4b083" metalness={0.1} roughness={0.72} />
+      </RoundedBox>
+
+      <RoundedBox args={[1.82, 0.08, 0.16]} radius={0.05} smoothness={4} position={[0, 0.9, -0.3]} castShadow>
+        <meshStandardMaterial color="#f7fbff" metalness={0.05} roughness={0.28} />
+      </RoundedBox>
+
+      {[-0.77, 0.77].map((x) =>
+        [-0.3, 0.3].map((z) => (
+          <mesh key={`${x}-${z}`} position={[x, 0.36, z]} castShadow>
+            <cylinderGeometry args={[0.04, 0.04, 0.72, 12]} />
+            <meshStandardMaterial color="#5f6470" metalness={0.44} roughness={0.44} />
+          </mesh>
+        )),
+      )}
+
+      {Array.from({ length: seatCount }).map((_, index) => {
+        const offsetX = seatCount === 2 ? (index === 0 ? -0.45 : 0.45) : -0.68 + index * 0.45;
+        const active = index < activeSeats;
 
         return (
-          <group key={`skyline-${x}`} position={[x, height / 2, (index % 2) * -0.5]}>
-            <RoundedBox args={[width, height, depth]} radius={0.12} smoothness={4} castShadow receiveShadow>
-              <meshStandardMaterial color={index % 2 === 0 ? '#111b30' : '#0d1526'} metalness={0.35} roughness={0.62} />
+          <group key={`${node.project.id}-seat-${index}`} position={[offsetX, 0, 0.74]}>
+            <mesh position={[0, 0.32, 0]} castShadow>
+              <cylinderGeometry args={[0.13, 0.13, 0.06, 18]} />
+              <meshStandardMaterial color={active ? '#1e293c' : '#4b5563'} roughness={0.64} />
+            </mesh>
+            <mesh position={[0, 0.58, 0]} castShadow>
+              <boxGeometry args={[0.34, 0.08, 0.34]} />
+              <meshStandardMaterial color={active ? '#111827' : '#374151'} roughness={0.74} />
+            </mesh>
+            <mesh position={[0, 0.82, -0.1]} castShadow>
+              <boxGeometry args={[0.3, 0.34, 0.08]} />
+              <meshStandardMaterial color={active ? '#111827' : '#374151'} roughness={0.74} />
+            </mesh>
+            <mesh position={[0, 1.04, -0.56]} castShadow>
+              <boxGeometry args={[0.36, 0.26, 0.05]} />
+              <meshStandardMaterial color="#dbeafe" emissive={active ? new THREE.Color(r * 0.78, g * 0.78, b * 0.78) : '#9ca3af'} emissiveIntensity={active ? 1.18 : 0.08} roughness={0.12} metalness={0.08} />
+            </mesh>
+            <mesh position={[0, 0.92, -0.46]}>
+              <boxGeometry args={[0.05, 0.22, 0.05]} />
+              <meshStandardMaterial color="#6b7280" metalness={0.32} roughness={0.4} />
+            </mesh>
+          </group>
+        );
+      })}
+
+      <mesh position={[0, 1.18, -0.25]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[1.2, 0.24]} />
+        <meshBasicMaterial color={[r, g, b]} transparent opacity={0.3} />
+      </mesh>
+    </group>
+  );
+}
+
+function WarRoom() {
+  const chairs = [-1.45, -0.5, 0.5, 1.45];
+
+  return (
+    <group position={[0, 0, -2.95]}>
+      <RoundedBox args={[4.2, 0.11, 1.45]} radius={0.08} smoothness={4} position={[0, 0.74, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#c6a073" metalness={0.08} roughness={0.72} />
+      </RoundedBox>
+      {[-1.78, 1.78].map((x) =>
+        [-0.56, 0.56].map((z) => (
+          <mesh key={`warroom-leg-${x}-${z}`} position={[x, 0.36, z]} castShadow>
+            <cylinderGeometry args={[0.045, 0.045, 0.72, 12]} />
+            <meshStandardMaterial color="#596171" metalness={0.42} roughness={0.46} />
+          </mesh>
+        )),
+      )}
+
+      {chairs.map((x, index) => (
+        <group key={`warroom-seat-front-${index}`} position={[x, 0, 1.18]}>
+          <mesh position={[0, 0.35, 0]} castShadow>
+            <cylinderGeometry args={[0.14, 0.14, 0.06, 18]} />
+            <meshStandardMaterial color="#1f2937" roughness={0.64} />
+          </mesh>
+          <mesh position={[0, 0.62, 0]} castShadow>
+            <boxGeometry args={[0.36, 0.08, 0.36]} />
+            <meshStandardMaterial color="#111827" roughness={0.72} />
+          </mesh>
+          <mesh position={[0, 0.86, -0.08]} castShadow>
+            <boxGeometry args={[0.32, 0.36, 0.08]} />
+            <meshStandardMaterial color="#111827" roughness={0.72} />
+          </mesh>
+        </group>
+      ))}
+
+      {chairs.map((x, index) => (
+        <group key={`warroom-seat-back-${index}`} position={[x, 0, -1.18]} rotation={[0, Math.PI, 0]}>
+          <mesh position={[0, 0.35, 0]} castShadow>
+            <cylinderGeometry args={[0.14, 0.14, 0.06, 18]} />
+            <meshStandardMaterial color="#1f2937" roughness={0.64} />
+          </mesh>
+          <mesh position={[0, 0.62, 0]} castShadow>
+            <boxGeometry args={[0.36, 0.08, 0.36]} />
+            <meshStandardMaterial color="#111827" roughness={0.72} />
+          </mesh>
+          <mesh position={[0, 0.86, -0.08]} castShadow>
+            <boxGeometry args={[0.32, 0.36, 0.08]} />
+            <meshStandardMaterial color="#111827" roughness={0.72} />
+          </mesh>
+        </group>
+      ))}
+
+      <mesh position={[0, 1.08, 0]}>
+        <planeGeometry args={[2.4, 0.5]} />
+        <meshBasicMaterial color="#d8f2ff" transparent opacity={0.16} />
+      </mesh>
+    </group>
+  );
+}
+
+function OperationsWall({ projects }: { projects: ProjectSummary[] }) {
+  const featured = projects.slice(0, 4);
+
+  return (
+    <group position={[0, 0, -4.64]}>
+      <RoundedBox args={[4.8, 1.9, 0.12]} radius={0.06} smoothness={4} position={[0, 1.58, 0]} castShadow>
+        <meshStandardMaterial color="#101828" metalness={0.26} roughness={0.4} />
+      </RoundedBox>
+      <mesh position={[0, 1.58, 0.08]}>
+        <planeGeometry args={[4.3, 1.48]} />
+        <meshBasicMaterial color="#081322" />
+      </mesh>
+      {featured.map((project, index) => {
+        const column = index % 2;
+        const row = Math.floor(index / 2);
+        const { r, g, b } = hexToRgb(project.accent);
+        const x = column === 0 ? -1.05 : 1.05;
+        const y = row === 0 ? 1.9 : 1.25;
+
+        return (
+          <group key={project.id} position={[x, y, 0.09]}>
+            <RoundedBox args={[1.55, 0.48, 0.04]} radius={0.03} smoothness={4}>
+              <meshStandardMaterial color="#0f1b2d" roughness={0.22} metalness={0.12} />
             </RoundedBox>
-            <mesh position={[0, 0.02, depth / 2 + 0.01]}>
-              <planeGeometry args={[width * 0.78, height * 0.8]} />
-              <meshBasicMaterial color={index % 3 === 0 ? '#8bdcff' : '#7668ff'} transparent opacity={0.14} />
+            <mesh position={[0, 0, 0.03]}>
+              <planeGeometry args={[1.34, 0.32]} />
+              <meshBasicMaterial color={[r, g, b]} transparent opacity={0.46} />
+            </mesh>
+            <mesh position={[0, -0.12, 0.04]}>
+              <planeGeometry args={[1.2, 0.04]} />
+              <meshBasicMaterial color="#dff3ff" transparent opacity={0.75} />
+            </mesh>
+          </group>
+        );
+      })}
+      <mesh position={[0, 2.5, 0.09]}>
+        <planeGeometry args={[1.45, 0.12]} />
+        <meshBasicMaterial color="#63d5ff" transparent opacity={0.92} />
+      </mesh>
+    </group>
+  );
+}
+
+function SideCredenza() {
+  return (
+    <group position={[-4.28, 0, -3.35]}>
+      <RoundedBox args={[1.7, 0.82, 0.56]} radius={0.08} smoothness={4} position={[0, 0.41, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#d2b187" roughness={0.7} />
+      </RoundedBox>
+      <RoundedBox args={[0.72, 0.06, 0.4]} radius={0.04} smoothness={4} position={[-0.38, 0.84, 0]} castShadow>
+        <meshStandardMaterial color="#f7fafc" roughness={0.28} />
+      </RoundedBox>
+      <RoundedBox args={[0.72, 0.06, 0.4]} radius={0.04} smoothness={4} position={[0.38, 0.84, 0]} castShadow>
+        <meshStandardMaterial color="#f7fafc" roughness={0.28} />
+      </RoundedBox>
+    </group>
+  );
+}
+
+function Lounge() {
+  return (
+    <group position={[4.05, 0, -2.95]}>
+      <RoundedBox args={[1.6, 0.52, 0.8]} radius={0.12} smoothness={4} position={[0, 0.35, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#7d889b" roughness={0.86} />
+      </RoundedBox>
+      <RoundedBox args={[1.6, 0.48, 0.14]} radius={0.08} smoothness={4} position={[0, 0.78, -0.32]} castShadow>
+        <meshStandardMaterial color="#6a778a" roughness={0.84} />
+      </RoundedBox>
+      <RoundedBox args={[0.8, 0.08, 0.8]} radius={0.08} smoothness={4} position={[-1.22, 0.42, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#caa37b" roughness={0.72} />
+      </RoundedBox>
+      <mesh position={[-1.22, 0.67, 0]} castShadow>
+        <cylinderGeometry args={[0.06, 0.08, 0.46, 12]} />
+        <meshStandardMaterial color="#5a616e" metalness={0.38} roughness={0.42} />
+      </mesh>
+      <mesh position={[-1.22, 0.85, 0]}>
+        <sphereGeometry args={[0.18, 16, 16]} />
+        <meshStandardMaterial color="#f4eed9" emissive="#fff7cc" emissiveIntensity={0.38} roughness={0.5} />
+      </mesh>
+      <mesh position={[-1.03, 0.49, 0.1]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.12, 12]} />
+        <meshStandardMaterial color="#d7e9f7" roughness={0.18} metalness={0.04} />
+      </mesh>
+    </group>
+  );
+}
+
+function Whiteboard() {
+  return (
+    <group position={[4.58, 1.6, -0.45]} rotation={[0, -Math.PI / 2, 0]}>
+      <RoundedBox args={[2.2, 1.35, 0.08]} radius={0.05} smoothness={4} castShadow>
+        <meshStandardMaterial color="#f7fafc" roughness={0.2} metalness={0.02} />
+      </RoundedBox>
+      <mesh position={[0, 0.2, 0.05]}>
+        <planeGeometry args={[1.55, 0.08]} />
+        <meshBasicMaterial color="#63d5ff" transparent opacity={0.55} />
+      </mesh>
+      <mesh position={[0, -0.1, 0.05]}>
+        <planeGeometry args={[1.15, 0.04]} />
+        <meshBasicMaterial color="#94a3b8" transparent opacity={0.52} />
+      </mesh>
+    </group>
+  );
+}
+
+function Plant({ position }: { position: [number, number, number] }) {
+  return (
+    <group position={position}>
+      <mesh position={[0, 0.2, 0]} castShadow>
+        <cylinderGeometry args={[0.16, 0.2, 0.35, 16]} />
+        <meshStandardMaterial color="#8a623d" roughness={0.82} />
+      </mesh>
+      {[
+        [0, 0.48, 0],
+        [0.14, 0.44, 0.02],
+        [-0.14, 0.42, -0.03],
+        [0.08, 0.6, -0.04],
+        [-0.08, 0.58, 0.06],
+      ].map((leaf, index) => (
+        <mesh key={`leaf-${index}`} position={leaf as [number, number, number]} castShadow>
+          <sphereGeometry args={[0.12, 14, 14]} />
+          <meshStandardMaterial color="#4b8b5d" roughness={0.92} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+function AccentPanels({ projects }: { projects: ProjectSummary[] }) {
+  return (
+    <group position={[0, 1.72, 4.68]}>
+      {projects.slice(0, 3).map((project, index) => {
+        const x = -2.35 + index * 2.35;
+        const { r, g, b } = hexToRgb(project.accent);
+
+        return (
+          <group key={project.id} position={[x, 0, 0]}>
+            <RoundedBox args={[1.62, 0.96, 0.08]} radius={0.06} smoothness={4}>
+              <meshStandardMaterial color="#1e293b" metalness={0.28} roughness={0.42} />
+            </RoundedBox>
+            <mesh position={[0, 0, 0.05]}>
+              <planeGeometry args={[1.16, 0.46]} />
+              <meshBasicMaterial color={[r, g, b]} transparent opacity={0.58} />
             </mesh>
           </group>
         );
@@ -74,216 +472,71 @@ function SkylineBand() {
   );
 }
 
-function AtmosphereRings() {
-  const ringRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!ringRef.current) return;
-    ringRef.current.rotation.y = state.clock.elapsedTime * 0.08;
-  });
-
-  return (
-    <group ref={ringRef} position={[0, 2.8, -1.8]}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[5.2, 0.03, 16, 180]} />
-        <meshBasicMaterial color="#63d5ff" transparent opacity={0.3} />
-      </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.5, 0]}>
-        <torusGeometry args={[6.6, 0.025, 16, 180]} />
-        <meshBasicMaterial color="#9d7bff" transparent opacity={0.18} />
-      </mesh>
-    </group>
-  );
-}
-
-function LightColumns() {
-  return (
-    <group>
-      {[
-        { position: [-5.5, 0, -5.7], color: '#63d5ff', scale: 1.1 },
-        { position: [5.5, 0, -5.2], color: '#9d7bff', scale: 1.25 },
-        { position: [0, 0, -6.4], color: '#ffbf72', scale: 0.95 },
-      ].map((beam) => (
-        <mesh key={`${beam.position[0]}-${beam.position[2]}`} position={[beam.position[0], 2.8, beam.position[2]]}>
-          <cylinderGeometry args={[0.18 * beam.scale, 1.05 * beam.scale, 5.8, 32, 1, true]} />
-          <meshBasicMaterial color={beam.color} transparent opacity={0.08} side={THREE.DoubleSide} depthWrite={false} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-function DataStreams({ node }: { node: DistrictNode }) {
-  const streamRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!streamRef.current) return;
-    streamRef.current.rotation.y = state.clock.elapsedTime * 0.18;
-  });
-
-  const { r, g, b } = hexToRgb(node.project.accent);
-
-  return (
-    <group ref={streamRef} position={[node.position[0], node.height + 0.38, node.position[2]]}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.72, 0.025, 16, 64]} />
-        <meshBasicMaterial color={[r, g, b]} transparent opacity={0.45} />
-      </mesh>
-      <mesh rotation={[-Math.PI / 2, 0.8, 0]}>
-        <torusGeometry args={[0.96, 0.02, 16, 64]} />
-        <meshBasicMaterial color={[r * 0.8 + 0.2, g * 0.8 + 0.2, b * 0.8 + 0.2]} transparent opacity={0.24} />
-      </mesh>
-    </group>
-  );
-}
-
-function ProjectTower({ node }: { node: DistrictNode }) {
-  const { r, g, b } = hexToRgb(node.project.accent);
-  const activeAgents = node.project.agents.filter((agent) => agent.status === 'active').length;
-
-  return (
-    <group position={node.position}>
-      <Float speed={1.5} rotationIntensity={0.12} floatIntensity={0.26}>
-        <mesh position={[0, 0.09, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <cylinderGeometry args={[1.22, 1.36, 0.1, 6]} />
-          <meshStandardMaterial color="#121d34" metalness={0.4} roughness={0.58} />
-        </mesh>
-        <RoundedBox args={[node.width, node.height, node.depth]} radius={0.18} smoothness={6} position={[0, node.height / 2, 0]} castShadow receiveShadow>
-          <meshStandardMaterial color={[r * 0.65 + 0.16, g * 0.68 + 0.16, b * 0.74 + 0.18]} metalness={0.5} roughness={0.2} />
-        </RoundedBox>
-        <mesh position={[0, node.height / 2, node.depth / 2 + 0.012]}>
-          <planeGeometry args={[node.width * 0.72, node.height * 0.82]} />
-          <meshBasicMaterial color={[r * 0.65 + 0.35, g * 0.65 + 0.35, b * 0.65 + 0.35]} transparent opacity={0.2} />
-        </mesh>
-        {Array.from({ length: 4 }).map((_, windowIndex) => (
-          <mesh key={`${node.project.id}-window-${windowIndex}`} position={[0, 0.5 + windowIndex * 0.42, node.depth / 2 + 0.018]}>
-            <planeGeometry args={[node.width * 0.56, 0.09]} />
-            <meshBasicMaterial color="#d8f7ff" transparent opacity={0.18 + windowIndex * 0.04} />
-          </mesh>
-        ))}
-        <mesh position={[0, node.height + 0.08, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <circleGeometry args={[0.58, 40]} />
-          <meshStandardMaterial color={[r, g, b]} emissive={[r * 0.9, g * 0.9, b * 0.9]} emissiveIntensity={1.8} transparent opacity={0.94} />
-        </mesh>
-        {Array.from({ length: Math.max(activeAgents, 1) }).map((_, beaconIndex) => (
-          <mesh
-            key={`${node.project.id}-beacon-${beaconIndex}`}
-            position={[-0.44 + beaconIndex * 0.28, node.height + 0.32, 0.46]}
-            castShadow
-          >
-            <sphereGeometry args={[0.06, 16, 16]} />
-            <meshStandardMaterial color={[r, g, b]} emissive={[r, g, b]} emissiveIntensity={2.6} />
-          </mesh>
-        ))}
-        <DataStreams node={node} />
-      </Float>
-    </group>
-  );
-}
-
-function AgentRail({ count }: { count: number }) {
-  return (
-    <group position={[0, 0.14, 2.95]}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[4.8, 0.32]} />
-        <meshStandardMaterial color="#11203a" emissive="#10223e" emissiveIntensity={0.4} metalness={0.42} roughness={0.32} />
-      </mesh>
-      {Array.from({ length: Math.max(count, 1) }).map((_, index) => (
-        <mesh key={`rail-agent-${index}`} position={[index * 0.52 - Math.max(count - 1, 0) * 0.26, 0.14, 0]} castShadow>
-          <cylinderGeometry args={[0.12, 0.14, 0.24, 20]} />
-          <meshStandardMaterial color="#63d5ff" emissive="#63d5ff" emissiveIntensity={1.8} metalness={0.24} roughness={0.28} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-function AlertBeacon({ count }: { count: number }) {
-  return (
-    <group position={[4.45, 0.22, -1.95]}>
-      <mesh castShadow>
-        <cylinderGeometry args={[0.22, 0.32, 0.24, 24]} />
-        <meshStandardMaterial color="#1c2437" metalness={0.22} roughness={0.8} />
-      </mesh>
-      <mesh position={[0, 0.34, 0]} castShadow>
-        <sphereGeometry args={[0.18 + Math.min(count, 4) * 0.02, 24, 24]} />
-        <meshStandardMaterial color="#ff7b87" emissive="#ff7b87" emissiveIntensity={2.2} />
-      </mesh>
-      <mesh position={[0, 0.34, 0]}>
-        <sphereGeometry args={[0.38 + Math.min(count, 4) * 0.04, 24, 24]} />
-        <meshBasicMaterial color="#ff7b87" transparent opacity={0.12} />
-      </mesh>
-    </group>
-  );
-}
-
-function CommandFloor() {
-  return (
-    <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <cylinderGeometry args={[6.3, 7.1, 0.28, 8]} />
-        <meshStandardMaterial color="#0a1326" metalness={0.28} roughness={0.84} />
-      </mesh>
-      <mesh position={[0, 0.04, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <ringGeometry args={[2.3, 5.45, 8]} />
-        <meshStandardMaterial color="#111f38" emissive="#17315a" emissiveIntensity={0.9} metalness={0.58} roughness={0.28} />
-      </mesh>
-      <mesh position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <circleGeometry args={[2.1, 48]} />
-        <meshStandardMaterial color="#0e1b31" metalness={0.62} roughness={0.18} />
-      </mesh>
-      <mesh position={[0, 0.09, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[1.25, 1.95, 48]} />
-        <meshBasicMaterial color="#63d5ff" transparent opacity={0.24} />
-      </mesh>
-      <mesh position={[0, 0.12, -3.95]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[8.2, 0.28]} />
-        <meshStandardMaterial color="#63d5ff" emissive="#63d5ff" emissiveIntensity={0.82} transparent opacity={0.88} />
-      </mesh>
-    </group>
-  );
-}
-
 function WorldScene({ snapshot }: { snapshot: OfficeSnapshot }) {
-  const districts = useMemo(() => buildDistrictLayout(snapshot), [snapshot]);
+  const desks = useMemo(() => buildDeskLayout(snapshot), [snapshot]);
   const activeAgents = snapshot.projects.flatMap((project) => project.agents).filter((agent) => agent.status === 'active').length;
 
   return (
     <>
-      <color attach="background" args={['#040816']} />
-      <fog attach="fog" args={['#040816', 10, 28]} />
-      <ambientLight intensity={0.75} />
-      <hemisphereLight args={['#a8c5ff', '#030711', 1.15]} />
-      <directionalLight position={[8, 11, 6]} intensity={1.6} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-      <pointLight position={[-5, 4.5, 3]} intensity={26} distance={18} color="#63d5ff" />
-      <pointLight position={[4.5, 3.8, -1]} intensity={18} distance={16} color="#9d7bff" />
-      <pointLight position={[0, 4.2, -5.8]} intensity={14} distance={18} color="#ffbf72" />
+      <color attach="background" args={['#eef3f9']} />
+      <fog attach="fog" args={['#eef3f9', 11, 24]} />
+      <ambientLight intensity={1.1} />
+      <hemisphereLight args={['#ffffff', '#c6d0dc', 1.22]} />
+      <directionalLight position={[6, 9, 6]} intensity={1.95} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+      <pointLight position={[0, 4.24, 1.5]} intensity={30} distance={20} color="#fdfefe" />
+      <pointLight position={[0, 3.1, -4.1]} intensity={12} distance={12} color="#d6ecff" />
 
-      <Stars radius={40} depth={30} count={2400} factor={4.2} saturation={0} fade speed={0.55} />
-      <Sparkles count={38} scale={[15, 5, 15]} size={2.4} speed={0.28} color="#7ddcff" position={[0, 2.5, -1.5]} />
+      <OfficeShell />
+      <CeilingLights />
+      <ReceptionDesk alerts={snapshot.alerts.length} />
+      <WarRoom />
+      <OperationsWall projects={snapshot.projects} />
+      <SideCredenza />
+      <Lounge />
+      <Whiteboard />
+      <Plant position={[-4.7, 0, 4.05]} />
+      <Plant position={[4.7, 0, 4.05]} />
+      <Plant position={[-4.82, 0, -4.18]} />
+      <Plant position={[4.82, 0, -4.18]} />
+      <AccentPanels projects={snapshot.projects} />
 
-      <LightColumns />
-      <SkylineBand />
-      <AtmosphereRings />
-      <CommandFloor />
-
-      {districts.map((node) => (
-        <ProjectTower key={node.project.id} node={node} />
+      {desks.map((node) => (
+        <DeskCluster key={node.project.id} node={node} />
       ))}
 
-      <AgentRail count={activeAgents} />
-      <AlertBeacon count={snapshot.alerts.length} />
+      <mesh position={[0, 1.88, 4.18]}>
+        <planeGeometry args={[2.45, 0.34]} />
+        <meshBasicMaterial color="#0f172a" transparent opacity={0.92} />
+      </mesh>
+      <mesh position={[0, 1.88, 4.2]}>
+        <planeGeometry args={[1.72, 0.12]} />
+        <meshBasicMaterial color="#63d5ff" transparent opacity={0.96} />
+      </mesh>
 
-      <ContactShadows position={[0, -0.001, 0]} opacity={0.52} scale={19} blur={2.8} far={10} resolution={1024} color="#000000" />
-      <OrbitControls enablePan={false} enableZoom={false} minPolarAngle={0.9} maxPolarAngle={1.12} minAzimuthAngle={-0.56} maxAzimuthAngle={0.56} />
-      <PerspectiveCamera makeDefault position={[8.1, 7.1, 8.8]} fov={33} />
+      <mesh position={[-4.86, 1.55, -0.8]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[1.2, 1.9]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.18} />
+      </mesh>
+      <mesh position={[4.86, 1.55, -0.8]} rotation={[0, -Math.PI / 2, 0]}>
+        <planeGeometry args={[1.2, 1.9]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.18} />
+      </mesh>
+
+      <mesh position={[0, 0.04, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.46, 0.66, 48]} />
+        <meshBasicMaterial color="#63d5ff" transparent opacity={0.18 + Math.min(activeAgents, 10) * 0.02} />
+      </mesh>
+
+      <ContactShadows position={[0, -0.001, 0]} opacity={0.26} scale={18} blur={2.8} far={10} resolution={1024} color="#000000" />
+      <OrbitControls enablePan={false} enableZoom={false} minPolarAngle={0.92} maxPolarAngle={1.13} minAzimuthAngle={-0.38} maxAzimuthAngle={0.38} />
+      <PerspectiveCamera makeDefault position={[8.3, 6.45, 8.95]} fov={33} />
     </>
   );
 }
 
 function HQWorldCanvasComponent({ snapshot }: { snapshot: OfficeSnapshot }) {
   return (
-    <Canvas shadows dpr={[1, 1.75]} className="hq-world-canvas" gl={{ antialias: true, alpha: true }}>
+    <Canvas shadows dpr={[1, 1.6]} className="hq-world-canvas" gl={{ antialias: true, alpha: true }}>
       <WorldScene snapshot={snapshot} />
     </Canvas>
   );

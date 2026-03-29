@@ -34,36 +34,41 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
     () => projects.flatMap((project) => project.agents).filter((agent) => agent.status === 'active').length,
     [projects],
   );
-  const elevatedProjects = useMemo(() => projects.slice(0, 3), [projects]);
+  const featuredProjects = useMemo(() => projects.slice(0, 3), [projects]);
+  const meetingRooms = Math.max(1, Math.ceil(projects.length / 3));
+  const displayWalls = Math.max(1, Math.min(projects.length, 4));
 
   return (
     <main className="page-stack page-stack--world">
-      <section className="hq-world-shell hero-card scene-panel">
+      <section className="hq-world-shell hero-card scene-panel scene-panel--office">
         <div className="hq-world-shell__copy">
           <div className="hero-card__eyebrow-row">
             <p className="eyebrow">World HQ</p>
-            <span className={`connection connection--${snapshot.connection.state}`}>{snapshot.connection.mode} relay · {snapshot.connection.state}</span>
+            <span className={`connection connection--${snapshot.connection.state}`}>
+              {snapshot.connection.mode} relay · {snapshot.connection.state}
+            </span>
           </div>
 
           <div className="hero-card__headline hero-card__headline--split">
             <div>
               <h1>Riley&apos;s Office</h1>
               <p className="lede">
-                HQ now reads like a premium nocturnal command campus: luminous tower districts, skyline depth, atmospheric lighting, and a fallback path that still preserves the world model.
+                The HQ now reads like a benchmark office floor: front glazing, reception desk, workstation neighborhoods, a glass war room,
+                display wall, whiteboard lane, and lounge support spaces instead of abstract sci-fi forms.
               </p>
             </div>
-            <div className="hero-card__spotlight hero-card__spotlight--scene">
+            <div className="hero-card__spotlight hero-card__spotlight--scene hero-card__spotlight--office">
               <span className="hero-card__spotlight-label">Render mode</span>
-              <strong>{mode === 'scene' ? 'Interactive skyline live' : 'Fallback skyline engaged'}</strong>
-              <span>{projects.length} districts · {activeAgents} active stations · {alerts.length} alert nodes</span>
+              <strong>{mode === 'scene' ? 'Interactive office + war room live' : 'Office floor fallback engaged'}</strong>
+              <span>{projects.length} desk bays · {displayWalls} ops displays · {alerts.length} reception alerts</span>
             </div>
           </div>
         </div>
 
-        <div className="hq-world-stage">
-          <div className="hq-world-stage__backdrop" aria-hidden="true" />
+        <div className="hq-world-stage hq-world-stage--office">
+          <div className="hq-world-stage__backdrop hq-world-stage__backdrop--office" aria-hidden="true" />
           {mode === 'scene' ? (
-            <div className="hq-world-stage__canvas-wrap">
+            <div className="hq-world-stage__canvas-wrap hq-world-stage__canvas-wrap--office">
               <div className="hq-world-stage__chrome" aria-hidden="true">
                 <span className="hq-world-stage__chrome-pill" />
                 <span className="hq-world-stage__chrome-pill" />
@@ -72,36 +77,50 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
               <HQWorldCanvas snapshot={snapshot} />
             </div>
           ) : (
-            <div className="hq-world-stage__fallback" role="img" aria-label="Fallback world map of Riley's Office headquarters">
-              <div className="hq-world-stage__fallback-sky" aria-hidden="true" />
-              <div className="hq-world-stage__fallback-floor" aria-hidden="true" />
+            <div className="hq-world-stage__fallback hq-world-stage__fallback--office" role="img" aria-label="Fallback office floor view of Riley's Office headquarters">
+              <div className="hq-world-stage__fallback-ceiling" aria-hidden="true" />
+              <div className="hq-world-stage__fallback-windowwall" aria-hidden="true" />
+              <div className="hq-world-stage__fallback-walkway" aria-hidden="true" />
+              <div className="hq-world-stage__fallback-reception" aria-hidden="true">
+                <span />
+                <strong>Reception</strong>
+              </div>
+              <div className="hq-world-stage__fallback-warroom" aria-hidden="true">
+                <span>War room</span>
+              </div>
+              <div className="hq-world-stage__fallback-displaywall" aria-hidden="true">
+                <span>Ops wall</span>
+              </div>
               {projects.map((project, index) => (
                 <div
                   key={project.id}
-                  className="hq-world-stage__fallback-building"
-                  style={{ ['--accent' as string]: project.accent, ['--tower-height' as string]: `${7.5 + index * 1.25}rem` }}
+                  className="hq-world-stage__fallback-desk"
+                  style={{ ['--accent' as string]: project.accent, ['--desk-index' as string]: `${index}` }}
                 >
-                  <span className="hq-world-stage__fallback-glow" aria-hidden="true" />
-                  <span className="hq-world-stage__fallback-windowband" aria-hidden="true" />
+                  <span className="hq-world-stage__fallback-monitor" aria-hidden="true" />
+                  <span className="hq-world-stage__fallback-chair" aria-hidden="true" />
                   <strong>{project.name}</strong>
                   <span>{project.activeRun.progressLabel}</span>
                 </div>
               ))}
+              <div className="hq-world-stage__fallback-glass" aria-hidden="true">
+                <span>Board room glass</span>
+              </div>
             </div>
           )}
 
-          <div className="hq-world-overlay">
+          <div className="hq-world-overlay hq-world-overlay--office">
             {projects.map((project) => (
-              <Link key={project.id} href={`/projects/${project.id}`} className="hq-world-overlay__card list-card list-card--interactive">
+              <Link key={project.id} href={`/projects/${project.id}`} className="hq-world-overlay__card list-card list-card--interactive office-overlay-card">
                 <div className="row-between row-start">
                   <div>
-                    <span className="project-card__eyebrow">{project.urgency} priority tower</span>
+                    <span className="project-card__eyebrow">desk neighborhood</span>
                     <strong>{project.name}</strong>
                   </div>
                   <StatusPill state={project.health} />
                 </div>
                 <p>{project.tagline}</p>
-                <span className="list-card__meta">{project.agents.length} stations · {project.activeRun.progressLabel}</span>
+                <span className="list-card__meta">{project.agents.length} seats · {project.activeRun.progressLabel}</span>
               </Link>
             ))}
           </div>
@@ -109,42 +128,42 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
       </section>
 
       <section className="section-card section-card--accent hq-metrics-grid">
-        <article className="metric-tile metric-tile--scene metric-tile--world">
-          <span className="metric-tile__label">Skyline districts</span>
+        <article className="metric-tile metric-tile--scene metric-tile--world metric-tile--office">
+          <span className="metric-tile__label">Desk bays</span>
           <strong>{projects.length}</strong>
-          <p>Project structures now sit inside a layered world composition instead of a flat dashboard strip.</p>
+          <p>Each project now occupies a physical workstation cluster with desks, monitors, task lighting, and chairs.</p>
         </article>
-        <article className="metric-tile metric-tile--scene metric-tile--world">
+        <article className="metric-tile metric-tile--scene metric-tile--world metric-tile--office">
+          <span className="metric-tile__label">Shared rooms</span>
+          <strong>{meetingRooms + 3}</strong>
+          <p>Reception, war room, lounge zone, and whiteboard edge make the floor plan read like an actual office suite.</p>
+        </article>
+        <article className="metric-tile metric-tile--scene metric-tile--world metric-tile--office">
           <span className="metric-tile__label">Active stations</span>
           <strong>{activeAgents}</strong>
-          <p>Live agents emit rails, roof beacons, and circulation cues across the command floor.</p>
-        </article>
-        <article className="metric-tile metric-tile--scene metric-tile--world">
-          <span className="metric-tile__label">Atmosphere score</span>
-          <strong>{mode === 'scene' ? 'High' : 'Safe fallback'}</strong>
-          <p>Scene mode adds depth, skyline presence, and motion accents without breaking fallback delivery.</p>
+          <p>Live project activity still drives monitor glow and status accents without breaking the mobile-first render budget.</p>
         </article>
       </section>
 
       <section className="section-card section-card--glass">
         <div className="section-card__topline">
           <div>
-            <p className="section-card__eyebrow">Beauty upgrades</p>
-            <h2>What makes this HQ feel premium now</h2>
+            <p className="section-card__eyebrow">Office language</p>
+            <h2>What makes the HQ unmistakably office + war-room now</h2>
           </div>
         </div>
         <div className="list-stack">
           <article className="list-card list-card--soft">
-            <strong>World composition</strong>
-            <p>Foreground command floor, mid-ground towers, and a distant skyline give the HQ a real sense of staged depth.</p>
+            <strong>Recognizable architecture</strong>
+            <p>Perimeter walls, front windows, reception frontage, circulation lane, and glass partitions replace the older abstract skyline vocabulary.</p>
           </article>
           <article className="list-card list-card--soft">
-            <strong>Lighting + materials</strong>
-            <p>Metallic floor accents, emissive roof plates, skyline wash lights, and beacon glow push the scene beyond utilitarian blocks.</p>
+            <strong>War-room center of gravity</strong>
+            <p>A large central conference table, rear operations display wall, and side whiteboard introduce the command-center cues from the benchmark imagery.</p>
           </article>
           <article className="list-card list-card--soft">
-            <strong>Motion cues</strong>
-            <p>Floating towers, sparkles, rotating atmosphere rings, and active rails create life without demanding user interaction.</p>
+            <strong>Workplace material palette</strong>
+            <p>Soft carpet walkways, warm wood desktops, matte seating, frosted glass, and brighter daylight office tones pull the scene closer to a real interior.</p>
           </article>
         </div>
       </section>
@@ -152,21 +171,21 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
       <section className="section-card section-card--glass">
         <div className="section-card__topline">
           <div>
-            <p className="section-card__eyebrow">Featured skyline</p>
-            <h2>Highest-visibility districts</h2>
+            <p className="section-card__eyebrow">Featured desk neighborhoods</p>
+            <h2>Highest-visibility project zones</h2>
           </div>
         </div>
         <div className="world-grid">
-          {elevatedProjects.map((project, index) => (
+          {featuredProjects.map((project, index) => (
             <article
               key={project.id}
-              className="world-card world-card--district"
+              className="world-card world-card--district world-card--office"
               style={{ ['--district-accent' as string]: project.accent, ['--district-elevation' as string]: `${index}` }}
             >
               <span className="project-card__eyebrow">{project.health} signal</span>
               <strong>{project.name}</strong>
               <p>{project.tagline}</p>
-              <span className="list-card__meta">{project.agents.length} stations · {project.activeRun.progressLabel}</span>
+              <span className="list-card__meta">{project.agents.length} seats · {project.activeRun.progressLabel}</span>
             </article>
           ))}
         </div>
@@ -175,18 +194,18 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
       <section className="section-card section-card--glass">
         <div className="section-card__topline">
           <div>
-            <p className="section-card__eyebrow">Fallback path</p>
-            <h2>Scene-safe on Vercel, readable without WebGL</h2>
+            <p className="section-card__eyebrow">Runtime safety</p>
+            <h2>Still mobile-conscious and Vercel-safe</h2>
           </div>
         </div>
         <div className="list-stack">
           <article className="list-card list-card--soft">
             <strong>Interactive path</strong>
-            <p>React Three Fiber drives the command floor, district towers, skyline band, atmosphere rings, active rails, and alert beacon on capable devices.</p>
+            <p>React Three Fiber still renders client-side only, now with a richer office shell, war-room furniture, and ops-wall language on capable devices.</p>
           </article>
           <article className="list-card list-card--soft">
             <strong>Fallback path</strong>
-            <p>Reduced-motion or non-WebGL environments still get a layered skyline treatment through a richer DOM city strip instead of a broken canvas.</p>
+            <p>Reduced-motion and non-WebGL users now get a layered office-floor fallback with windows, reception, desk pods, war-room callouts, and board-room glass.</p>
           </article>
         </div>
       </section>
@@ -194,8 +213,8 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
       <section className="section-card">
         <div className="section-card__topline">
           <div>
-            <p className="section-card__eyebrow">Transit log</p>
-            <h2>Fresh world movement</h2>
+            <p className="section-card__eyebrow">Office log</p>
+            <h2>Fresh floor activity</h2>
           </div>
         </div>
         <div className="list-stack">
