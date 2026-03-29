@@ -1,7 +1,10 @@
-# Riley's_Office Premium UI Wave 1
+# Implementation Summary — Riley's_Office Scene Pass
 
-## Summary
-Implemented a material visual overhaul across the core Riley's_Office experience so the app now presents as a premium, spatial, iPhone-friendly command center.
+## Scope
+Transform Riley's_Office from a premium dashboard language into a game-like scene language across the three key surfaces:
+- HQ as a world / building scene
+- Project page as a room / office scene
+- Agent page as a workstation scene
 
 ## Exact changed paths
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\app\page.tsx`
@@ -9,40 +12,35 @@ Implemented a material visual overhaul across the core Riley's_Office experience
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\project\project-office-view.tsx`
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\desk\agent-desk-view.tsx`
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\shell\app-shell.tsx`
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\ui\section-card.tsx`
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\ui\status-pill.tsx`
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\styles\globals.css`
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\README.md`
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\lib\mock\seed.ts`
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\README.md`
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\IMPLEMENTATION-SUMMARY.md`
 
 ## What changed
-### HQ lobby
-- Reframed the homepage as a premium HQ lobby with ambient lighting, executive metrics, concierge threads, and spatially named zones.
-- Upgraded project cards into elevated suite cards with clearer hierarchy and luxury visual treatment.
+### HQ world scene
+- Introduced a skyline layer, world cards, district tower cards, and operator-row treatment.
+- Reframed project navigation as movement through a city map instead of scanning plain cards.
 
-### Project office
-- Reworked the project page into a project suite with floorplan language, room map, desk cluster, and delivery wall.
-- Added stronger hero composition and better iPhone scanning order.
+### Project room scene
+- Built a fake-3D room with walls, floor plane, ambient props, blueprint zones, workstation row, and pinned delivery wall.
+- Preserved the existing governed data model while materially changing the screen's spatial read.
 
-### Agent desk
-- Reworked the agent view into a focused operator desk with run summary tiles, evidence shelf, and thread focus section.
+### Agent workstation scene
+- Built a desk scene with monitor silhouettes, desk surface, lamp glow, evidence shelf, side-channel display, and macro row.
+- Kept performance-friendly rendering through CSS-only environmental treatment.
 
-### Global design system
-- Rebuilt shell framing, card surfaces, badges, pills, and bottom navigation styling.
-- Added glassmorphism, ambient gradients, premium borders, stronger shadows, and more app-like spacing.
+### Global visual system
+- Reworked the shell into a horizon/grid environment.
+- Added reusable scene styles, fake-isometric surfaces, layered glows, and mobile-safe responsive fallbacks.
 
-### Mock content
-- Updated seed content so the UI tells a premium spatial office story instead of showing generic scaffold copy.
+### Mock narrative refresh
+- Updated run summaries, alerts, activity feed, room names, and conversation text so content matches the new scene direction.
 
-## Intended acceptance alignment
-- Homepage now reads as a premium command-center lobby.
-- Project and agent views now feel like app screens designed for iPhone.
-- Spatial office cues are embedded in naming, layout, and card structure.
+## Validation target
+- Required next step for QA: run `npm run typecheck` and `npm run build`
+- This engineer wave prepared the package for QA handoff but did not include fresh validation logs in this run.
 
-## Validation to run for QA
-- `npm run typecheck`
-- `npm run build`
-
-## Known context
-- `PROJECT.md` missing at project root.
-- `BRAND.md` missing at project root.
+## Notes
+- `PROJECT.md` missing at `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\PROJECT.md`
+- `BRAND.md` missing at `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\BRAND.md`

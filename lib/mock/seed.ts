@@ -7,8 +7,8 @@ const runs: Record<string, RunState> = {
   riley: {
     id: 'run-riley-office-wave-1',
     status: 'active',
-    summary: 'Premium UI wave shipping the HQ lobby, project suite, and agent desk refinement.',
-    progressLabel: 'Premium interface live in staging',
+    summary: 'Game-scene UI wave ships a world-map HQ, cinematic project room, and tactile workstation scene.',
+    progressLabel: 'Scene pass lighting the office world',
     updatedAt: now,
   },
   lotview: {
@@ -26,7 +26,7 @@ const agents: AgentSummary[] = [
     name: 'Engineer',
     role: 'engineer',
     status: 'active',
-    currentTask: 'Finishing premium spatial polish across the mobile office shell.',
+    currentTask: 'Tuning room lighting, scene depth, and iPhone-safe composition across the office world.',
     projectId: 'rileys-office',
   },
   {
@@ -34,7 +34,7 @@ const agents: AgentSummary[] = [
     name: 'Reviewer',
     role: 'reviewer',
     status: 'waiting',
-    currentTask: 'Standing by for QA evidence and final scorecard.',
+    currentTask: 'Standing by for fresh typecheck/build evidence and final scorecard.',
     projectId: 'rileys-office',
   },
   {
@@ -52,10 +52,10 @@ const projects: ProjectSummary[] = [
   {
     id: 'rileys-office',
     name: "Riley's_Office",
-    tagline: 'Luxury mobile command center for governed execution',
+    tagline: 'Scene-first mobile HQ with district towers, lit rooms, and focused workstations',
     health: 'active',
     urgency: 'high',
-    mission: 'Coordinate lobby intelligence, project suites, and agent desks in one tactile iPhone experience.',
+    mission: 'Navigate work as a playable command world where projects occupy physical space and agents feel stationed inside it.',
     accent: '#9d7bff',
     activeRun: runs.riley,
     agents: agents.filter((agent) => agent.projectId === 'rileys-office'),
@@ -77,15 +77,15 @@ const alerts: AlertItem[] = [
   {
     id: 'alert-riley-live',
     level: 'info',
-    title: 'Lobby is still running against governed mock telemetry',
-    detail: 'Spatial UI is production-ready while live ingestion remains safely read-only.',
+    title: 'HQ scene remains connected to governed mock telemetry',
+    detail: 'The world, rooms, and workstations now read visually as spaces while live ingestion stays safely read-only.',
     projectId: 'rileys-office',
   },
   {
     id: 'alert-riley-handoff',
     level: 'warning',
-    title: 'QA handoff required after premium wave',
-    detail: 'Typecheck and build evidence must stay fresh before reviewer signoff.',
+    title: 'QA handoff still required after the scene pass',
+    detail: 'Fresh typecheck and build evidence must stay green before reviewer signoff.',
     projectId: 'rileys-office',
     agentId: 'reviewer-riley',
   },
@@ -103,28 +103,29 @@ const activity: ActivityEvent[] = [
   {
     id: 'evt-1',
     type: 'run',
-    label: 'HQ lobby premium wave shipped',
-    detail: 'The homepage now reads as a luxury command-center rather than a base dashboard.',
+    label: 'HQ skyline converted into a world map',
+    detail: 'The homepage now frames projects like playable towers in a neon command district.',
     timestamp: now,
     projectId: 'rileys-office',
-    relatedPath: "projects/Riley's_Office/app/page.tsx",
+    relatedPath: "projects/Riley's_Office/components/office/office-overview.tsx",
   },
   {
     id: 'evt-2',
     type: 'agent',
-    label: 'Engineer desk spotlighted',
-    detail: 'Agent workstation now highlights run context, evidence shelf, and governed controls.',
+    label: 'Project suite staged as a cinematic room',
+    detail: 'The project page now reads like a furnished office scene with blueprint zones and a delivery wall.',
     timestamp: now,
     projectId: 'rileys-office',
-    agentId: 'engineer-riley',
+    relatedPath: "projects/Riley's_Office/components/project/project-office-view.tsx",
   },
   {
     id: 'evt-3',
     type: 'qa',
-    label: 'Project suite prepared for QA',
-    detail: 'Project room map, delivery wall, and desk cluster are aligned for validation.',
+    label: 'Agent desk upgraded into a workstation scene',
+    detail: 'Primary monitor, side monitor, evidence shelf, and macro row now anchor the station view.',
     timestamp: now,
     projectId: 'rileys-office',
+    relatedPath: "projects/Riley's_Office/components/desk/agent-desk-view.tsx",
   },
   {
     id: 'evt-4',
@@ -140,9 +141,9 @@ const activity: ActivityEvent[] = [
 const conversations: Conversation[] = [
   {
     id: 'conv-riley',
-    title: 'Riley premium build thread',
+    title: 'Riley world-build thread',
     contextLabel: "Riley's_Office · engineer",
-    latestMessage: 'Lobby, project suite, and desk view now share the same luxury spatial language.',
+    latestMessage: 'HQ, room, and workstation scenes now share the same lighting language and spatial depth cues.',
     updatedAt: now,
   },
   {
@@ -163,10 +164,10 @@ const conversations: Conversation[] = [
 
 const roomsByProject: Record<string, RoomCard[]> = {
   'rileys-office': [
-    { id: 'reception', name: 'Reception Lobby', purpose: 'Executive arrival zone with global pulse and wayfinding.', state: 'active' },
-    { id: 'mission-control', name: 'Mission Control', purpose: 'Project telemetry, run pressure, and live office status.', state: 'active' },
-    { id: 'delivery-wall', name: 'Delivery Wall', purpose: 'Artifacts, QA checkpoints, and review readiness.', state: 'active' },
-    { id: 'agent-floor', name: 'Agent Floor', purpose: 'Operator desks for focused execution and escalations.', state: 'active' },
+    { id: 'atrium', name: 'Reception Atrium', purpose: 'Arrival lane that sets the world-scale mood and routes operators into the active room.', state: 'active' },
+    { id: 'strategy', name: 'Strategy Wall', purpose: 'Blueprint zone for room pressure, mission context, and execution pacing.', state: 'active' },
+    { id: 'delivery', name: 'Delivery Wall', purpose: 'Pinned artifact lane for QA, review, and shipment readiness.', state: 'active' },
+    { id: 'workstations', name: 'Operator Row', purpose: 'Connected desks for active agents, reviewer staging, and escalation traffic.', state: 'active' },
   ],
 };
 
@@ -192,9 +193,9 @@ export function getMockProjectOffice(projectId: string): ProjectOffice | null {
       { id: 'ops-room', name: 'Ops Room', purpose: 'Runtime signals and transport health', state: project.health },
     ],
     artifacts: [
-      { id: 'artifact-1', label: 'Premium lobby shell', path: "projects/Riley's_Office/app/page.tsx", status: 'ready' },
-      { id: 'artifact-2', label: 'Project suite UI', path: "projects/Riley's_Office/components/project/project-office-view.tsx", status: 'ready' },
-      { id: 'artifact-3', label: 'Global visual system', path: "projects/Riley's_Office/styles/globals.css", status: 'ready' },
+      { id: 'artifact-1', label: 'World-map HQ scene', path: "projects/Riley's_Office/components/office/office-overview.tsx", status: 'ready' },
+      { id: 'artifact-2', label: 'Project room scene', path: "projects/Riley's_Office/components/project/project-office-view.tsx", status: 'ready' },
+      { id: 'artifact-3', label: 'Scene visual system', path: "projects/Riley's_Office/styles/globals.css", status: 'ready' },
     ],
     actions: getDefaultActions(),
     conversation: conversations[0],
@@ -210,7 +211,7 @@ export function getMockAgentDesk(agentId: string): AgentDesk | null {
     run: agent.projectId === 'rileys-office' ? runs.riley : runs.lotview,
     evidence: [
       { id: 'evidence-1', label: 'Run contract', path: `agents/${agent.id}/contract.md`, status: 'ready' },
-      { id: 'evidence-2', label: 'Premium desk view', path: "projects/Riley's_Office/components/desk/agent-desk-view.tsx", status: 'ready' },
+      { id: 'evidence-2', label: 'Workstation scene', path: "projects/Riley's_Office/components/desk/agent-desk-view.tsx", status: 'ready' },
       { id: 'evidence-3', label: 'Validation logs', path: "projects/Riley's_Office/evidence", status: 'in_progress' },
     ],
     actions: getDefaultActions(),

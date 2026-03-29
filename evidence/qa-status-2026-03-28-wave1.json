@@ -1,0 +1,19 @@
+{
+    "runId":  "riley-office-game-qa-wave1",
+    "validationClass":  "V2",
+    "project":  "C:\\Users\\omino\\.openclaw\\workspace\\projects\\Riley\u0027s_Office",
+    "qaDate":  "2026-03-28",
+    "commands":  [
+                     {
+                         "exitCode":  0,
+                         "evidence":  "evidence/typecheck-2026-03-28-wave1.log",
+                         "name":  "npm run typecheck"
+                     },
+                     {
+                         "exitCode":  0,
+                         "evidence":  "evidence/build-2026-03-28-wave1.log",
+                         "name":  "npm run build"
+                     }
+                 ],
+    "overall":  "PASS"
+}
