@@ -30,7 +30,7 @@ Deliver the mock-first, production-ready foundation wave:
 - benchmark-office / war-room HQ scene implemented
 - non-WebGL fallback implemented
 - QA report and reviewer scorecard recorded as passing on 2026-03-28
-- remaining documentation gap from review: project-local `PROJECT.md` and `BRAND.md` were missing
+- project-local `PROJECT.md` and `BRAND.md` are now present to close the earlier documentation gap
 
 ## Key references
 - `product-brief.md`
@@ -40,3 +40,4 @@ Deliver the mock-first, production-ready foundation wave:
 - `docs/iphone-ux.md`
 - `docs/world-design.md`
 - `docs/roadmap.md`
+

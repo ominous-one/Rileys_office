@@ -1,6 +1,6 @@
 # Riley's_Office — Spatial UI Spec
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This spec is based on existing product/domain artifacts and the current component structure.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This spec is based on existing product/domain artifacts and the current component structure.
 
 ## Purpose
 This document turns the world-design metaphor into implementation-ready UI structure for engineering. It defines spatial zones, screen anatomy, component rules, state mapping, and motion behavior for the three primary experiences:
@@ -448,3 +448,4 @@ The spatial UI spec is correctly implemented only if:
 5. Desk floor and agent desk modules
 6. Delivery wall grouping and action explanation sheets
 7. Motion pass and reduced-motion fallback
+

@@ -31,6 +31,7 @@ npm run build
 ```
 
 ## Notes
-- `PROJECT.md` and `BRAND.md` were not present in the project root during this run.
+- `PROJECT.md` and `BRAND.md` are now present in the project root for implementation and review context.
 - Fresh validation for this wave is backed by local `npm run typecheck` and `npm run build` evidence.
 - See `IMPLEMENTATION-SUMMARY.md` for exact changed files and evidence paths.
+

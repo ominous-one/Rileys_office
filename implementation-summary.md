@@ -21,5 +21,6 @@ Rebuild Riley's_Office HQ visuals so the main scene reads much closer to a bench
   - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\build-wave1.txt`
 
 ## Notes
-- `PROJECT.md` not found at `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\PROJECT.md`.
-- `BRAND.md` not found at `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\BRAND.md`.
+- `PROJECT.md` is now present at project root and documents the Phase A mission, scope, success bar, and key references.
+- `BRAND.md` is now present at project root and documents the brand position, tone, visual direction, and UI principles.
+

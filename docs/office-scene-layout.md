@@ -1,6 +1,6 @@
 # Riley's_Office — Office Scene Layout
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This layout spec translates the office-world direction into buildable scene zones for HQ, project rooms, and workstation views.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This layout spec translates the office-world direction into buildable scene zones for HQ, project rooms, and workstation views.
 
 ## Purpose
 Define the exact layout logic that makes Riley's_Office read unmistakably as an office world.
@@ -463,3 +463,4 @@ Revise the layout if:
 5. Rework project view around hero desk + support stations + wall cues.
 6. Rework agent view around a real workstation composition.
 7. Layer premium materials and localized state lighting after the office read is solid.
+

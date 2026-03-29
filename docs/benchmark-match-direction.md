@@ -1,6 +1,6 @@
 # Riley's_Office — Benchmark Match Direction
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This document is intended to tighten the existing office-world direction so implementation matches the supplied office and war-room benchmark images much more closely.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This document is intended to tighten the existing office-world direction so implementation matches the supplied office and war-room benchmark images much more closely.
 
 ## Purpose
 Lock Riley's_Office to the benchmark references instead of allowing a generic "premium dark office" interpretation.
@@ -532,3 +532,4 @@ Revise the implementation if any of these are true:
 - the build relies on neon accents more than material richness
 - the war room looks like a normal meeting room instead of a command space
 - the office feels like a generic dark SaaS illustration instead of a specific luxury interior benchmark
+

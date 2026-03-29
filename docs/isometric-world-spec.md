@@ -1,6 +1,6 @@
 # Riley's_Office — Isometric World Spec
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This spec is based on the current Riley's_Office documentation and UI scaffold.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This spec is based on the current Riley's_Office documentation and UI scaffold.
 
 ## Purpose
 Define the exact isometric world system for Riley's_Office so engineering can translate the product into a mobile-web-compatible spatial experience.
@@ -561,3 +561,4 @@ The implementation has drifted if:
 5. Add consistent state beacons and light seams.
 6. Add anchored scene transitions.
 7. Optimize/reduce decorative layers for performance on iPhone Safari.
+

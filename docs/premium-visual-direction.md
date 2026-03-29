@@ -1,6 +1,6 @@
 # Riley's_Office — Premium Visual Direction
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This direction is grounded in the existing product brief, iPhone UX notes, world design, and current UI scaffold.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This direction is grounded in the existing product brief, iPhone UX notes, world design, and current UI scaffold.
 
 ## North-Star Aesthetic
 Riley's_Office should feel like a private executive operating suite on iPhone: dark architectural surfaces, controlled light, sharp data hierarchy, and subtle spatial depth that suggests walking through a premium office tower after hours.
@@ -305,3 +305,4 @@ If engineering implements only the most important visual changes first, do these
 3. Introduce room/desk/project-specific card layouts with stronger hierarchy.
 4. Add ambient spatial background treatments and edge lighting.
 5. Add restrained room-transition motion and active-state pulses.
+

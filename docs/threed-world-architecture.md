@@ -1,6 +1,6 @@
 # Riley's_Office — 3D World Architecture
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This architecture is anchored to the current Next.js 15 / React 19 codebase and the existing world-direction docs.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This architecture is anchored to the current Next.js 15 / React 19 codebase and the existing world-direction docs.
 
 ## Purpose
 Define the execution-ready architecture for adding a **real scene-rendered 3D / isometric world foundation** to Riley's_Office without breaking iPhone usability, delivery velocity, or graceful fallback behavior.
@@ -592,3 +592,4 @@ This 3D foundation is architecturally correct only if:
 ## Deliverable conclusion
 Recommended foundation: **Next.js + React Three Fiber + Drei + Zustand + Zod + DOM HUD overlay + mandatory DOM fallback**.
 This is the lightest architecture that provides a real rendered world without sacrificing mobile actionability or execution speed.
+

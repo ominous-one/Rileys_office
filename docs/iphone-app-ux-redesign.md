@@ -1,6 +1,6 @@
 # Riley's_Office — iPhone App UX Redesign
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This redesign uses the current product brief, iPhone UX notes, world design, and live scaffold as source context.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This redesign uses the current product brief, iPhone UX notes, world design, and live scaffold as source context.
 
 ## Redesign Goal
 Turn the current stacked mobile dashboard into an iPhone-native luxury control app with stronger information hierarchy, better thumb ergonomics, and spatial movement between HQ, project office, and agent desk.
@@ -395,3 +395,4 @@ Premium empty states should feel intentional, not incomplete.
 3. Upgrade HQ, Project Office, and Agent Desk layouts in that order.
 4. Add bottom sheets for room map, action explanations, and quick jump.
 5. Add sticky interaction elements only after hierarchy is correct.
+

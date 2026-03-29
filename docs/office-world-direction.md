@@ -1,6 +1,6 @@
 # Riley's_Office — Office World Direction
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This office-world direction builds on the existing premium visual, world-design, and isometric scene docs.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This office-world direction builds on the existing premium visual, world-design, and isometric scene docs.
 
 ## Objective
 Redesign the HQ and project environments so they read immediately as a **real executive office interior** rather than abstract geometry or generic glowing blocks.
@@ -453,3 +453,4 @@ Revise the environment if:
 - there are no chairs, windows, or walls
 - there is no recognizable meeting room or executive-office language
 - the world feels more like an exterior skyline than an interior workplace
+

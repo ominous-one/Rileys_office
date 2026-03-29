@@ -1,6 +1,6 @@
 # Riley's_Office — World Foundation Build Plan
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This build plan assumes the current Next.js 15 / React 19 app and the architecture defined in `docs/THREED-WORLD-ARCHITECTURE.md`.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This build plan assumes the current Next.js 15 / React 19 app and the architecture defined in `docs/THREED-WORLD-ARCHITECTURE.md`.
 
 ## Purpose
 Turn the approved 3D world architecture into the first shippable implementation wave with controlled risk, explicit boundaries, and fresh validation points.
@@ -334,3 +334,4 @@ The shared foundation is now stable enough to extend deeper.
 
 ## Deliverable conclusion
 The first build wave should ship a **bounded HQ-only 3D foundation with mandatory fallback**. That is the minimum implementation that proves the architecture without overcommitting the project to risky scene scope or mobile performance debt.
+

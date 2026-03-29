@@ -1,6 +1,6 @@
 # Riley's_Office — Game Scene Direction
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This package is grounded in the existing world-design, premium visual direction, spatial UI spec, and iPhone redesign docs.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This package is grounded in the existing world-design, premium visual direction, spatial UI spec, and iPhone redesign docs.
 
 ## Intent
 Shift Riley's_Office from a premium dashboard into a **world-like operating environment**. The user should feel like they are moving through an elegant, cinematic headquarters where projects are rooms, agents occupy workstations, and evidence physically lives somewhere in the scene.
@@ -569,3 +569,4 @@ This direction is correctly realized when:
 - Agent view feels like a workstation, not a message screen
 - evidence and governance are visibly placed in the environment
 - spatial transitions strengthen comprehension on iPhone rather than slow it down
+

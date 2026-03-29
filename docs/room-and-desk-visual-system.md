@@ -1,6 +1,6 @@
 # Riley's_Office — Room and Desk Visual System
 
-> Project note: `PROJECT.md` and `BRAND.md` were not present in the project root during this run. This visual system extends the existing premium and spatial direction into implementation-ready room and workstation patterns.
+> Project note: `PROJECT.md` and `BRAND.md` are now present in the project root and should be treated as active implementation context. This visual system extends the existing premium and spatial direction into implementation-ready room and workstation patterns.
 
 ## Purpose
 Define the exact visual system for:
@@ -634,3 +634,4 @@ Revise the implementation if:
 3. Build `DeliveryWall` grouping with physical evidence-slot styling.
 4. Rebuild agent detail into `ContractDisplay + EvidenceStack + ConversationConsole + ActionTray` scene composition.
 5. Add consistent state-beacon and light-seam rules across room and desk components.
+
