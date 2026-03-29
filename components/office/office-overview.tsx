@@ -21,11 +21,11 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
     <main className="page-stack page-stack--scene">
       <section className="scene-hero scene-hero--hq">
         <div className="scene-hero__atmosphere" aria-hidden="true" />
-        <div className="scene-hero__skyline" aria-hidden="true">
-          <span className="scene-hero__tower scene-hero__tower--tall" />
-          <span className="scene-hero__tower scene-hero__tower--mid" />
-          <span className="scene-hero__tower scene-hero__tower--short" />
-          <span className="scene-hero__tower scene-hero__tower--signal" />
+        <div className="scene-hero__office-shell" aria-hidden="true">
+          <span className="scene-hero__partition scene-hero__partition--tall" />
+          <span className="scene-hero__partition scene-hero__partition--mid" />
+          <span className="scene-hero__partition scene-hero__partition--short" />
+          <span className="scene-hero__partition scene-hero__partition--signal" />
         </div>
 
         <div className="hero-card hero-card--office scene-panel">
@@ -74,7 +74,7 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
             <strong>{topProject?.name ?? 'No active room'}</strong>
             <p>{topProject?.activeRun.summary ?? 'The office floor will populate as soon as snapshot data arrives.'}</p>
           </article>
-          <article className="world-card world-card--beacon">
+          <article className="world-card world-card--ops">
             <span className="label">Ops wall</span>
             <strong>{alerts[0]?.title ?? 'No priority alerts active'}</strong>
             <p>{alerts[0]?.detail ?? 'The HQ floor is stable right now.'}</p>
@@ -83,7 +83,7 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
       </section>
 
       <SectionCard title="Office floor" eyebrow="Tap into rooms and teams" tone="accent">
-        <div className="city-grid">
+        <div className="office-grid">
           {projects.map((project, index) => (
             <Link
               key={project.id}
@@ -189,5 +189,6 @@ export function OfficeOverview({ snapshot }: { snapshot: OfficeSnapshot }) {
     </main>
   );
 }
+
 
 
