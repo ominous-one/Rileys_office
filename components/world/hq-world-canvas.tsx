@@ -503,7 +503,7 @@ function AccentPanels({ projects }: { projects: ProjectSummary[] }) {
   );
 }
 
-function WorldScene({ snapshot }: { snapshot: OfficeSnapshot }) {
+function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; mobileOptimized?: boolean }) {
   const desks = useMemo(() => buildDeskLayout(snapshot), [snapshot]);
   const activeAgents = snapshot.projects.flatMap((project) => project.agents).filter((agent) => agent.status === 'active').length;
 
@@ -513,9 +513,9 @@ function WorldScene({ snapshot }: { snapshot: OfficeSnapshot }) {
       <fog attach="fog" args={['#eef3f9', 11, 24]} />
       <ambientLight intensity={1.1} />
       <hemisphereLight args={['#ffffff', '#c6d0dc', 1.22]} />
-      <directionalLight position={[6, 9, 6]} intensity={1.95} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-      <pointLight position={[0, 4.24, 1.5]} intensity={30} distance={20} color="#fdfefe" />
-      <pointLight position={[0, 3.1, -4.1]} intensity={12} distance={12} color="#d6ecff" />
+      <directionalLight position={[6, 9, 6]} intensity={mobileOptimized ? 1.6 : 1.95} castShadow shadow-mapSize-width={mobileOptimized ? 1024 : 2048} shadow-mapSize-height={mobileOptimized ? 1024 : 2048} />
+      <pointLight position={[0, 4.24, 1.5]} intensity={mobileOptimized ? 20 : 30} distance={20} color="#fdfefe" />
+      <pointLight position={[0, 3.1, -4.1]} intensity={mobileOptimized ? 8 : 12} distance={12} color="#d6ecff" />
 
       <OfficeShell />
       <CeilingLights />
@@ -558,22 +558,24 @@ function WorldScene({ snapshot }: { snapshot: OfficeSnapshot }) {
         <meshBasicMaterial color="#63d5ff" transparent opacity={0.18 + Math.min(activeAgents, 10) * 0.02} />
       </mesh>
 
-      <ContactShadows position={[0, -0.001, 0]} opacity={0.26} scale={18} blur={2.8} far={10} resolution={1024} color="#000000" />
+      <ContactShadows position={[0, -0.001, 0]} opacity={mobileOptimized ? 0.18 : 0.26} scale={18} blur={mobileOptimized ? 2.2 : 2.8} far={10} resolution={mobileOptimized ? 256 : 1024} color="#000000" />
       <OrbitControls enablePan={false} enableZoom={false} minPolarAngle={0.92} maxPolarAngle={1.13} minAzimuthAngle={-0.38} maxAzimuthAngle={0.38} />
       <PerspectiveCamera makeDefault position={[8.3, 6.45, 8.95]} fov={33} />
     </>
   );
 }
 
-function HQWorldCanvasComponent({ snapshot }: { snapshot: OfficeSnapshot }) {
+function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapshot: OfficeSnapshot; mobileOptimized?: boolean }) {
   return (
-    <Canvas shadows dpr={[1, 1.6]} className="hq-world-canvas" gl={{ antialias: true, alpha: true }}>
-      <WorldScene snapshot={snapshot} />
+    <Canvas
+      shadows
+      dpr={mobileOptimized ? [1, 1.15] : [1, 1.6]}
+      className="hq-world-canvas"
+      gl={{ antialias: !mobileOptimized, alpha: true, powerPreference: 'high-performance' }}
+    >
+      <WorldScene snapshot={snapshot} mobileOptimized={mobileOptimized} />
     </Canvas>
   );
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
-
-
-

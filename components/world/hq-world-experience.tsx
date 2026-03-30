@@ -23,7 +23,7 @@ function useSceneMode() {
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isMobileBrowser = /android|iphone|ipad|ipod|mobile/.test(userAgent);
 
-    const shouldUseFallback = reducedMotion || !hasWebGl || coarsePointer || smallViewport || isMobileBrowser;
+    const shouldUseFallback = reducedMotion || !hasWebGl;
     setMode(shouldUseFallback ? 'fallback' : 'scene');
   }, []);
 
@@ -32,6 +32,16 @@ function useSceneMode() {
 
 export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
   const mode = useSceneMode();
+  const [mobileOptimized, setMobileOptimized] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const coarsePointer = window.matchMedia?.('(pointer: coarse)').matches ?? false;
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isMobileBrowser = /android|iphone|ipad|ipod|mobile/.test(userAgent);
+    setMobileOptimized(coarsePointer || isMobileBrowser);
+  }, []);
   const projects = snapshot.projects ?? [];
   const alerts = snapshot.alerts ?? [];
   const activity = snapshot.activity?.slice(0, 4) ?? [];
@@ -79,7 +89,7 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
                 <span className="hq-world-stage__chrome-pill" />
                 <span className="hq-world-stage__chrome-pill" />
               </div>
-              <HQWorldCanvas snapshot={snapshot} />
+              <HQWorldCanvas snapshot={snapshot} mobileOptimized={mobileOptimized} />
             </div>
           ) : (
             <div className="hq-world-stage__fallback hq-world-stage__fallback--office" role="img" aria-label="Fallback office floor view of Riley's Office headquarters">
@@ -238,3 +248,6 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
     </main>
   );
 }
+
+
+
