@@ -743,6 +743,10 @@ function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; m
         <planeGeometry args={[0.92, 0.02]} />
         <meshBasicMaterial color="#dbeafe" transparent opacity={0.08} />
       </mesh>
+      <mesh position={[0, 0.46, 4.08]}>
+        <planeGeometry args={[0.52, 0.015]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.08} />
+      </mesh>
 
       <mesh position={[-4.86, 1.55, -0.8]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[1.2, 1.9]} />
@@ -787,6 +791,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
