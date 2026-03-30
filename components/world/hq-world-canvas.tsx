@@ -363,6 +363,10 @@ function WarRoom() {
         <planeGeometry args={[2.4, 0.5]} />
         <meshBasicMaterial color="#d8f2ff" transparent opacity={0.16} />
       </mesh>
+      <mesh position={[0, 0.742, 0]}>
+        <planeGeometry args={[1.68, 0.12]} />
+        <meshBasicMaterial color="#f8fbff" transparent opacity={0.14} />
+      </mesh>
     </group>
   );
 }
@@ -735,6 +739,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
