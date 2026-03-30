@@ -97,6 +97,18 @@ function WindowWall() {
             <planeGeometry args={[1.7, 0.08]} />
             <meshBasicMaterial color="#f8fbff" transparent opacity={0.7} />
           </mesh>
+          <mesh position={[0, -1.03, 0.04]}>
+            <planeGeometry args={[2.08, 0.08]} />
+            <meshBasicMaterial color="#d7dee8" transparent opacity={0.92} />
+          </mesh>
+          <mesh position={[-0.96, 0, 0.04]} rotation={[0, 0, Math.PI / 2]}>
+            <planeGeometry args={[2.02, 0.06]} />
+            <meshBasicMaterial color="#d7dee8" transparent opacity={0.72} />
+          </mesh>
+          <mesh position={[0.96, 0, 0.04]} rotation={[0, 0, Math.PI / 2]}>
+            <planeGeometry args={[2.02, 0.06]} />
+            <meshBasicMaterial color="#d7dee8" transparent opacity={0.72} />
+          </mesh>
         </group>
       ))}
     </group>
@@ -669,6 +681,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
