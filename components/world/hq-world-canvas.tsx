@@ -517,6 +517,10 @@ function Whiteboard() {
 function Plant({ position }: { position: [number, number, number] }) {
   return (
     <group position={position}>
+      <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <ringGeometry args={[0.24, 0.36, 28]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.16} />
+      </mesh>
       <mesh position={[0, 0.2, 0]} castShadow>
         <cylinderGeometry args={[0.16, 0.2, 0.35, 16]} />
         <meshStandardMaterial color="#8a623d" roughness={0.82} />
@@ -707,6 +711,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
