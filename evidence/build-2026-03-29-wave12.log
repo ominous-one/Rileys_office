@@ -1,0 +1,48 @@
+﻿
+> rileys-office@0.1.0 build
+> next build
+
+   Γû▓ Next.js 15.5.14
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 23.7s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/8) ...
+   Generating static pages (2/8) 
+   Generating static pages (4/8) 
+   Generating static pages (6/8) 
+ Γ£ô Generating static pages (8/8)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                  Size  First Load JS
+Γöî Γùï /                                     2.18 kB         108 kB
+Γö£ Γùï /_not-found                             993 B         103 kB
+Γö£ Γùï /activity                               139 B         102 kB
+Γö£ ╞Æ /agents/[agentid]                       139 B         102 kB
+Γö£ ╞Æ /api/auth/login                         139 B         102 kB
+Γö£ ╞Æ /api/auth/logout                        139 B         102 kB
+Γö£ ╞Æ /api/live/snapshot                      139 B         102 kB
+Γö£ Γùï /inbox                                  139 B         102 kB
+Γöö ╞Æ /projects/[projectid]                   161 B         106 kB
++ First Load JS shared by all              102 kB
+  Γö£ chunks/255-38b49df12a94ee57.js          46 kB
+  Γö£ chunks/4bd1b696-c023c6e3521b1417.js   54.2 kB
+  Γöö other shared chunks (total)           1.99 kB
+
+Route (pages)                                Size  First Load JS
+Γöî   /_app                                     0 B        94.6 kB
+Γö£ Γùï /404 (1201 ms)                          225 B        94.8 kB
+Γö£ Γùï /500 (1303 ms)                          225 B        94.8 kB
+Γöö ╞Æ /legacy-fallback                        253 B        94.9 kB
++ First Load JS shared by all             94.6 kB
+  Γö£ chunks/framework-372c62845e5ba996.js  57.5 kB
+  Γö£ chunks/main-81a7897aa4a12a6d.js       35.1 kB
+  Γöö other shared chunks (total)           2.04 kB
+
+╞Æ Middleware                              34.2 kB
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

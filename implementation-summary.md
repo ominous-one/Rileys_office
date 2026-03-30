@@ -1,31 +1,31 @@
-# Implementation Summary
+﻿# Implementation Summary
 
 ## Request
-Rebuild Riley's_Office HQ visuals so the main scene reads much closer to a benchmark office / war-room interior and is ready for QA, push, and redeploy.
+Own project-specific view treatment so each project reads like its own bottom tab/view while sharing the premium Riley shell, improve project switching clarity, and leave the repo with fresh build proof.
 
 ## Changed paths
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\world\hq-world-canvas.tsx`
-  - Rebuilt the 3D HQ with clearer office architecture: front window wall, reception desk, desk neighborhoods, central war-room table, rear operations display wall, side whiteboard, lounge, credenza, brighter shell materials, and stronger circulation cues.
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\world\hq-world-experience.tsx`
-  - Reframed the HQ narrative and metrics around benchmark-office / war-room language and upgraded the fallback markup to show windows, reception, desk pods, war-room center, ops wall, and board-room glass.
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\shell\bottom-nav.tsx`
+  - Converted the bottom rail into a client-side active nav with dedicated project tabs, active-state styling, and project health/status metadata so projects no longer collapse into one generic `Projects` destination.
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\components\project\project-office-view.tsx`
+  - Added project-specific treatment copy, a project-tab companion strip, sharper room-state readouts, project-local activity, and clearer sibling-project switching inside the shared shell.
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\styles\globals.css`
-  - Extended office-stage styling to support the richer fallback composition, including front glazing, war-room block, ops wall, and updated labels.
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\README.md`
-  - Updated the project description and validation notes to match the stronger office / war-room scene implementation.
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\PROJECT.md`
-  - Added project-local Phase A mission, scope, success bar, and reference context.
-- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\BRAND.md`
-  - Added brand position, tone, visual direction, UI principles, and anti-pattern guidance.
+  - Added bottom-tab active styling, project-tab cards, and project-suite shell treatment so the bottom rail and project views visually differentiate by project accent/state.
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\next.config.ts`
+  - Removed the custom `distDir` override so Next uses the default `.next` output path and avoids the broken mixed-output build behavior.
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\pages\legacy-fallback.tsx`
+  - Added `getServerSideProps` so the legacy fallback route builds as a server page instead of triggering the missing `legacy-fallback.js` prerender failure.
 - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\implementation-summary.md`
-  - Refreshed the summary so validation and repo-context notes match the current project state.
+  - Refreshed implementation notes and validation references for the bottom-tab/project-view pass.
+- `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\qa-report.md`
+  - Updated QA/reporting to reflect the new wave and current green validation evidence.
 
 ## Validation evidence
-- Fresh command evidence generated after the documentation corrections:
-  - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\typecheck-2026-03-29-wave3c.log`
-  - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\build-2026-03-29-wave3c.log`
-  - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\validation-exitcodes-2026-03-29-wave3c.txt`
+- Fresh command evidence generated after the project-tab pass and build fixes:
+  - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\typecheck-2026-03-29-wave12.log`
+  - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\build-2026-03-29-wave12.log`
+  - `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office\evidence\validation-exitcodes-2026-03-29-wave12.txt`
 
 ## Notes
-- `PROJECT.md` is present at project root and documents the Phase A mission, scope, success bar, and key references.
-- `BRAND.md` is present at project root and documents the brand position, tone, visual direction, and UI principles.
+- Bottom navigation now exposes individual projects directly, with active state and project health visible in the rail.
+- Project pages now include a dedicated switcher strip and project-local state so each project feels like a distinct tabbed view rather than a reused shell with only accent changes.
 - Latest local validation recorded `TYPECHECK_EXIT=0` and `BUILD_EXIT=0` on `2026-03-29`.
