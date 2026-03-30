@@ -16,10 +16,15 @@ function useSceneMode() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const hasWebGl = Boolean(window.WebGLRenderingContext);
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const coarsePointer = window.matchMedia?.('(pointer: coarse)').matches ?? false;
+    const smallViewport = window.matchMedia?.('(max-width: 900px)').matches ?? false;
+    const hasWebGl = typeof window.WebGLRenderingContext !== 'undefined';
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isMobileBrowser = /android|iphone|ipad|ipod|mobile/.test(userAgent);
 
-    setMode(!reducedMotion && hasWebGl ? 'scene' : 'fallback');
+    const shouldUseFallback = reducedMotion || !hasWebGl || coarsePointer || smallViewport || isMobileBrowser;
+    setMode(shouldUseFallback ? 'fallback' : 'scene');
   }, []);
 
   return mode;
@@ -45,7 +50,7 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
           <div className="hero-card__eyebrow-row">
             <p className="eyebrow">World HQ</p>
             <span className={`connection connection--${snapshot.connection.state}`}>
-              {snapshot.connection.mode} relay · {snapshot.connection.state}
+              {snapshot.connection.mode} relay A? {snapshot.connection.state}
             </span>
           </div>
 
@@ -60,7 +65,7 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
             <div className="hero-card__spotlight hero-card__spotlight--scene hero-card__spotlight--office">
               <span className="hero-card__spotlight-label">Render mode</span>
               <strong>{mode === 'scene' ? 'Interactive office + war room live' : 'Office floor fallback engaged'}</strong>
-              <span>{projects.length} desk bays · {displayWalls} ops displays · {alerts.length} reception alerts</span>
+              <span>{projects.length} desk bays A? {displayWalls} ops displays A? {alerts.length} reception alerts</span>
             </div>
           </div>
         </div>
@@ -120,7 +125,7 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
                   <StatusPill state={project.health} />
                 </div>
                 <p>{project.tagline}</p>
-                <span className="list-card__meta">{project.agents.length} seats · {project.activeRun.progressLabel}</span>
+                <span className="list-card__meta">{project.agents.length} seats A? {project.activeRun.progressLabel}</span>
               </Link>
             ))}
           </div>
@@ -185,7 +190,7 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
               <span className="project-card__eyebrow">{project.health} signal</span>
               <strong>{project.name}</strong>
               <p>{project.tagline}</p>
-              <span className="list-card__meta">{project.agents.length} seats · {project.activeRun.progressLabel}</span>
+              <span className="list-card__meta">{project.agents.length} seats A? {project.activeRun.progressLabel}</span>
             </article>
           ))}
         </div>
@@ -233,4 +238,3 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
     </main>
   );
 }
-
