@@ -422,6 +422,10 @@ function OperationsWall({ projects }: { projects: ProjectSummary[] }) {
         <planeGeometry args={[3.12, 0.005]} />
         <meshBasicMaterial color="#dbeafe" transparent opacity={0.035} />
       </mesh>
+      <mesh position={[0, 0.64, 0.09]}>
+        <planeGeometry args={[2.76, 0.004]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.03} />
+      </mesh>
       <mesh position={[0, 2.34, 0.09]}>
         <planeGeometry args={[3.9, 0.04]} />
         <meshBasicMaterial color="#dbeafe" transparent opacity={0.18} />
@@ -835,6 +839,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
