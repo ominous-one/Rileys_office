@@ -244,6 +244,10 @@ function DeskCluster({ node }: { node: DeskNode }) {
       <RoundedBox args={[1.85, 0.12, 0.86]} radius={0.08} smoothness={4} position={[0, 0.74, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#d4b083" metalness={0.1} roughness={0.72} />
       </RoundedBox>
+      <mesh position={[0, 0.748, 0.12]}>
+        <planeGeometry args={[1.42, 0.12]} />
+        <meshBasicMaterial color="#f7fafc" transparent opacity={0.16} />
+      </mesh>
 
       <RoundedBox args={[1.82, 0.08, 0.16]} radius={0.05} smoothness={4} position={[0, 0.9, -0.3]} castShadow>
         <meshStandardMaterial color="#f7fbff" metalness={0.05} roughness={0.28} />
@@ -731,6 +735,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
