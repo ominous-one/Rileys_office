@@ -391,6 +391,10 @@ function SideCredenza() {
 function Lounge() {
   return (
     <group position={[4.05, 0, -2.95]}>
+      <mesh position={[-0.18, 0.03, 0.02]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[3.1, 2.1]} />
+        <meshStandardMaterial color="#d8dde4" roughness={0.97} metalness={0.02} />
+      </mesh>
       <RoundedBox args={[1.6, 0.52, 0.8]} radius={0.12} smoothness={4} position={[0, 0.35, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#7d889b" roughness={0.86} />
       </RoundedBox>
@@ -411,6 +415,10 @@ function Lounge() {
       <mesh position={[-1.03, 0.49, 0.1]}>
         <cylinderGeometry args={[0.06, 0.06, 0.12, 12]} />
         <meshStandardMaterial color="#d7e9f7" roughness={0.18} metalness={0.04} />
+      </mesh>
+      <mesh position={[-1.22, 0.46, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <ringGeometry args={[0.22, 0.34, 28]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.26} />
       </mesh>
     </group>
   );
@@ -551,4 +559,5 @@ function HQWorldCanvasComponent({ snapshot }: { snapshot: OfficeSnapshot }) {
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
