@@ -342,6 +342,21 @@ function OperationsWall({ projects }: { projects: ProjectSummary[] }) {
 
   return (
     <group position={[0, 0, -4.64]}>
+      <RoundedBox args={[4.8, 0.24, 0.42]} radius={0.06} smoothness={4} position={[0, 0.22, 0.02]} castShadow receiveShadow>
+        <meshStandardMaterial color="#e5e7eb" roughness={0.72} metalness={0.06} />
+      </RoundedBox>
+      <mesh position={[-1.68, 0.42, 0.12]}>
+        <boxGeometry args={[0.42, 0.22, 0.16]} />
+        <meshStandardMaterial color="#111827" roughness={0.46} metalness={0.12} />
+      </mesh>
+      <mesh position={[-1.05, 0.45, 0.14]}>
+        <cylinderGeometry args={[0.07, 0.07, 0.28, 18]} />
+        <meshStandardMaterial color="#dbeafe" roughness={0.16} metalness={0.04} />
+      </mesh>
+      <mesh position={[1.58, 0.4, 0.12]}>
+        <boxGeometry args={[0.36, 0.18, 0.14]} />
+        <meshStandardMaterial color="#cbd5e1" roughness={0.74} />
+      </mesh>
       <RoundedBox args={[4.8, 1.9, 0.12]} radius={0.06} smoothness={4} position={[0, 1.58, 0]} castShadow>
         <meshStandardMaterial color="#101828" metalness={0.26} roughness={0.4} />
       </RoundedBox>
@@ -654,6 +669,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
