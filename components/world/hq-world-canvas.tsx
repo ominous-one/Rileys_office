@@ -383,6 +383,10 @@ function OperationsWall({ projects }: { projects: ProjectSummary[] }) {
 function SideCredenza() {
   return (
     <group position={[-4.28, 0, -3.35]}>
+      <mesh position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[2.5, 1.2]} />
+        <meshStandardMaterial color="#d7dde4" roughness={0.97} metalness={0.02} />
+      </mesh>
       <RoundedBox args={[1.7, 0.82, 0.56]} radius={0.08} smoothness={4} position={[0, 0.41, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#d2b187" roughness={0.7} />
       </RoundedBox>
@@ -392,6 +396,14 @@ function SideCredenza() {
       <RoundedBox args={[0.72, 0.06, 0.4]} radius={0.04} smoothness={4} position={[0.38, 0.84, 0]} castShadow>
         <meshStandardMaterial color="#f7fafc" roughness={0.28} />
       </RoundedBox>
+      <mesh position={[-0.42, 0.93, 0.02]}>
+        <cylinderGeometry args={[0.08, 0.08, 0.16, 18]} />
+        <meshStandardMaterial color="#dbeafe" roughness={0.16} metalness={0.04} />
+      </mesh>
+      <mesh position={[0.34, 0.93, -0.02]}>
+        <boxGeometry args={[0.18, 0.12, 0.18]} />
+        <meshStandardMaterial color="#e5e7eb" roughness={0.74} />
+      </mesh>
     </group>
   );
 }
@@ -642,4 +654,6 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
+
 
