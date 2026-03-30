@@ -785,6 +785,10 @@ function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; m
         <ringGeometry args={[0.46, 0.66, 48]} />
         <meshBasicMaterial color="#63d5ff" transparent opacity={0.18 + Math.min(activeAgents, 10) * 0.02} />
       </mesh>
+      <mesh position={[0, 0.015, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.88, 1.08, 64]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.1} />
+      </mesh>
 
       <ContactShadows position={[0, -0.001, 0]} opacity={mobileOptimized ? 0.18 : 0.26} scale={18} blur={mobileOptimized ? 2.2 : 2.8} far={10} resolution={mobileOptimized ? 256 : 1024} color="#000000" />
       <OrbitControls enablePan={false} enableZoom={false} minPolarAngle={0.92} maxPolarAngle={1.13} minAzimuthAngle={-0.38} maxAzimuthAngle={0.38} />
@@ -807,6 +811,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
