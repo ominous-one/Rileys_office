@@ -561,6 +561,10 @@ function Plant({ position }: { position: [number, number, number] }) {
         <ringGeometry args={[0.12, 0.16, 20]} />
         <meshBasicMaterial color="#f7fafc" transparent opacity={0.14} />
       </mesh>
+      <mesh position={[0, 0.12, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.18, 0.22, 20]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.08} />
+      </mesh>
       {[
         [0, 0.48, 0],
         [0.14, 0.44, 0.02],
@@ -763,6 +767,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
