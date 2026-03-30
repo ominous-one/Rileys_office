@@ -256,6 +256,10 @@ function DeskCluster({ node }: { node: DeskNode }) {
         <planeGeometry args={[1.16, 0.18]} />
         <meshBasicMaterial color="#ffffff" transparent opacity={0.1} />
       </mesh>
+      <mesh position={[0, 0.9, -0.36]}>
+        <planeGeometry args={[0.86, 0.03]} />
+        <meshBasicMaterial color="#dbeafe" transparent opacity={0.12} />
+      </mesh>
 
       {[-0.77, 0.77].map((x) =>
         [-0.3, 0.3].map((z) => (
@@ -759,6 +763,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
