@@ -127,11 +127,21 @@ function OfficeShell() {
         <planeGeometry args={[10.6, 1.55]} />
         <meshStandardMaterial color="#626a78" metalness={0.15} roughness={0.8} />
       </mesh>
+      <mesh position={[0, 0.012, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[2.4, 1.12]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.08} />
+      </mesh>
 
       {[-4.3, -1.45, 1.45, 4.3].map((x) => (
         <mesh key={`walk-line-${x}`} position={[x, 0.02, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[0.11, 10.15]} />
           <meshStandardMaterial color="#eef4fb" roughness={0.92} />
+        </mesh>
+      ))}
+      {[-3.15, 0, 3.15].map((x) => (
+        <mesh key={`walk-marker-${x}`} position={[x, 0.021, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[1.15, 0.14]} />
+          <meshBasicMaterial color="#f8fbff" transparent opacity={0.3} />
         </mesh>
       ))}
 
@@ -681,6 +691,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
