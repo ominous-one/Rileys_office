@@ -772,6 +772,10 @@ function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; m
         <boxGeometry args={[0.08, 0.08, 1.22]} />
         <meshStandardMaterial color="#d6dde7" roughness={0.52} metalness={0.12} />
       </mesh>
+      <mesh position={[-4.82, 0.54, -0.8]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[0.92, 0.02]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.08} />
+      </mesh>
       <mesh position={[4.86, 1.55, -0.8]} rotation={[0, -Math.PI / 2, 0]}>
         <planeGeometry args={[1.2, 1.9]} />
         <meshBasicMaterial color="#ffffff" transparent opacity={0.18} />
@@ -779,6 +783,10 @@ function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; m
       <mesh position={[4.83, 0.62, -0.8]} rotation={[0, -Math.PI / 2, 0]}>
         <boxGeometry args={[0.08, 0.08, 1.22]} />
         <meshStandardMaterial color="#d6dde7" roughness={0.52} metalness={0.12} />
+      </mesh>
+      <mesh position={[4.82, 0.54, -0.8]} rotation={[0, -Math.PI / 2, 0]}>
+        <planeGeometry args={[0.92, 0.02]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.08} />
       </mesh>
 
       <mesh position={[0, 0.04, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -811,6 +819,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
