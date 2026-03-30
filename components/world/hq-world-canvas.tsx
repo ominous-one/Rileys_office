@@ -198,6 +198,10 @@ function OfficeShell() {
         <planeGeometry args={[3.2, 2.6]} />
         <meshBasicMaterial color="#ffffff" transparent opacity={0.025} />
       </mesh>
+      <mesh position={[0, 3.301, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[1.6, 1.2]} />
+        <meshBasicMaterial color="#dbeafe" transparent opacity={0.02} />
+      </mesh>
 
       <WindowWall />
     </group>
@@ -851,6 +855,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
