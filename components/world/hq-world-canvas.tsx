@@ -267,6 +267,14 @@ function WarRoom() {
 
   return (
     <group position={[0, 0, -2.95]}>
+      <mesh position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[5.4, 2.75]} />
+        <meshStandardMaterial color="#c7d2dd" roughness={0.96} metalness={0.02} />
+      </mesh>
+      <mesh position={[0, 0.031, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.72, 1.08, 48]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.22} />
+      </mesh>
       <RoundedBox args={[4.2, 0.11, 1.45]} radius={0.08} smoothness={4} position={[0, 0.74, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#c6a073" metalness={0.08} roughness={0.72} />
       </RoundedBox>
@@ -543,3 +551,4 @@ function HQWorldCanvasComponent({ snapshot }: { snapshot: OfficeSnapshot }) {
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
