@@ -169,6 +169,10 @@ function OfficeShell() {
 function ReceptionDesk({ alerts }: { alerts: number }) {
   return (
     <group position={[0, 0, 3.92]}>
+      <mesh position={[0, 0.03, -0.18]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[4.3, 1.85]} />
+        <meshStandardMaterial color="#d4dbe4" roughness={0.97} metalness={0.02} />
+      </mesh>
       <RoundedBox args={[3.2, 0.82, 0.96]} radius={0.14} smoothness={4} position={[0, 0.41, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#cfb28a" metalness={0.14} roughness={0.62} />
       </RoundedBox>
@@ -178,6 +182,10 @@ function ReceptionDesk({ alerts }: { alerts: number }) {
       <mesh position={[0, 1.02, 0.2]}>
         <planeGeometry args={[0.85, 0.16]} />
         <meshBasicMaterial color="#58c8f6" transparent opacity={0.88} />
+      </mesh>
+      <mesh position={[0, 0.031, -0.18]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.84, 1.18, 40]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.24} />
       </mesh>
       {Array.from({ length: Math.max(1, Math.min(alerts, 4)) }).map((_, index) => (
         <mesh key={`reception-status-${index}`} position={[-0.48 + index * 0.32, 1.12, 0.2]}>
@@ -634,3 +642,4 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
