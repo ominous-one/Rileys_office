@@ -1,0 +1,358 @@
+.page {
+  padding: 0;
+}
+
+.shell {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 1rem;
+  min-height: calc(100dvh - 5.5rem);
+  padding: 1rem 1rem 7rem;
+  color: #f3f6ff;
+  background:
+    radial-gradient(circle at top, rgba(88, 124, 255, 0.22), transparent 30%),
+    linear-gradient(180deg, #07111f 0%, #050a14 52%, #03060c 100%);
+}
+
+.heroArt,
+.heroGlow,
+.heroGrid,
+.heroHorizon,
+.heroRing,
+.heroPanel {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.heroGlow {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(88, 124, 255, 0.2), transparent 28%),
+    radial-gradient(circle at 82% 16%, rgba(65, 230, 205, 0.14), transparent 26%),
+    radial-gradient(circle at 50% 58%, rgba(255, 255, 255, 0.06), transparent 38%);
+}
+
+.heroGrid {
+  inset: auto -20% 20%;
+  height: 30%;
+  background:
+    linear-gradient(rgba(116, 140, 189, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(116, 140, 189, 0.12) 1px, transparent 1px);
+  background-size: 2.4rem 2.4rem;
+  transform: perspective(720px) rotateX(78deg);
+  opacity: 0.32;
+}
+
+.heroHorizon {
+  inset: 16% 12% auto;
+  height: 14rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(76, 103, 255, 0.2) 0%, rgba(76, 103, 255, 0) 72%);
+  filter: blur(18px);
+}
+
+.heroRing {
+  inset: 7rem auto auto 50%;
+  width: 18rem;
+  height: 18rem;
+  border: 1px solid rgba(133, 154, 255, 0.22);
+  border-radius: 999px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 80px rgba(76, 103, 255, 0.16), inset 0 0 40px rgba(76, 103, 255, 0.08);
+}
+
+.heroPanel {
+  inset: 5.5rem 8% auto;
+  height: 16rem;
+  border-radius: 2rem;
+  background: linear-gradient(180deg, rgba(13, 25, 44, 0.5), rgba(8, 14, 26, 0.08));
+  border: 1px solid rgba(161, 180, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.hero,
+.controlStrip,
+.viewNav,
+.contentCard,
+.projectTabs {
+  position: relative;
+  z-index: 1;
+}
+
+.hero {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.25rem;
+}
+
+.heroTopline,
+.contentHeader,
+.agentRow,
+.timelineHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.eyebrow,
+.sectionLabel,
+.cardLabel,
+.heroCardLabel {
+  font-size: 0.72rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8ea0cb;
+}
+
+.connection {
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #dfe7ff;
+  font-size: 0.78rem;
+}
+
+.headlineBlock {
+  display: grid;
+  gap: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.4rem, 9vw, 4.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.lede,
+.contentHeader p,
+.primaryBrief p,
+.featureCard p,
+.timelineCard p,
+.agentCard p,
+.emptyCard p,
+.heroCard p {
+  margin: 0;
+  color: #a9b7da;
+  line-height: 1.5;
+}
+
+.heroCard,
+.controlStrip,
+.contentCard,
+.projectTab,
+.viewButton,
+.featureCard,
+.timelineCard,
+.agentCard,
+.emptyCard,
+.metricCard {
+  border: 1px solid rgba(160, 178, 255, 0.12);
+  background: linear-gradient(180deg, rgba(10, 18, 32, 0.9), rgba(7, 12, 22, 0.82));
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+}
+
+.heroCard {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+  border-radius: 1.5rem;
+}
+
+.heroCard strong,
+.primaryBrief strong,
+.featureCard strong,
+.metricCard strong,
+.agentCard strong,
+.timelineCard strong {
+  font-size: 1.05rem;
+}
+
+.heroStats,
+.miniMetrics,
+.overviewGrid,
+.actionRow,
+.stack,
+.projectTabs {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.heroStats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.heroStats span,
+.metricCard span {
+  color: #8ea0cb;
+  font-size: 0.78rem;
+}
+
+.controlStrip,
+.contentCard {
+  border-radius: 1.5rem;
+  padding: 1rem;
+}
+
+.primaryBrief {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.miniMetrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metricCard {
+  display: grid;
+  gap: 0.55rem;
+  border-radius: 1.2rem;
+  padding: 0.95rem;
+}
+
+.metricInline {
+  display: flex;
+  align-items: center;
+}
+
+.viewNav {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.1rem;
+}
+
+.viewButton {
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  color: #c8d3f3;
+}
+
+.viewButtonActive {
+  background: linear-gradient(180deg, rgba(105, 130, 255, 0.28), rgba(27, 41, 82, 0.92));
+  color: #ffffff;
+}
+
+.contentCard {
+  gap: 1rem;
+}
+
+.contentHeader {
+  flex-direction: column;
+}
+
+.contentHeader h2 {
+  margin: 0.35rem 0 0;
+  font-size: 1.55rem;
+}
+
+.featureCard,
+.timelineCard,
+.agentCard,
+.emptyCard {
+  display: grid;
+  gap: 0.55rem;
+  border-radius: 1.2rem;
+  padding: 1rem;
+}
+
+.actionRow {
+  margin-top: 0.2rem;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.primaryAction {
+  background: linear-gradient(135deg, #7a90ff, #9d6bff);
+  color: #030611;
+}
+
+.secondaryAction {
+  border: 1px solid rgba(160, 178, 255, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+  color: #edf2ff;
+}
+
+.agentStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.liveDot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: #60708f;
+}
+
+.liveDotActive {
+  background: #74ffd9;
+  box-shadow: 0 0 0 0 rgba(116, 255, 217, 0.6);
+  animation: pulse 1.8s ease-out infinite;
+}
+
+.projectTabs {
+  margin-top: 0.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+}
+
+.projectTab {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.9rem 0.95rem;
+  border-radius: 1.2rem;
+  color: #dbe4ff;
+  text-align: left;
+}
+
+.projectTab small {
+  color: #9dafd8;
+}
+
+.projectTabActive {
+  border-color: color-mix(in srgb, var(--tab-accent) 68%, white 12%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tab-accent) 24%, transparent), 0 22px 40px rgba(0, 0, 0, 0.34);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(116, 255, 217, 0.45); }
+  70% { box-shadow: 0 0 0 12px rgba(116, 255, 217, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(116, 255, 217, 0); }
+}
+
+@media (min-width: 780px) {
+  .shell {
+    max-width: 860px;
+    margin: 0 auto;
+    padding-bottom: 7rem;
+  }
+
+  .headlineBlock,
+  .controlStrip,
+  .overviewGrid {
+    grid-template-columns: 1.4fr 1fr;
+  }
+
+  .contentHeader {
+    flex-direction: row;
+  }
+
+  .actionRow {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

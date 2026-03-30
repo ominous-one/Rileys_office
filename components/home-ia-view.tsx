@@ -4,24 +4,25 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { StatusPill } from '@/components/ui/status-pill';
 import type { OfficeSnapshot, ProjectSummary } from '@/lib/domain/types';
+import styles from './home-ia-view.module.css';
 
 type HomeView = 'overview' | 'activity' | 'team';
 
 const viewLabels: Record<HomeView, { eyebrow: string; title: string; description: string }> = {
   overview: {
     eyebrow: 'Overview',
-    title: 'Project pulse',
-    description: 'Mission, health, delivery pressure, and the fastest path into the full project room.',
+    title: 'Command brief',
+    description: 'Mission posture, delivery signal, and the fastest route into the active project room.',
   },
   activity: {
     eyebrow: 'Activity',
-    title: 'Recent movement',
-    description: 'Latest execution signals tied to the selected project so the lobby reads clearly on mobile.',
+    title: 'Live execution feed',
+    description: 'Recent movement for the selected project, curated for a clean read on mobile.',
   },
   team: {
     eyebrow: 'Team',
-    title: 'Staffed operators',
-    description: 'Agent desks for the selected project with a direct route into each workstation view.',
+    title: 'Active operators',
+    description: 'Current desks, roles, and who is carrying the frontline work right now.',
   },
 };
 
@@ -40,163 +41,212 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
 
   const projectAlerts = useMemo(() => {
     if (!activeProject) return [];
-    return snapshot.alerts.filter((alert) => alert.projectId === activeProject.id).slice(0, 2);
+    return snapshot.alerts.filter((alert) => alert.projectId === activeProject.id).slice(0, 3);
   }, [activeProject, snapshot.alerts]);
 
   const projectActivity = useMemo(() => {
-    if (!activeProject) return snapshot.activity.slice(0, 3);
-    return snapshot.activity.filter((event) => event.projectId === activeProject.id).slice(0, 3);
+    if (!activeProject) return snapshot.activity.slice(0, 4);
+    return snapshot.activity.filter((event) => event.projectId === activeProject.id).slice(0, 4);
   }, [activeProject, snapshot.activity]);
 
   const leadAgent = activeProject?.agents[0] ?? null;
   const activeAgents = activeProject?.agents.filter((agent) => agent.status === 'active').length ?? 0;
-  const pressure = Math.min(98, 24 + activeAgents * 22 + projectAlerts.length * 16);
+  const totalAgents = activeProject?.agents.length ?? 0;
+  const pressure = Math.min(98, 26 + activeAgents * 18 + projectAlerts.length * 15);
+  const focusLabel = activeProject?.activeRun.progressLabel ?? 'Standby';
 
   return (
-    <main className="page-stack page-stack--world">
-      <section className="hero-card scene-panel scene-panel--office hq-lobby-shell hq-lobby-shell--ia">
-        <div className="hq-lobby-backdrop" aria-hidden="true">
-          <div className="hq-lobby-backdrop__sky" />
-          <div className="hq-lobby-backdrop__fog" />
-          <div className="hq-lobby-backdrop__floor" />
-          <div className="hq-lobby-backdrop__ceiling" />
-          <div className="hq-lobby-backdrop__city" />
-          <div className="hq-lobby-backdrop__beam hq-lobby-backdrop__beam--left" />
-          <div className="hq-lobby-backdrop__beam hq-lobby-backdrop__beam--right" />
-          <div className="hq-lobby-backdrop__wall hq-lobby-backdrop__wall--left" />
-          <div className="hq-lobby-backdrop__wall hq-lobby-backdrop__wall--right" />
-          <div className="hq-lobby-backdrop__grid" />
-          <div className="hq-lobby-backdrop__particles" />
-          <div className="hq-lobby-backdrop__table" />
-          <div className="hq-lobby-backdrop__glow" />
-          <div className="hq-lobby-backdrop__statusring" style={{ ['--heat' as string]: `${pressure}%` }} />
+    <main className={`page-stack page-stack--world ${styles.page}`}>
+      <section className={styles.shell}>
+        <div className={styles.heroArt} aria-hidden="true">
+          <div className={styles.heroGlow} />
+          <div className={styles.heroGrid} />
+          <div className={styles.heroHorizon} />
+          <div className={styles.heroRing} style={{ opacity: 0.3 + pressure / 180 }} />
+          <div className={styles.heroPanel} />
         </div>
 
-        <div className="hq-lobby-shell__copy hq-lobby-shell__copy--ia">
-          <div className="hero-card__eyebrow-row">
-            <p className="eyebrow">Command lobby</p>
-            <span className={`connection connection--${snapshot.connection.state}`}>
+        <header className={styles.hero}>
+          <div className={styles.heroTopline}>
+            <span className={styles.eyebrow}>Riley&apos;s Office HQ</span>
+            <span className={styles.connection}>
               {snapshot.connection.mode} relay - {snapshot.connection.state}
             </span>
           </div>
 
-          <div className="hero-card__headline hero-card__headline--split hq-lobby-shell__headline">
+          <div className={styles.headlineBlock}>
             <div>
-              <h1>Riley&apos;s Office</h1>
-              <p className="lede">
-                Static premium atmosphere up top, project switching at the bottom, and one clear content rail for the selected project.
+              <h1 className={styles.title}>Premium command lobby for the work that matters now.</h1>
+              <p className={styles.lede}>
+                Calm, dark, and signal-first. The lobby keeps a cinematic shell while the selected project surfaces the
+                live snapshot that actually drives decisions.
               </p>
             </div>
-            <div className="hero-card__spotlight hero-card__spotlight--scene hq-lobby-shell__spotlight">
-              <span className="hero-card__spotlight-label">Selected project</span>
+
+            <div className={styles.heroCard}>
+              <span className={styles.heroCardLabel}>Selected project</span>
               <strong>{activeProject?.name ?? 'No project loaded'}</strong>
-              <span>{activeAgents} active agents - {projectAlerts.length} alerts - pressure {pressure}%</span>
+              <p>{activeProject?.tagline ?? 'Waiting for office snapshot data.'}</p>
+              <div className={styles.heroStats}>
+                <div>
+                  <span>Pressure</span>
+                  <strong>{pressure}%</strong>
+                </div>
+                <div>
+                  <span>Operators</span>
+                  <strong>{activeAgents}/{totalAgents}</strong>
+                </div>
+                <div>
+                  <span>Alerts</span>
+                  <strong>{projectAlerts.length}</strong>
+                </div>
+              </div>
             </div>
           </div>
+        </header>
 
-          <div className="hq-view-switcher" role="tablist" aria-label="Selected project views">
-            {(Object.keys(viewLabels) as HomeView[]).map((view) => (
-              <button
-                key={view}
-                type="button"
-                className={`hq-view-switcher__item${activeView === view ? ' is-active' : ''}`}
-                onClick={() => setActiveView(view)}
-                role="tab"
-                aria-selected={activeView === view}
-              >
-                {viewLabels[view].eyebrow}
-              </button>
-            ))}
-          </div>
-        </div>
+        {activeProject ? (
+          <>
+            <section className={styles.controlStrip}>
+              <div className={styles.primaryBrief}>
+                <span className={styles.sectionLabel}>Current directive</span>
+                <strong>{activeProject.activeRun.summary}</strong>
+                <p>{activeProject.mission}</p>
+              </div>
+              <div className={styles.miniMetrics}>
+                <article className={styles.metricCard}>
+                  <span>Delivery state</span>
+                  <strong>{focusLabel}</strong>
+                </article>
+                <article className={styles.metricCard}>
+                  <span>Health</span>
+                  <div className={styles.metricInline}>
+                    <StatusPill state={activeProject.health} />
+                  </div>
+                </article>
+              </div>
+            </section>
 
-        <div className="hq-lobby-panel-stack">
-          {activeProject ? (
-            <article className="hq-focus-panel">
-              <div className="row-between row-start">
+            <section className={styles.viewNav} role="tablist" aria-label="Selected project views">
+              {(Object.keys(viewLabels) as HomeView[]).map((view) => (
+                <button
+                  key={view}
+                  type="button"
+                  className={`${styles.viewButton} ${activeView === view ? styles.viewButtonActive : ''}`}
+                  onClick={() => setActiveView(view)}
+                  role="tab"
+                  aria-selected={activeView === view}
+                >
+                  {viewLabels[view].eyebrow}
+                </button>
+              ))}
+            </section>
+
+            <section className={styles.contentCard}>
+              <div className={styles.contentHeader}>
                 <div>
-                  <p className="project-card__eyebrow">{viewLabels[activeView].eyebrow}</p>
+                  <span className={styles.sectionLabel}>{viewLabels[activeView].eyebrow}</span>
                   <h2>{viewLabels[activeView].title}</h2>
                 </div>
-                <StatusPill state={activeProject.health} />
+                <p>{viewLabels[activeView].description}</p>
               </div>
-              <p className="muted">{viewLabels[activeView].description}</p>
 
               {activeView === 'overview' ? (
-                <div className="hq-focus-panel__body">
-                  <div className="hq-stat-grid">
-                    <article className="metric-tile metric-tile--scene metric-tile--compact">
-                      <span className="metric-tile__label">Mission</span>
-                      <strong>{activeProject.tagline}</strong>
-                      <p>{activeProject.activeRun.progressLabel}</p>
-                    </article>
-                    <article className="metric-tile metric-tile--scene metric-tile--compact">
-                      <span className="metric-tile__label">Delivery</span>
-                      <strong>{activeProject.activeRun.summary}</strong>
-                      <p>{activeProject.mission}</p>
-                    </article>
-                  </div>
-                  <div className="action-row action-row--stacked">
-                    <Link href={`/projects/${activeProject.id}`} className="action-link action-link--primary">Open project room</Link>
-                    {leadAgent ? <Link href={`/agents/${leadAgent.id}`} className="action-link">Open lead workstation</Link> : null}
+                <div className={styles.overviewGrid}>
+                  <article className={styles.featureCard}>
+                    <span className={styles.cardLabel}>Mission</span>
+                    <strong>{activeProject.tagline}</strong>
+                    <p>{activeProject.activeRun.progressLabel}</p>
+                  </article>
+                  <article className={styles.featureCard}>
+                    <span className={styles.cardLabel}>Lead operator</span>
+                    <strong>{leadAgent?.name ?? 'Unassigned'}</strong>
+                    <p>{leadAgent?.currentTask ?? 'Assign a lead to surface workstation details here.'}</p>
+                  </article>
+                  <div className={styles.actionRow}>
+                    <Link href={`/projects/${activeProject.id}`} className={styles.primaryAction}>Open project room</Link>
+                    {leadAgent ? (
+                      <Link href={`/agents/${leadAgent.id}`} className={styles.secondaryAction}>
+                        Open lead workstation
+                      </Link>
+                    ) : null}
                   </div>
                 </div>
               ) : null}
 
               {activeView === 'activity' ? (
-                <div className="list-stack">
-                  {projectActivity.map((event) => (
-                    <article key={event.id} className="timeline-item timeline-item--scene timeline-item--compact">
-                      <strong>{event.label}</strong>
-                      <p>{event.detail}</p>
-                      <span className="timestamp">{event.timestamp}</span>
+                <div className={styles.stack}>
+                  {projectActivity.length ? (
+                    projectActivity.map((event) => (
+                      <article key={event.id} className={styles.timelineCard}>
+                        <div className={styles.timelineHeader}>
+                          <strong>{event.label}</strong>
+                          <span>{event.timestamp}</span>
+                        </div>
+                        <p>{event.detail}</p>
+                      </article>
+                    ))
+                  ) : (
+                    <article className={styles.emptyCard}>
+                      <strong>No recent activity</strong>
+                      <p>Signals will land here as the live feed updates.</p>
                     </article>
-                  ))}
-                  {projectActivity.length === 0 ? <article className="list-card list-card--soft"><strong>No recent activity</strong><p>Signals will land here when the feed updates.</p></article> : null}
+                  )}
                 </div>
               ) : null}
 
               {activeView === 'team' ? (
-                <div className="list-stack">
+                <div className={styles.stack}>
                   {activeProject.agents.map((agent) => (
-                    <Link key={agent.id} href={`/agents/${agent.id}`} className="list-card list-card--interactive workstation-card workstation-card--compact">
-                      <div className="row-between row-start">
+                    <Link key={agent.id} href={`/agents/${agent.id}`} className={styles.agentCard}>
+                      <div className={styles.agentRow}>
                         <div>
                           <strong>{agent.name}</strong>
-                          <p className="muted">{agent.role}</p>
+                          <p>{agent.role}</p>
                         </div>
-                        <StatusPill state={agent.status} />
+                        <div className={styles.agentStatus}>
+                          <span
+                            className={`${styles.liveDot} ${agent.status === 'active' ? styles.liveDotActive : ''}`}
+                            aria-hidden="true"
+                          />
+                          <StatusPill state={agent.status} />
+                        </div>
                       </div>
                       <p>{agent.currentTask}</p>
                     </Link>
                   ))}
                 </div>
               ) : null}
-            </article>
-          ) : (
-            <article className="hq-focus-panel">
-              <h2>No project data yet</h2>
-              <p className="muted">The lobby is ready, but the office snapshot is empty.</p>
-            </article>
-          )}
+            </section>
+          </>
+        ) : (
+          <section className={styles.contentCard}>
+            <div className={styles.contentHeader}>
+              <div>
+                <span className={styles.sectionLabel}>No project data</span>
+                <h2>Lobby ready</h2>
+              </div>
+              <p>The shell is live, but the office snapshot has not returned any projects yet.</p>
+            </div>
+          </section>
+        )}
 
-          <div className="hq-project-tabs" role="tablist" aria-label="Projects">
-            {projects.map((project) => (
-              <button
-                key={project.id}
-                type="button"
-                className={`hq-project-tabs__item${project.id === activeProject?.id ? ' is-active' : ''}`}
-                style={{ ['--tab-accent' as string]: project.accent }}
-                onClick={() => setActiveProjectId(project.id)}
-                role="tab"
-                aria-selected={project.id === activeProject?.id}
-              >
-                <span className="hq-project-tabs__label">{project.name}</span>
-                <span className="hq-project-tabs__meta">{project.activeRun.progressLabel}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+        <nav className={styles.projectTabs} role="tablist" aria-label="Projects">
+          {projects.map((project) => (
+            <button
+              key={project.id}
+              type="button"
+              className={`${styles.projectTab} ${project.id === activeProject?.id ? styles.projectTabActive : ''}`}
+              onClick={() => setActiveProjectId(project.id)}
+              role="tab"
+              aria-selected={project.id === activeProject?.id}
+              style={{ ['--tab-accent' as string]: project.accent }}
+            >
+              <span>{project.name}</span>
+              <small>{project.activeRun.progressLabel}</small>
+            </button>
+          ))}
+        </nav>
       </section>
     </main>
   );
