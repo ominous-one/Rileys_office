@@ -522,6 +522,10 @@ function Whiteboard() {
       <RoundedBox args={[0.62, 0.08, 0.12]} radius={0.03} smoothness={4} position={[0, -0.78, 0.02]} castShadow>
         <meshStandardMaterial color="#c6ced8" roughness={0.46} metalness={0.18} />
       </RoundedBox>
+      <mesh position={[0, -0.86, 0.02]}>
+        <planeGeometry args={[0.48, 0.03]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.12} />
+      </mesh>
       <mesh position={[-0.16, -0.72, 0.08]} rotation={[0, 0, Math.PI / 9]}>
         <cylinderGeometry args={[0.018, 0.018, 0.22, 12]} />
         <meshStandardMaterial color="#0f172a" roughness={0.4} />
@@ -755,6 +759,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
