@@ -1,12 +1,44 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { StatusPill } from '@/components/ui/status-pill';
-import type { OfficeSnapshot } from '@/lib/domain/types';
+import type { AgentSummary, OfficeSnapshot } from '@/lib/domain/types';
 
 function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(value, max));
+}
+
+interface LobbyAgentNode {
+  id: string;
+  name: string;
+  role: string;
+  status: AgentSummary['status'];
+  blocker?: string;
+  accent: string;
+  x: number;
+  y: number;
+  delay: number;
+  duration: number;
+}
+
+function buildLobbyAgents(snapshot: OfficeSnapshot): LobbyAgentNode[] {
+  const agents = snapshot.projects.flatMap((project, projectIndex) =>
+    project.agents.map((agent, agentIndex) => ({
+      id: agent.id,
+      name: agent.name,
+      role: agent.role,
+      status: agent.status,
+      blocker: agent.blocker,
+      accent: project.accent,
+      x: 18 + (projectIndex % 4) * 19 + (agentIndex % 2) * 6,
+      y: 57 + Math.floor(projectIndex / 4) * 10 + agentIndex * 6,
+      delay: projectIndex * 0.35 + agentIndex * 0.18,
+      duration: 4.8 + ((projectIndex + agentIndex) % 4) * 0.7,
+    })),
+  );
+
+  return agents.slice(0, 8);
 }
 
 export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
@@ -20,6 +52,7 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
   );
   const displayWalls = Math.max(2, Math.min(projects.length + 1, 5));
   const heat = clamp(activeAgents * 9 + alerts.length * 12, 20, 96);
+  const lobbyAgents = useMemo(() => buildLobbyAgents(snapshot), [snapshot]);
 
   return (
     <main className="page-stack page-stack--world">
@@ -52,13 +85,38 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
               </div>
             ))}
           </div>
+          <div className="hq-lobby-agents">
+            {lobbyAgents.map((agent) => (
+              <div
+                key={agent.id}
+                className={`hq-lobby-agent hq-lobby-agent--${agent.status}`}
+                style={{
+                  ['--agent-x' as string]: `${agent.x}%`,
+                  ['--agent-y' as string]: `${agent.y}%`,
+                  ['--agent-accent' as string]: agent.accent,
+                  ['--agent-delay' as string]: `${agent.delay}s`,
+                  ['--agent-duration' as string]: `${agent.duration}s`,
+                }}
+              >
+                <span className="hq-lobby-agent__ping" />
+                <span className="hq-lobby-agent__body">
+                  <span className="hq-lobby-agent__halo" />
+                  <span className="hq-lobby-agent__dot" />
+                </span>
+                <span className="hq-lobby-agent__label">
+                  <strong>{agent.name}</strong>
+                  <span>{agent.status === 'blocked' ? agent.blocker ?? 'Blocked' : agent.role}</span>
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="hq-world-shell__copy hq-lobby-shell__copy">
           <div className="hero-card__eyebrow-row">
             <p className="eyebrow">Live command lobby</p>
             <span className={`connection connection--${snapshot.connection.state}`}>
-              {snapshot.connection.mode} relay · {snapshot.connection.state}
+              {snapshot.connection.mode} relay Ã¢â‚¬Â¢ {snapshot.connection.state}
             </span>
           </div>
 
@@ -66,13 +124,13 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
             <div>
               <h1>Riley&apos;s Office</h1>
               <p className="lede">
-                A cinematic HQ shell designed to read like a premium game lobby on mobile while still updating live from your OpenClaw project state.
+                A static command-room backdrop with lightweight live motion that only animates agents, so the lobby stays polished, readable, and mobile-first.
               </p>
             </div>
             <div className="hero-card__spotlight hero-card__spotlight--scene hq-lobby-shell__spotlight">
               <span className="hero-card__spotlight-label">Lobby pressure</span>
-              <strong>{activeAgents} active agents · {alerts.length} live alerts</strong>
-              <span>{projects.length} project zones · {displayWalls} ops displays · heat {heat}%</span>
+              <strong>{activeAgents} active agents Ã¢â‚¬Â¢ {alerts.length} live alerts</strong>
+              <span>{projects.length} project zones Ã¢â‚¬Â¢ {lobbyAgents.length} tracked agents Ã¢â‚¬Â¢ heat {heat}%</span>
             </div>
           </div>
         </div>
@@ -93,7 +151,7 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
                 <StatusPill state={project.health} />
               </div>
               <p>{project.tagline}</p>
-              <span className="list-card__meta">{project.agents.length} seats · {project.activeRun.progressLabel}</span>
+              <span className="list-card__meta">{project.agents.length} seats Ã¢â‚¬Â¢ {project.activeRun.progressLabel}</span>
             </Link>
           ))}
         </div>
@@ -108,12 +166,12 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
         <article className="metric-tile metric-tile--scene metric-tile--world metric-tile--office">
           <span className="metric-tile__label">Live pressure</span>
           <strong>{heat}%</strong>
-          <p>Lobby glow and monitor intensity rise with active agents and alerts from the OpenClaw-backed snapshot.</p>
+          <p>Only agent markers animate now, keeping the room itself stable and lighter on mobile GPUs.</p>
         </article>
         <article className="metric-tile metric-tile--scene metric-tile--world metric-tile--office">
           <span className="metric-tile__label">Active stations</span>
           <strong>{activeAgents}</strong>
-          <p>Real runtime state still drives the shell so the scene feels alive instead of being a dead mockup.</p>
+          <p>Snapshot state still decides which operators pulse, hover, wait, or flag blocked work in the lobby.</p>
         </article>
       </section>
 
@@ -121,21 +179,21 @@ export function HQWorldExperience({ snapshot }: { snapshot: OfficeSnapshot }) {
         <div className="section-card__topline">
           <div>
             <p className="section-card__eyebrow">Why this pivot works</p>
-            <h2>Game-like look, web-safe delivery</h2>
+            <h2>Static environment, live operator motion</h2>
           </div>
         </div>
         <div className="list-stack">
           <article className="list-card list-card--soft">
-            <strong>Cinematic shell</strong>
-            <p>Depth, lighting, fog, screens, and floor perspective now come from a purpose-built faux-3D composition instead of fragile full-scene WebGL.</p>
+            <strong>Background stays locked</strong>
+            <p>Ceiling, floor, desks, walls, and screens remain fixed, so the room reads clearly and avoids unnecessary motion noise.</p>
           </article>
           <article className="list-card list-card--soft">
-            <strong>Interactive by default</strong>
-            <p>Project zones remain tappable, readable, and linked into live project views without making the homepage feel like a plain dashboard.</p>
+            <strong>Agents carry the motion</strong>
+            <p>Active, waiting, and blocked operators each get a distinct animated marker layered over the scene using existing snapshot data.</p>
           </article>
           <article className="list-card list-card--soft">
-            <strong>Live OpenClaw state</strong>
-            <p>Active agents, alerts, and project counts still drive what you see, so the lobby stays connected to your runtime instead of becoming static art.</p>
+            <strong>Lightweight for phones</strong>
+            <p>The homepage no longer depends on a live 3D scene for motion, which keeps the hero cheaper to render and easier to maintain.</p>
           </article>
         </div>
       </section>
