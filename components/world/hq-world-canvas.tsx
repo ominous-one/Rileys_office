@@ -16,6 +16,7 @@ import { WarRoomTableLegs } from '@/components/world/war-room-table-legs';
 import { WarRoomChair } from '@/components/world/war-room-chair';
 import { AccentDisplay } from '@/components/world/accent-display';
 import { CeilingLights } from '@/components/world/ceiling-lights';
+import { WindowWall } from '@/components/world/window-wall';
 import { WarRoomTableChairRow } from '@/components/world/war-room-table-chair-row';
 import * as THREE from 'three';
 
@@ -54,124 +55,6 @@ function hexToRgb(hex: string) {
     g: ((parsed >> 8) & 255) / 255,
     b: (parsed & 255) / 255,
   };
-}
-
-function WindowWall() {
-  return (
-    <group position={[0, 0, 4.78]}>
-      <RoundedBox args={[9.3, 3.05, 0.14]} radius={0.06} smoothness={4} position={[0, 1.65, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color="#edf2f7" roughness={0.92} />
-      </RoundedBox>
-      {[-3.05, 0, 3.05].map((x) => (
-        <group key={`window-bay-${x}`} position={[x, 1.58, 0.09]}>
-          <RoundedBox args={[2.3, 2.2, 0.05]} radius={0.04} smoothness={4}>
-            <meshStandardMaterial color="#c8d8ea" transparent opacity={0.3} metalness={0.45} roughness={0.08} />
-          </RoundedBox>
-          <mesh position={[0, 0, 0.03]}>
-            <planeGeometry args={[2.05, 1.95]} />
-            <meshBasicMaterial color="#dff3ff" transparent opacity={0.24} />
-          </mesh>
-          <mesh position={[0, 0.9, 0.04]}>
-            <planeGeometry args={[1.7, 0.08]} />
-            <meshBasicMaterial color="#f8fbff" transparent opacity={0.7} />
-          </mesh>
-          <mesh position={[0, -1.03, 0.04]}>
-            <planeGeometry args={[2.08, 0.08]} />
-            <meshBasicMaterial color="#d7dee8" transparent opacity={0.92} />
-          </mesh>
-          <mesh position={[-0.96, 0, 0.04]} rotation={[0, 0, Math.PI / 2]}>
-            <planeGeometry args={[2.02, 0.06]} />
-            <meshBasicMaterial color="#d7dee8" transparent opacity={0.72} />
-          </mesh>
-          <mesh position={[0.96, 0, 0.04]} rotation={[0, 0, Math.PI / 2]}>
-            <planeGeometry args={[2.02, 0.06]} />
-            <meshBasicMaterial color="#d7dee8" transparent opacity={0.72} />
-          </mesh>
-        </group>
-      ))}
-    </group>
-  );
-}
-
-function OfficeShell() {
-  return (
-    <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[12.2, 10.8]} />
-        <meshStandardMaterial color="#d7dde6" metalness={0.05} roughness={0.9} />
-      </mesh>
-
-      <mesh position={[0, 0.01, 1.05]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[10.6, 1.55]} />
-        <meshStandardMaterial color="#626a78" metalness={0.15} roughness={0.8} />
-      </mesh>
-      <mesh position={[0, 0.012, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[2.4, 1.12]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.08} />
-      </mesh>
-
-      {[-4.3, -1.45, 1.45, 4.3].map((x) => (
-        <mesh key={`walk-line-${x}`} position={[x, 0.02, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[0.11, 10.15]} />
-          <meshStandardMaterial color="#eef4fb" roughness={0.92} />
-        </mesh>
-      ))}
-      {[-3.15, 0, 3.15].map((x) => (
-        <mesh key={`walk-marker-${x}`} position={[x, 0.021, 1.05]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[1.15, 0.14]} />
-          <meshBasicMaterial color="#f8fbff" transparent opacity={0.3} />
-        </mesh>
-      ))}
-
-      <RoundedBox args={[12.2, 0.18, 0.35]} radius={0.04} smoothness={2} position={[0, 0.09, 5.18]} receiveShadow>
-        <meshStandardMaterial color="#f3f6fa" roughness={0.84} />
-      </RoundedBox>
-      <RoundedBox args={[12.2, 0.18, 0.35]} radius={0.04} smoothness={2} position={[0, 0.09, -5.18]} receiveShadow>
-        <meshStandardMaterial color="#f3f6fa" roughness={0.84} />
-      </RoundedBox>
-      <RoundedBox args={[0.35, 0.18, 10.8]} radius={0.04} smoothness={2} position={[-5.92, 0.09, 0]} receiveShadow>
-        <meshStandardMaterial color="#f3f6fa" roughness={0.84} />
-      </RoundedBox>
-      <RoundedBox args={[0.35, 0.18, 10.8]} radius={0.04} smoothness={2} position={[5.92, 0.09, 0]} receiveShadow>
-        <meshStandardMaterial color="#f3f6fa" roughness={0.84} />
-      </RoundedBox>
-
-      <RoundedBox args={[11.5, 3.25, 0.16]} radius={0.06} smoothness={4} position={[0, 1.62, -5.02]} castShadow receiveShadow>
-        <meshStandardMaterial color="#eef2f7" metalness={0.04} roughness={0.92} />
-      </RoundedBox>
-      <RoundedBox args={[0.16, 3.25, 10.1]} radius={0.05} smoothness={4} position={[-5.18, 1.62, -0.08]} castShadow receiveShadow>
-        <meshStandardMaterial color="#eef2f7" metalness={0.04} roughness={0.92} />
-      </RoundedBox>
-      <RoundedBox args={[0.16, 3.25, 10.1]} radius={0.05} smoothness={4} position={[5.18, 1.62, -0.08]} castShadow receiveShadow>
-        <meshStandardMaterial color="#eef2f7" metalness={0.04} roughness={0.92} />
-      </RoundedBox>
-
-      <RoundedBox args={[4.25, 2.5, 0.08]} radius={0.04} smoothness={4} position={[0, 1.28, -1.2]}>
-        <meshStandardMaterial color="#d9f0ff" transparent opacity={0.24} metalness={0.52} roughness={0.05} />
-      </RoundedBox>
-      <RoundedBox args={[0.08, 2.5, 2.85]} radius={0.04} smoothness={4} position={[-2.12, 1.28, -2.55]}>
-        <meshStandardMaterial color="#d9f0ff" transparent opacity={0.22} metalness={0.52} roughness={0.05} />
-      </RoundedBox>
-      <RoundedBox args={[0.08, 2.5, 2.85]} radius={0.04} smoothness={4} position={[2.12, 1.28, -2.55]}>
-        <meshStandardMaterial color="#d9f0ff" transparent opacity={0.22} metalness={0.52} roughness={0.05} />
-      </RoundedBox>
-
-      <mesh position={[0, 3.34, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[12.2, 10.8]} />
-        <meshStandardMaterial color="#f8fbff" roughness={0.96} metalness={0.02} />
-      </mesh>
-      <CeilingPanel size={[11.6, 10.2]} y={3.32} color="#d9e2ec" opacity={0.08} />
-      <CeilingPanel size={[8.8, 7.4]} y={3.31} opacity={0.04} />
-      <CeilingPanel size={[5.6, 4.6]} y={3.305} color="#dbeafe" opacity={0.03} />
-      <CeilingPanel size={[3.2, 2.6]} y={3.303} opacity={0.025} />
-      <CeilingPanel size={[1.6, 1.2]} y={3.301} color="#dbeafe" opacity={0.02} />
-      <CeilingPanel size={[0.7, 0.42]} y={3.3} opacity={0.018} />
-      <CeilingPanel size={[0.22, 0.12]} y={3.299} color="#dbeafe" opacity={0.016} />
-      <CeilingPanel size={[0.08, 0.04]} y={3.298} opacity={0.014} />
-
-      <WindowWall />
-    </group>
-  );
 }
 
 function ReceptionDesk({ alerts }: { alerts: number }) {
@@ -670,7 +553,7 @@ function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; m
       <pointLight position={[3.4, 2.6, -1.6]} intensity={mobileOptimized ? 4 : 6} distance={9} color="#60a5fa" />
       <pointLight position={[0, 3.1, -4.1]} intensity={mobileOptimized ? 8 : 12} distance={12} color="#d6ecff" />
 
-      <OfficeShell />
+      <WindowWall />
       <CeilingLights />
       <ReceptionDesk alerts={snapshot.alerts.length} />
       <WarRoom />
@@ -777,6 +660,9 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
+
+
 
 
 
