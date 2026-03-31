@@ -364,6 +364,24 @@ function DeskCluster({ node }: { node: DeskNode }) {
   );
 }
 
+function WarRoomChair({ position, rotation }: { position: [number, number, number]; rotation?: [number, number, number] }) {
+  return (
+    <group position={position} rotation={rotation}>
+      <mesh position={[0, 0.35, 0]} castShadow>
+        <cylinderGeometry args={[0.14, 0.14, 0.06, 18]} />
+        <meshStandardMaterial color="#1f2937" roughness={0.64} />
+      </mesh>
+      <mesh position={[0, 0.62, 0]} castShadow>
+        <boxGeometry args={[0.36, 0.08, 0.36]} />
+        <meshStandardMaterial color="#111827" roughness={0.72} />
+      </mesh>
+      <mesh position={[0, 0.86, -0.08]} castShadow>
+        <boxGeometry args={[0.32, 0.36, 0.08]} />
+        <meshStandardMaterial color="#111827" roughness={0.72} />
+      </mesh>
+    </group>
+  );
+}
 function WarRoom() {
   const chairs = [-1.45, -0.5, 0.5, 1.45];
 
@@ -390,37 +408,11 @@ function WarRoom() {
       )}
 
       {chairs.map((x, index) => (
-        <group key={`warroom-seat-front-${index}`} position={[x, 0, 1.18]}>
-          <mesh position={[0, 0.35, 0]} castShadow>
-            <cylinderGeometry args={[0.14, 0.14, 0.06, 18]} />
-            <meshStandardMaterial color="#1f2937" roughness={0.64} />
-          </mesh>
-          <mesh position={[0, 0.62, 0]} castShadow>
-            <boxGeometry args={[0.36, 0.08, 0.36]} />
-            <meshStandardMaterial color="#111827" roughness={0.72} />
-          </mesh>
-          <mesh position={[0, 0.86, -0.08]} castShadow>
-            <boxGeometry args={[0.32, 0.36, 0.08]} />
-            <meshStandardMaterial color="#111827" roughness={0.72} />
-          </mesh>
-        </group>
+        <WarRoomChair key={`warroom-seat-front-${index}`} position={[x, 0, 1.18]} />
       ))}
 
       {chairs.map((x, index) => (
-        <group key={`warroom-seat-back-${index}`} position={[x, 0, -1.18]} rotation={[0, Math.PI, 0]}>
-          <mesh position={[0, 0.35, 0]} castShadow>
-            <cylinderGeometry args={[0.14, 0.14, 0.06, 18]} />
-            <meshStandardMaterial color="#1f2937" roughness={0.64} />
-          </mesh>
-          <mesh position={[0, 0.62, 0]} castShadow>
-            <boxGeometry args={[0.36, 0.08, 0.36]} />
-            <meshStandardMaterial color="#111827" roughness={0.72} />
-          </mesh>
-          <mesh position={[0, 0.86, -0.08]} castShadow>
-            <boxGeometry args={[0.32, 0.36, 0.08]} />
-            <meshStandardMaterial color="#111827" roughness={0.72} />
-          </mesh>
-        </group>
+        <WarRoomChair key={`warroom-seat-back-${index}`} position={[x, 0, -1.18]} rotation={[0, Math.PI, 0]} />
       ))}
 
       <mesh position={[0, 1.08, 0]}>
@@ -895,6 +887,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
