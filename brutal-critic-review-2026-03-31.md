@@ -9,9 +9,9 @@
 |---|---:|---|
 | HQ visual direction consistency | 98 | Office / war-room metaphor remains coherent across the canvas, overview copy, fallback path, and docs. |
 | Documentation / artifact consistency | 98 | Project, brand, QA, review, and critic artifacts remain current through the latest committed repo state. |
-| Validation evidence quality | 99 | Recent committed build/typecheck evidence with explicit exit-code files exists across current refactor waves. |
-| Implementation discipline | 97 | Modularization now includes `ceiling-panel.tsx`, `ceiling-lights.tsx`, `window-wall.tsx`, `desk-seat.tsx`, `desk-legs.tsx`, `war-room-chair.tsx`, `war-room-table-legs.tsx`, `war-room-table-chair-row.tsx`, `accent-display.tsx`, and `accent-panels.tsx`, materially reducing single-file density, though `hq-world-canvas.tsx` still remains the central orchestrator. |
-| Production readiness signal | 96 | Strong committed build/typecheck proof exists, but independent specialist review is still unavailable in-session due to blocked subagent auth. |
+| Validation evidence quality | 99 | Recent committed build/typecheck evidence with explicit exit-code files exists across current refactor waves, including wave92. |
+| Implementation discipline | 98 | Modularization now includes `ceiling-panel.tsx`, `ceiling-lights.tsx`, `window-wall.tsx`, `atmosphere.tsx`, `desk-seat.tsx`, `desk-legs.tsx`, `war-room-chair.tsx`, `war-room-table-legs.tsx`, `war-room-table-chair-row.tsx`, `accent-display.tsx`, and `accent-panels.tsx`, materially reducing single-file density. Remaining gap is the large central orchestration in `hq-world-canvas.tsx`. |
+| Production readiness signal | 97 | Strong committed build/typecheck proof exists for the modularized state, but independent specialist review is still unavailable in-session due to blocked subagent auth. |
 
 ## Current blockers to 99+
 1. `components/world/hq-world-canvas.tsx` still needs additional orchestration decomposition beyond the current helper extraction level.

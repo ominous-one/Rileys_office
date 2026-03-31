@@ -1,7 +1,7 @@
 # Review Scorecard – Riley's_Office
 
 - Project: `C:\Users\omino\.openclaw\workspace\projects\Riley's_Office`
-- Run ID: `riley-office-review-wave-modular-2026-03-31-e`
+- Run ID: `riley-office-review-wave-modular-2026-03-31-f`
 - Reviewer role: `reviewer`
 - Validation Class: `V2`
 - Review date: `2026-03-31`
@@ -9,7 +9,7 @@
 - Final score: **98/100**
 
 ## Reviewer decision
-The package remains in a strong Phase A state and is more maintainable than earlier waves. The HQ scene now depends on extracted scene modules in `components/world/` for ceiling panels, ceiling lights, window wall, desk seats, desk legs, war-room chairs, war-room table legs, war-room chair rows, accent displays, and accent panels. The repo also contains committed build/typecheck proof for the modularized state.
+The package remains in a very strong Phase A state. The HQ scene now depends on extracted scene modules in `components/world/` for ceiling panels, ceiling lights, window wall, atmosphere, desk seats, desk legs, war-room chairs, war-room table legs, war-room chair rows, accent displays, and accent panels. The repo also contains committed build/typecheck proof for the modularized wave92 state.
 
 ## Criterion-level scoring
 | Criterion | Score | Notes |
