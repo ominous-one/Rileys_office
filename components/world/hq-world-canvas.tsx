@@ -12,6 +12,7 @@ import { memo, useMemo, useRef } from 'react';
 import { CeilingPanel } from '@/components/world/ceiling-panel';
 import { DeskSeat } from '@/components/world/desk-seat';
 import { DeskLegs } from '@/components/world/desk-legs';
+import { WarRoomTableLegs } from '@/components/world/war-room-table-legs';
 import * as THREE from 'three';
 
 interface DeskNode {
@@ -352,13 +353,6 @@ function WarRoomChair({ position, rotation }: { position: [number, number, numbe
         <meshStandardMaterial color="#111827" roughness={0.72} />
       </mesh>
     </group>
-  );
-}
-function WarRoomTableLegs() {
-  return (
-    <>
-      <WarRoomTableLegs />
-    </>
   );
 }
 function WarRoomTableChairRow({ chairs, z, rotation }: { chairs: number[]; z: number; rotation?: [number, number, number] }) {
@@ -867,6 +861,8 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
+
 
 
 
