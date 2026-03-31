@@ -1,0 +1,48 @@
+
+> rileys-office@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.14
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 7.8s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/8) ...
+   Generating static pages (2/8) 
+   Generating static pages (4/8) 
+   Generating static pages (6/8) 
+ ✓ Generating static pages (8/8)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                  Size  First Load JS
+┌ ○ /                                     3.02 kB         109 kB
+├ ○ /_not-found                             993 B         103 kB
+├ ○ /activity                               139 B         102 kB
+├ ƒ /agents/[agentid]                       139 B         102 kB
+├ ƒ /api/auth/login                         139 B         102 kB
+├ ƒ /api/auth/logout                        139 B         102 kB
+├ ƒ /api/live/snapshot                      139 B         102 kB
+├ ○ /inbox                                  139 B         102 kB
+└ ƒ /projects/[projectid]                   161 B         106 kB
++ First Load JS shared by all              102 kB
+  ├ chunks/255-38b49df12a94ee57.js          46 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js   54.2 kB
+  └ other shared chunks (total)              2 kB
+
+Route (pages)                                Size  First Load JS
+┌   /_app                                     0 B        94.6 kB
+├ ○ /404 (1066 ms)                          225 B        94.9 kB
+├ ○ /500 (1112 ms)                          225 B        94.9 kB
+└ ƒ /legacy-fallback                        253 B        94.9 kB
++ First Load JS shared by all             94.6 kB
+  ├ chunks/framework-372c62845e5ba996.js  57.5 kB
+  ├ chunks/main-81a7897aa4a12a6d.js       35.1 kB
+  └ other shared chunks (total)           2.05 kB
+
+ƒ Middleware                              34.2 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
