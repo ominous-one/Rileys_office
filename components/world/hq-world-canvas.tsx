@@ -11,6 +11,7 @@ import type { OfficeSnapshot, ProjectSummary } from '@/lib/domain/types';
 import { memo, useMemo, useRef } from 'react';
 import { CeilingPanel } from '@/components/world/ceiling-panel';
 import { DeskSeat } from '@/components/world/desk-seat';
+import { DeskLegs } from '@/components/world/desk-legs';
 import * as THREE from 'three';
 
 interface DeskNode {
@@ -229,13 +230,6 @@ function ReceptionDesk({ alerts }: { alerts: number }) {
   );
 }
 
-function DeskLegs() {
-  return (
-    <>
-      <DeskLegs />
-    </>
-  );
-}
 function DeskCluster({ node }: { node: DeskNode }) {
   const groupRef = useRef<THREE.Group>(null);
   const { r, g, b } = hexToRgb(node.accent);
@@ -873,6 +867,9 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
+
+
 
 
 
