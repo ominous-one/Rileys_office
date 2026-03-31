@@ -19,6 +19,7 @@ import { AccentPanels } from '@/components/world/accent-panels';
 import { CeilingLights } from '@/components/world/ceiling-lights';
 import { WindowWall } from '@/components/world/window-wall';
 import { Atmosphere } from '@/components/world/atmosphere';
+import { OperationsWallHeader } from '@/components/world/operations-wall-header';
 import { WarRoomTableChairRow } from '@/components/world/war-room-table-chair-row';
 import * as THREE from 'three';
 
@@ -599,6 +600,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
