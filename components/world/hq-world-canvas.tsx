@@ -78,6 +78,14 @@ function CeilingLights() {
   );
 }
 
+function CeilingPanel({ size, opacity, color = "#ffffff", y }: { size: [number, number]; opacity: number; color?: string; y: number }) {
+  return (
+    <mesh position={[0, y, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={size} />
+      <meshBasicMaterial color={color} transparent opacity={opacity} />
+    </mesh>
+  );
+}
 function WindowWall() {
   return (
     <group position={[0, 0, 4.78]}>
@@ -182,38 +190,14 @@ function OfficeShell() {
         <planeGeometry args={[12.2, 10.8]} />
         <meshStandardMaterial color="#f8fbff" roughness={0.96} metalness={0.02} />
       </mesh>
-      <mesh position={[0, 3.32, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[11.6, 10.2]} />
-        <meshBasicMaterial color="#d9e2ec" transparent opacity={0.08} />
-      </mesh>
-      <mesh position={[0, 3.31, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[8.8, 7.4]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.04} />
-      </mesh>
-      <mesh position={[0, 3.305, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[5.6, 4.6]} />
-        <meshBasicMaterial color="#dbeafe" transparent opacity={0.03} />
-      </mesh>
-      <mesh position={[0, 3.303, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[3.2, 2.6]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.025} />
-      </mesh>
-      <mesh position={[0, 3.301, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[1.6, 1.2]} />
-        <meshBasicMaterial color="#dbeafe" transparent opacity={0.02} />
-      </mesh>
-      <mesh position={[0, 3.3, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.7, 0.42]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.018} />
-      </mesh>
-      <mesh position={[0, 3.299, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.22, 0.12]} />
-        <meshBasicMaterial color="#dbeafe" transparent opacity={0.016} />
-      </mesh>
-      <mesh position={[0, 3.298, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.08, 0.04]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.014} />
-      </mesh>
+      <CeilingPanel size={[11.6, 10.2]} y={3.32} color="#d9e2ec" opacity={0.08} />
+      <CeilingPanel size={[8.8, 7.4]} y={3.31} opacity={0.04} />
+      <CeilingPanel size={[5.6, 4.6]} y={3.305} color="#dbeafe" opacity={0.03} />
+      <CeilingPanel size={[3.2, 2.6]} y={3.303} opacity={0.025} />
+      <CeilingPanel size={[1.6, 1.2]} y={3.301} color="#dbeafe" opacity={0.02} />
+      <CeilingPanel size={[0.7, 0.42]} y={3.3} opacity={0.018} />
+      <CeilingPanel size={[0.22, 0.12]} y={3.299} color="#dbeafe" opacity={0.016} />
+      <CeilingPanel size={[0.08, 0.04]} y={3.298} opacity={0.014} />
 
       <WindowWall />
     </group>
@@ -934,6 +918,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
