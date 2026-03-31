@@ -356,6 +356,10 @@ function DeskCluster({ node }: { node: DeskNode }) {
         <ringGeometry args={[0.88, 0.98, 36]} />
         <meshBasicMaterial color={[r, g, b]} transparent opacity={0.08} />
       </mesh>
+      <mesh position={[0, 0.115, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[1.04, 1.1, 36]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.04} />
+      </mesh>
     </group>
   );
 }
@@ -891,6 +895,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
