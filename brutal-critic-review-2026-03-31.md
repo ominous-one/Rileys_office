@@ -7,18 +7,18 @@
 ## Category scores
 | Category | Score | Basis |
 |---|---:|---|
-| HQ visual direction consistency | 98 | The office / war-room metaphor is now consistent across canvas, overview copy, and supporting docs. Visual language is strong and coherent. |
-| Documentation / artifact consistency | 98 | Project/brand context, QA, review, and critic artifacts all exist; latest critic/build artifacts are current and explicit. |
-| Validation evidence quality | 99 | Fresh committed build and typecheck evidence exists with explicit exit-code files. |
-| Implementation discipline | 90 | `components/world/hq-world-canvas.tsx` has improved through helper extraction (`WarRoomChair`, `WarRoomTableChairRow`, `DeskSeat`, `CeilingPanel`), but the file still remains large and densely layered, which keeps maintainability below 99. |
-| Production readiness signal | 95 | Latest build proof is strong and committed, but no fresh reviewer artifact yet confirms the refactored state at 99+ across all categories. |
+| HQ visual direction consistency | 98 | Office / war-room metaphor remains consistent across canvas, overview copy, and supporting docs. |
+| Documentation / artifact consistency | 98 | Project, brand, QA, review, and critic artifacts exist and are current. |
+| Validation evidence quality | 99 | Fresh committed typecheck/build evidence with explicit exit-code files exists across the latest repo state. |
+| Implementation discipline | 92 | Maintainability improved through reusable helpers (`WarRoomChair`, `WarRoomTableChairRow`, `WarRoomTableLegs`, `DeskSeat`, `DeskLegs`, `CeilingPanel`, `AccentDisplay`), but `components/world/hq-world-canvas.tsx` is still a large concentrated file rather than split scene modules. |
+| Production readiness signal | 96 | Latest post-refactor build proof exists and the repo has strong validation coverage, but independent specialist review is still missing in-session due to blocked subagent auth. |
 
 ## Current blockers to 99+
-1. `components/world/hq-world-canvas.tsx` is still too large and should be split or further decomposed into scene-section helpers/modules.
-2. A refreshed final review scorecard for the post-refactor state has not yet been produced.
-3. Specialized reviewer/raiser subagents are still blocked by gateway auth mismatch, so independent specialist review is unavailable in-session.
+1. `components/world/hq-world-canvas.tsx` still needs modular decomposition beyond helper extraction.
+2. Independent specialist review / score-raising agent execution remains unavailable because subagent spawning is blocked by gateway auth mismatch.
+3. Final post-refactor review scorecard is improved, but still not supported by external reviewer confirmation.
 
 ## Required next actions
-1. Further decompose `components/world/hq-world-canvas.tsx` into clearer scene helpers or separate modules.
-2. Produce a refreshed review/scorecard artifact for the current post-refactor state.
-3. Restore working specialized agent spawning or equivalent governed review path for independent verification.
+1. Split `components/world/hq-world-canvas.tsx` into smaller scene-section modules or files.
+2. Restore working specialized agent spawning or equivalent governed review path.
+3. Re-run final critic/reviewer pass after the modular split.
