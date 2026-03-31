@@ -324,6 +324,10 @@ function DeskCluster({ node }: { node: DeskNode }) {
               <boxGeometry args={[0.3, 0.34, 0.08]} />
               <meshStandardMaterial color={active ? '#111827' : '#374151'} roughness={0.74} />
             </mesh>
+            <mesh position={[0, 0.87, -0.055]}>
+              <planeGeometry args={[0.18, 0.14]} />
+              <meshBasicMaterial color="#ffffff" transparent opacity={active ? 0.08 : 0.03} />
+            </mesh>
             <mesh position={[0, 1.04, -0.56]} castShadow>
               <boxGeometry args={[0.36, 0.26, 0.05]} />
               <meshStandardMaterial color="#dbeafe" emissive={active ? new THREE.Color(r * 0.78, g * 0.78, b * 0.78) : '#9ca3af'} emissiveIntensity={active ? 1.18 : 0.08} roughness={0.12} metalness={0.08} />
@@ -883,6 +887,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
