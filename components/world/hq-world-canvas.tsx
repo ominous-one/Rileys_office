@@ -15,6 +15,7 @@ import { DeskLegs } from '@/components/world/desk-legs';
 import { WarRoomTableLegs } from '@/components/world/war-room-table-legs';
 import { WarRoomChair } from '@/components/world/war-room-chair';
 import { AccentDisplay } from '@/components/world/accent-display';
+import { AccentPanels } from '@/components/world/accent-panels';
 import { CeilingLights } from '@/components/world/ceiling-lights';
 import { WindowWall } from '@/components/world/window-wall';
 import { WarRoomTableChairRow } from '@/components/world/war-room-table-chair-row';
@@ -474,17 +475,6 @@ function Plant({ position }: { position: [number, number, number] }) {
   );
 }
 
-function AccentPanels({ projects }: { projects: ProjectSummary[] }) {
-  return (
-    <group position={[0, 1.72, 4.68]}>
-      {projects.slice(0, 3).map((project, index) => {
-        const x = -2.35 + index * 2.35;
-        return <AccentDisplay key={project.id} project={project} x={x} hexToRgb={hexToRgb} />;
-      })}
-    </group>
-  );
-}
-
 function Atmosphere({ mobileOptimized }: { mobileOptimized?: boolean }) {
   const particles = useMemo(
     () =>
@@ -537,6 +527,7 @@ function CameraRig({ mobileOptimized }: { mobileOptimized?: boolean }) {
   return <PerspectiveCamera ref={rigRef} makeDefault position={[8.3, 6.45, 8.95]} fov={mobileOptimized ? 35 : 33} />;
 }
 
+
 function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; mobileOptimized?: boolean }) {
   const desks = useMemo(() => buildDeskLayout(snapshot), [snapshot]);
   const activeAgents = snapshot.projects.flatMap((project) => project.agents).filter((agent) => agent.status === 'active').length;
@@ -565,7 +556,7 @@ function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; m
       <Plant position={[4.7, 0, 4.05]} />
       <Plant position={[-4.82, 0, -4.18]} />
       <Plant position={[4.82, 0, -4.18]} />
-      <AccentPanels projects={snapshot.projects} />
+      <AccentPanels projects={snapshot.projects} hexToRgb={hexToRgb} />
       <Atmosphere mobileOptimized={mobileOptimized} />
 
       {desks.map((node) => (
@@ -660,6 +651,9 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
+
+
 
 
 
