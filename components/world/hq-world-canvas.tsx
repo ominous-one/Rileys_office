@@ -408,6 +408,13 @@ function WarRoomChair({ position, rotation }: { position: [number, number, numbe
     </group>
   );
 }
+function WarRoomTableLegs() {
+  return (
+    <>
+      <WarRoomTableLegs />
+    </>
+  );
+}
 function WarRoomTableChairRow({ chairs, z, rotation }: { chairs: number[]; z: number; rotation?: [number, number, number] }) {
   return (
     <>
@@ -433,14 +440,7 @@ function WarRoom() {
       <RoundedBox args={[4.2, 0.11, 1.45]} radius={0.08} smoothness={4} position={[0, 0.74, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#c6a073" metalness={0.08} roughness={0.72} />
       </RoundedBox>
-      {[-1.78, 1.78].map((x) =>
-        [-0.56, 0.56].map((z) => (
-          <mesh key={`warroom-leg-${x}-${z}`} position={[x, 0.36, z]} castShadow>
-            <cylinderGeometry args={[0.045, 0.045, 0.72, 12]} />
-            <meshStandardMaterial color="#596171" metalness={0.42} roughness={0.46} />
-          </mesh>
-        )),
-      )}
+      <WarRoomTableLegs />
 
       <WarRoomTableChairRow chairs={chairs} z={1.18} />
 
@@ -918,6 +918,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
