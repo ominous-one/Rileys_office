@@ -10,8 +10,8 @@
 | HQ visual direction consistency | 98 | Office / war-room metaphor remains coherent across the canvas, overview copy, fallback path, and docs. |
 | Documentation / artifact consistency | 98 | Project, brand, QA, review, and critic artifacts remain current through the latest committed repo state. |
 | Validation evidence quality | 99 | Recent committed typecheck/build evidence with explicit exit-code files exists across current refactor waves. |
-| Implementation discipline | 95 | Modularization improved through extracted modules (`ceiling-panel.tsx`, `desk-seat.tsx`, `desk-legs.tsx`, `war-room-chair.tsx`, `war-room-table-legs.tsx`, `war-room-table-chair-row.tsx`), but `components/world/hq-world-canvas.tsx` is still the dominant orchestrating file and remains short of 99 until more scene sections move out. |
-| Production readiness signal | 96 | The repo has strong committed build/typecheck proof, but independent specialist review is still unavailable in-session due to blocked subagent auth. |
+| Implementation discipline | 96 | Modularization has materially improved through extracted modules (`ceiling-panel.tsx`, `desk-seat.tsx`, `desk-legs.tsx`, `war-room-chair.tsx`, `war-room-table-legs.tsx`, `war-room-table-chair-row.tsx`, `accent-display.tsx`), but `components/world/hq-world-canvas.tsx` is still a large orchestrating file and remains below 99 until more scene sections move out. |
+| Production readiness signal | 96 | Strong committed build/typecheck proof exists, but independent specialist review is still unavailable in-session due to blocked subagent auth. |
 
 ## Current blockers to 99+
 1. `components/world/hq-world-canvas.tsx` still needs additional modular decomposition beyond the current helper extraction level.
