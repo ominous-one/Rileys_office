@@ -235,6 +235,13 @@ function ReceptionDesk({ alerts }: { alerts: number }) {
   );
 }
 
+function DeskLegs() {
+  return (
+    <>
+      <DeskLegs />
+    </>
+  );
+}
 function DeskCluster({ node }: { node: DeskNode }) {
   const groupRef = useRef<THREE.Group>(null);
   const { r, g, b } = hexToRgb(node.accent);
@@ -281,14 +288,7 @@ function DeskCluster({ node }: { node: DeskNode }) {
         <meshBasicMaterial color="#dbeafe" transparent opacity={0.12} />
       </mesh>
 
-      {[-0.77, 0.77].map((x) =>
-        [-0.3, 0.3].map((z) => (
-          <mesh key={`${x}-${z}`} position={[x, 0.36, z]} castShadow>
-            <cylinderGeometry args={[0.04, 0.04, 0.72, 12]} />
-            <meshStandardMaterial color="#5f6470" metalness={0.44} roughness={0.44} />
-          </mesh>
-        )),
-      )}
+      <DeskLegs />
 
       {Array.from({ length: seatCount }).map((_, index) => {
         const offsetX = seatCount === 2 ? (index === 0 ? -0.45 : 0.45) : -0.68 + index * 0.45;
@@ -918,6 +918,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
