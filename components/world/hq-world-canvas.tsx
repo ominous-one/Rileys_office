@@ -18,6 +18,7 @@ import { AccentDisplay } from '@/components/world/accent-display';
 import { AccentPanels } from '@/components/world/accent-panels';
 import { CeilingLights } from '@/components/world/ceiling-lights';
 import { WindowWall } from '@/components/world/window-wall';
+import { Atmosphere } from '@/components/world/atmosphere';
 import { WarRoomTableChairRow } from '@/components/world/war-room-table-chair-row';
 import * as THREE from 'three';
 
@@ -475,59 +476,6 @@ function Plant({ position }: { position: [number, number, number] }) {
   );
 }
 
-function Atmosphere({ mobileOptimized }: { mobileOptimized?: boolean }) {
-  const particles = useMemo(
-    () =>
-      Array.from({ length: mobileOptimized ? 18 : 30 }, (_, index) => ({
-        id: index,
-        position: [
-          ((index * 37) % 100) / 10 - 5,
-          1.2 + ((index * 19) % 40) / 20,
-          ((index * 23) % 120) / 12 - 5,
-        ] as [number, number, number],
-        scale: 0.03 + ((index * 7) % 10) / 260,
-      })),
-    [mobileOptimized],
-  );
-
-  return (
-    <group>
-      <mesh position={[0, 3.18, -1.4]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[10.4, 8.8]} />
-        <meshBasicMaterial color="#8b5cf6" transparent opacity={mobileOptimized ? 0.035 : 0.055} depthWrite={false} />
-      </mesh>
-      <mesh position={[0, 2.86, 3.85]}>
-        <planeGeometry args={[8.8, 2.6]} />
-        <meshBasicMaterial color="#60a5fa" transparent opacity={mobileOptimized ? 0.045 : 0.07} depthWrite={false} />
-      </mesh>
-      {particles.map((particle) => (
-        <mesh key={particle.id} position={particle.position}>
-          <sphereGeometry args={[particle.scale, 8, 8]} />
-          <meshBasicMaterial color="#dbeafe" transparent opacity={0.24} depthWrite={false} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-function CameraRig({ mobileOptimized }: { mobileOptimized?: boolean }) {
-  const rigRef = useRef<THREE.PerspectiveCamera>(null);
-
-  useFrame((state) => {
-    if (!rigRef.current) return;
-
-    const t = state.clock.elapsedTime;
-    const drift = mobileOptimized ? 0.1 : 0.16;
-    rigRef.current.position.x = 8.3 + Math.sin(t * 0.22) * drift;
-    rigRef.current.position.y = 6.45 + Math.sin(t * 0.18) * 0.08;
-    rigRef.current.position.z = 8.95 + Math.cos(t * 0.16) * drift;
-    rigRef.current.lookAt(0, 1.55, -0.75);
-  });
-
-  return <PerspectiveCamera ref={rigRef} makeDefault position={[8.3, 6.45, 8.95]} fov={mobileOptimized ? 35 : 33} />;
-}
-
-
 function WorldScene({ snapshot, mobileOptimized }: { snapshot: OfficeSnapshot; mobileOptimized?: boolean }) {
   const desks = useMemo(() => buildDeskLayout(snapshot), [snapshot]);
   const activeAgents = snapshot.projects.flatMap((project) => project.agents).filter((agent) => agent.status === 'active').length;
@@ -651,6 +599,8 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
+
 
 
 
