@@ -382,6 +382,15 @@ function WarRoomChair({ position, rotation }: { position: [number, number, numbe
     </group>
   );
 }
+function WarRoomTableChairRow({ chairs, z, rotation }: { chairs: number[]; z: number; rotation?: [number, number, number] }) {
+  return (
+    <>
+      {chairs.map((x, index) => (
+        <WarRoomChair key={`warroom-seat-${z}-${index}`} position={[x, 0, z]} rotation={rotation} />
+      ))}
+    </>
+  );
+}
 function WarRoom() {
   const chairs = [-1.45, -0.5, 0.5, 1.45];
 
@@ -407,13 +416,9 @@ function WarRoom() {
         )),
       )}
 
-      {chairs.map((x, index) => (
-        <WarRoomChair key={`warroom-seat-front-${index}`} position={[x, 0, 1.18]} />
-      ))}
+      <WarRoomTableChairRow chairs={chairs} z={1.18} />
 
-      {chairs.map((x, index) => (
-        <WarRoomChair key={`warroom-seat-back-${index}`} position={[x, 0, -1.18]} rotation={[0, Math.PI, 0]} />
-      ))}
+      <WarRoomTableChairRow chairs={chairs} z={-1.18} rotation={[0, Math.PI, 0]} />
 
       <mesh position={[0, 1.08, 0]}>
         <planeGeometry args={[2.4, 0.5]} />
@@ -887,6 +892,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
