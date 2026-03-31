@@ -9,6 +9,7 @@ import {
 } from '@react-three/drei';
 import type { OfficeSnapshot, ProjectSummary } from '@/lib/domain/types';
 import { memo, useMemo, useRef } from 'react';
+import { CeilingPanel } from '@/components/world/ceiling-panel';
 import * as THREE from 'three';
 
 interface DeskNode {
@@ -78,14 +79,6 @@ function CeilingLights() {
   );
 }
 
-function CeilingPanel({ size, opacity, color = "#ffffff", y }: { size: [number, number]; opacity: number; color?: string; y: number }) {
-  return (
-    <mesh position={[0, y, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-      <planeGeometry args={size} />
-      <meshBasicMaterial color={color} transparent opacity={opacity} />
-    </mesh>
-  );
-}
 function WindowWall() {
   return (
     <group position={[0, 0, 4.78]}>
@@ -921,6 +914,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
