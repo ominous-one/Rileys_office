@@ -14,6 +14,7 @@ import { DeskSeat } from '@/components/world/desk-seat';
 import { DeskLegs } from '@/components/world/desk-legs';
 import { WarRoomTableLegs } from '@/components/world/war-room-table-legs';
 import { WarRoomChair } from '@/components/world/war-room-chair';
+import { WarRoomTableChairRow } from '@/components/world/war-room-table-chair-row';
 import * as THREE from 'three';
 
 interface DeskNode {
@@ -338,15 +339,6 @@ function DeskCluster({ node }: { node: DeskNode }) {
   );
 }
 
-function WarRoomTableChairRow({ chairs, z, rotation }: { chairs: number[]; z: number; rotation?: [number, number, number] }) {
-  return (
-    <>
-      {chairs.map((x, index) => (
-        <WarRoomChair key={`warroom-seat-${z}-${index}`} position={[x, 0, z]} rotation={rotation} />
-      ))}
-    </>
-  );
-}
 function WarRoom() {
   const chairs = [-1.45, -0.5, 0.5, 1.45];
 
@@ -844,6 +836,7 @@ function HQWorldCanvasComponent({ snapshot, mobileOptimized = false }: { snapsho
 }
 
 export const HQWorldCanvas = memo(HQWorldCanvasComponent);
+
 
 
 
