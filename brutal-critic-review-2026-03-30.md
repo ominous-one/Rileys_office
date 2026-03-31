@@ -19,6 +19,7 @@
 3. The repo lacks a current brutal-critic review artifact summarizing the present state and required improvements in one place.
 
 ## Required next actions
-1. Run fresh `npm run build` and capture dated evidence for the latest repo state.
-2. Refactor `components/world/hq-world-canvas.tsx` into clearer helper structure or grouped scene sections without changing behavior.
+1. Fresh post-refactor build evidence now exists at `evidence/build-2026-03-30-wave73.log` with `BUILD_EXIT=0` in `evidence/validation-build-exitcodes-2026-03-30-wave73.txt`.
+2. `components/world/hq-world-canvas.tsx` has begun maintainability refactors via reusable `WarRoomChair`, `WarRoomTableChairRow`, and `DeskSeat` helpers, but further consolidation is still needed for 99+ maintainability confidence.
 3. Refresh `review-scorecard.md` or add a current review artifact reflecting this exact state.
+
