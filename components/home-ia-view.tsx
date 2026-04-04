@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
@@ -78,6 +78,10 @@ function buildRoomAgents(project: SafeProject | null): RoomAgent[] {
   }));
 }
 
+function getConversationTitle(value: unknown) {
+  return typeof value === 'string' ? value : '';
+}
+
 export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
   const projects = useMemo(() => getSafeProjects(snapshot.projects ?? []), [snapshot.projects]);
   const [activeProjectId, setActiveProjectId] = useState(() => getSafeProject(projects)?.id ?? '');
@@ -106,7 +110,7 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
   const activeAgents = activeProject?.agents.filter((agent) => agent.status === 'active').length ?? 0;
   const totalAgents = activeProject?.agents.length ?? 0;
   const pressure = getPressure(activeAgents, projectAlerts.length);
-  const conversation = conversations.find((item) => item.title.toLowerCase().includes('riley')) ?? conversations[0] ?? null;
+  const conversation = conversations.find((item) => getConversationTitle(item?.title).toLowerCase().includes('riley')) ?? conversations[0] ?? null;
 
   return (
     <main className={`page-stack page-stack--world ${styles.page}`}>

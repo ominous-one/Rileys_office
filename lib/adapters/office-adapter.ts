@@ -3,18 +3,88 @@ import { getMockAgentDesk, getMockProjectOffice, mockOfficeSnapshot } from '@/li
 import type { ActivityEvent, AgentDesk, OfficeSnapshot, ProjectOffice, ProjectSummary } from '@/lib/domain/types';
 import { env, isLiveModeEnabled } from '@/lib/config/env';
 
+const healthStateSchema = z.enum(['healthy', 'active', 'blocked', 'waiting', 'stale', 'degraded']);
+
 const connectionSchema = z.object({
-  mode: z.enum(['mock', 'live']),
-  state: z.enum(['connected', 'degraded', 'stale']),
-  lastUpdated: z.string(),
+  mode: z.enum(['mock', 'live']).catch('mock'),
+  state: z.enum(['connected', 'degraded', 'stale']).catch('degraded'),
+  lastUpdated: z.string().catch(''),
+});
+
+const runStateSchema = z.object({
+  id: z.string().catch(''),
+  status: healthStateSchema.catch('waiting'),
+  summary: z.string().catch(''),
+  progressLabel: z.string().catch('Standby'),
+  updatedAt: z.string().catch(''),
+});
+
+const agentSummarySchema = z.object({
+  id: z.string().catch(''),
+  name: z.string().catch('Unnamed agent'),
+  role: z.string().catch('operator'),
+  status: healthStateSchema.catch('waiting'),
+  currentTask: z.string().catch('No current task reported.'),
+  blocker: z.string().optional(),
+  projectId: z.string().catch(''),
+});
+
+const projectSummarySchema = z.object({
+  id: z.string().catch(''),
+  name: z.string().catch('Untitled project'),
+  tagline: z.string().catch(''),
+  health: healthStateSchema.catch('degraded'),
+  urgency: z.enum(['low', 'medium', 'high']).catch('medium'),
+  mission: z.string().catch('Waiting on project mission details.'),
+  accent: z.string().catch('#9d7bff'),
+  activeRun: runStateSchema.catch({
+    id: '',
+    status: 'waiting',
+    summary: '',
+    progressLabel: 'Standby',
+    updatedAt: '',
+  }),
+  agents: z.array(agentSummarySchema).catch([]),
+});
+
+const alertSchema = z.object({
+  id: z.string().catch(''),
+  level: z.enum(['info', 'warning', 'critical']).catch('info'),
+  title: z.string().catch('Untitled alert'),
+  detail: z.string().catch('No alert detail provided.'),
+  projectId: z.string().optional(),
+  agentId: z.string().optional(),
+});
+
+const activityEventSchema = z.object({
+  id: z.string().catch(''),
+  type: z.enum(['run', 'agent', 'qa', 'reviewer', 'alert']).catch('run'),
+  label: z.string().catch('Untitled event'),
+  detail: z.string().catch('No event detail provided.'),
+  timestamp: z.string().catch(''),
+  relatedPath: z.string().optional(),
+  projectId: z.string().optional(),
+  agentId: z.string().optional(),
+});
+
+const conversationSchema = z.object({
+  id: z.string().catch(''),
+  title: z.string().catch('Untitled thread'),
+  contextLabel: z.string().catch('Conversation'),
+  latestMessage: z.string().catch('No recent messages.'),
+  updatedAt: z.string().catch(''),
 });
 
 const snapshotSchema = z.object({
-  connection: connectionSchema,
-  projects: z.array(z.any()).default([]),
-  alerts: z.array(z.any()).default([]),
-  activity: z.array(z.any()).default([]),
-  conversations: z.array(z.any()).default([]),
+  connection: connectionSchema.catch({
+    mode: 'mock',
+    state: 'degraded',
+    lastUpdated: '',
+  }),
+  projects: z.array(projectSummarySchema).catch([]),
+  alerts: z.array(alertSchema).catch([]),
+  activity: z.array(activityEventSchema).catch([]),
+  conversations: z.array(conversationSchema).catch([]),
 });
 
 export interface OfficeAdapter {
@@ -97,3 +167,5 @@ export function createOfficeAdapter(): OfficeAdapter {
     },
   };
 }
+
+
