@@ -86,7 +86,8 @@ export async function POST(request: NextRequest) {
   }
 
   const destination = next.startsWith('/') ? next : '/';
-  const response = NextResponse.redirect(new URL(destination, request.url));
+  const response = NextResponse.redirect(new URL(destination, request.url), { status: 303 });
   response.cookies.set(createSessionCookie(normalizedUser));
   return response;
 }
+
