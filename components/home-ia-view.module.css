@@ -1,488 +1,496 @@
 .page {
-  padding: 0;
+  --surface: rgba(11, 17, 29, 0.92);
+  --surface-2: rgba(16, 24, 40, 0.9);
+  --line: rgba(255, 255, 255, 0.1);
+  --soft-line: rgba(255, 255, 255, 0.06);
+  --text-soft: rgba(226, 232, 240, 0.78);
 }
 
 .shell {
-  --panel: rgba(15, 21, 33, 0.78);
-  --panel-strong: rgba(12, 17, 28, 0.88);
-  position: relative;
   display: grid;
   gap: 1rem;
-  min-height: calc(100dvh - 6rem);
-  padding: 0.75rem 0 7rem;
-  color: #f7f4ee;
 }
 
-.topBar,
-.stageCard,
-.projectRail,
-.controlDeck,
-.viewNav,
-.contentCard {
-  position: relative;
-  z-index: 1;
-}
-
-.topBar,
-.stageCard,
-.controlDeck,
+.headerCard,
+.worldCard,
+.detailCard,
 .contentCard,
-.projectChip,
+.projectTab,
 .viewButton,
-.directiveCard,
-.summaryCard,
 .focusCard,
 .timelineCard,
 .alertCard,
 .agentCard,
-.metricTile {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+.metricTile,
+.connectionCard {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(16, 24, 40, 0.94), rgba(9, 14, 24, 0.92));
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
 }
 
-.topBar,
-.stageCard,
-.controlDeck,
+.headerCard,
+.worldCard,
 .contentCard {
-  margin: 0 0.25rem;
-  border-radius: 1.8rem;
+  border-radius: 28px;
+  overflow: hidden;
 }
 
-.topBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.headerCard {
+  display: grid;
   gap: 1rem;
   padding: 1.1rem;
-  background: linear-gradient(180deg, rgba(16, 20, 29, 0.76), rgba(16, 20, 29, 0.36));
-  backdrop-filter: blur(18px);
+}
+
+.headerCopy,
+.connectionCard,
+.worldMeta,
+.detailCard,
+.contentHeader,
+.focusCard,
+.agentCard,
+.timelineCard,
+.alertCard {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.headerCopy h1 {
+  font-size: clamp(1.85rem, 5vw, 2.45rem);
+  line-height: 1.02;
+}
+
+.headerCopy p,
+.worldMeta p,
+.detailCard p,
+.contentHeader p,
+.focusCard p,
+.agentCard p,
+.timelineCard p,
+.alertCard p {
+  color: var(--text-soft);
+  line-height: 1.55;
 }
 
 .eyebrow,
 .sectionLabel,
 .cardLabel,
-.sceneLabel {
-  display: inline-block;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(247, 242, 233, 0.66);
-}
-
-.title {
-  margin: 0.3rem 0 0;
-  max-width: 14ch;
-  font-size: clamp(2.25rem, 7.5vw, 4.2rem);
-  line-height: 0.94;
-  letter-spacing: -0.05em;
-}
-
-.connectionBadge {
-  min-width: 7.8rem;
-  display: grid;
-  gap: 0.16rem;
-  padding: 0.9rem;
-  border-radius: 1.2rem;
-  background: rgba(255, 248, 238, 0.08);
-}
-
-.connectionBadge span,
-.connectionBadge small,
-.metricTile span,
-.projectChip small,
+.connectionLabel,
 .timelineHeader span,
-.focusCard p,
-.directiveCard p,
-.summaryCard p,
-.timelineCard p,
-.alertCard p,
-.agentCard p,
-.sceneLead p {
-  color: rgba(236, 231, 222, 0.72);
+.projectTab small {
+  color: rgba(191, 203, 226, 0.74);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
 }
 
-.connectionBadge strong,
-.metricTile strong,
-.directiveCard strong,
-.summaryCard strong,
-.focusCard strong,
-.timelineCard strong,
-.alertCard strong,
-.agentCard strong,
-.sceneLead strong {
-  color: #fff9f2;
-}
-
-.stageCard {
-  overflow: hidden;
-  display: grid;
-  gap: 1rem;
-  min-height: 34rem;
-  padding: 1.1rem;
-  background:
-    radial-gradient(circle at 16% 14%, rgba(255, 194, 118, 0.16), transparent 22%),
-    radial-gradient(circle at 82% 10%, rgba(124, 163, 255, 0.2), transparent 26%),
-    linear-gradient(180deg, #1b2030 0%, #101520 62%, #0d1119 100%);
-}
-
-.sceneCopy {
-  display: grid;
-  gap: 0.9rem;
-}
-
-.sceneLead {
-  max-width: 32rem;
-  display: grid;
-  gap: 0.35rem;
-}
-
-.sceneLead p,
-.contentHeader p,
-.timelineCard p,
-.alertCard p,
-.agentCard p,
-.focusCard p,
-.directiveCard p,
-.summaryCard p {
-  margin: 0;
-  line-height: 1.55;
-}
-
-.metricRail,
-.overviewGrid,
-.actionRow,
-.stack,
-.projectRail,
-.controlDeck {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.metricRail {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.metricTile,
-.directiveCard,
-.summaryCard,
-.focusCard,
-.timelineCard,
-.alertCard,
-.agentCard {
-  display: grid;
-  gap: 0.45rem;
+.connectionCard {
   padding: 0.95rem;
-  border-radius: 1.2rem;
-  background: linear-gradient(180deg, rgba(255, 248, 238, 0.08), rgba(10, 14, 21, 0.3));
-  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
 }
 
-.roomStage {
-  position: relative;
-  min-height: 22rem;
-  border-radius: 1.6rem;
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(250, 225, 184, 0.08), rgba(13, 16, 24, 0) 38%),
-    linear-gradient(180deg, rgba(21, 28, 40, 0.2), rgba(12, 17, 24, 0.18));
+.connectionCard strong {
+  font-size: 0.98rem;
 }
 
-.skyGlow,
-.windowBand,
-.wallLeft,
-.wallRight,
-.ceiling,
-.floor,
-.walkwayGlow,
-.centralTable,
-.tableLight,
-.opsWall,
-.deskRow,
-.agentMarker {
-  position: absolute;
-}
-
-.skyGlow {
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 10%, rgba(255, 240, 212, 0.28), transparent 22%),
-    radial-gradient(circle at 50% 25%, rgba(136, 166, 255, 0.16), transparent 34%);
-}
-
-.windowBand {
-  left: 16%;
-  right: 16%;
-  top: 12%;
-  height: 1.3rem;
-  border-radius: 999px;
-  background:
-    repeating-linear-gradient(90deg, rgba(220, 238, 255, 0.82), rgba(220, 238, 255, 0.82) 4rem, rgba(157, 178, 201, 0.5) 4rem, rgba(157, 178, 201, 0.5) 4.25rem),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.16));
-}
-
-.wallLeft,
-.wallRight {
-  top: 18%;
-  bottom: 24%;
-  width: 20%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-}
-
-.wallLeft {
-  left: -2%;
-  transform: skewY(10deg);
-}
-
-.wallRight {
-  right: -2%;
-  transform: skewY(-10deg);
-}
-
-.ceiling {
-  left: 11%;
-  right: 11%;
-  top: 3%;
-  height: 22%;
-  border-radius: 1.4rem 1.4rem 0.8rem 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background:
-    repeating-linear-gradient(90deg, rgba(255, 251, 243, 0.9), rgba(255, 251, 243, 0.9) 4rem, rgba(225, 216, 201, 0.95) 4rem, rgba(225, 216, 201, 0.95) 4.35rem),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02));
-  transform: perspective(1000px) rotateX(70deg);
-  transform-origin: top;
-}
-
-.floor {
-  left: -10%;
-  right: -10%;
-  bottom: -14%;
-  height: 48%;
-  transform: perspective(1200px) rotateX(78deg);
-  transform-origin: bottom;
-  background:
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 54px),
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 42px),
-    linear-gradient(180deg, #6b7078, #2e3138 44%, #121722 100%);
-}
-
-.walkwayGlow {
-  left: 18%;
-  right: 18%;
-  bottom: 18%;
-  height: 28%;
-  background: radial-gradient(circle at center, rgba(255, 203, 120, 0.16), transparent 60%);
-  filter: blur(18px);
-}
-
-.centralTable {
-  left: 50%;
-  bottom: 25%;
-  width: min(62vw, 18rem);
-  height: 5rem;
-  transform: translateX(-50%) perspective(1000px) rotateX(72deg);
-  border-radius: 1.4rem;
-  background: linear-gradient(180deg, rgba(182, 138, 93, 0.92), rgba(126, 92, 59, 0.95));
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
-}
-
-.tableLight {
-  left: 50%;
-  bottom: 19%;
-  width: min(66vw, 19rem);
-  height: 5rem;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  border: 1px solid rgba(255, 214, 153, 0.24);
-  box-shadow: 0 0 38px rgba(255, 196, 112, 0.16), inset 0 0 18px rgba(255, 255, 255, 0.06);
-}
-
-.opsWall {
-  left: 50%;
-  top: 33%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.5rem;
-}
-
-.opsScreen {
-  width: 2.6rem;
-  height: 1.4rem;
-  border-radius: 0.55rem;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 58%, white 12%), rgba(255, 208, 122, 0.82));
-  box-shadow: 0 0 18px rgba(255, 203, 139, 0.16);
-}
-
-.deskRow {
-  left: 0;
-  right: 0;
-  bottom: 21%;
-  height: 18%;
-}
-
-.deskPod {
-  position: absolute;
-  left: calc(11% + (var(--desk-index) * 18%));
-  bottom: calc(6% + (var(--desk-index) * 1.5%));
-  width: 15%;
-  height: 56%;
-  transform: perspective(900px) rotateX(72deg);
-}
-
-.deskMonitor,
-.deskSurface,
-.deskChair {
-  position: absolute;
-  display: block;
-}
-
-.deskMonitor {
-  left: 14%;
-  top: 0;
-  width: 72%;
-  height: 44%;
-  border-radius: 0.45rem;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--desk-accent) 66%, white 12%), rgba(255, 228, 187, 0.82));
-}
-
-.deskSurface {
-  inset: 26% 4% auto;
-  height: 28%;
-  border-radius: 0.6rem;
-  background: linear-gradient(180deg, #e4d8c8, #baab95);
-}
-
-.deskChair {
-  left: 28%;
-  bottom: 0;
-  width: 42%;
-  height: 22%;
-  border-radius: 999px 999px 0.35rem 0.35rem;
-  background: #1e2530;
-}
-
-.agentMarker {
-  left: var(--agent-x);
-  top: var(--agent-y);
-  transform: translate(-50%, -50%);
-  display: grid;
-  justify-items: center;
-  gap: 0.28rem;
-}
-
-.agentPulse,
-.agentBody {
-  border-radius: 999px;
-}
-
-.agentPulse {
-  width: 1.55rem;
-  height: 1.55rem;
-  border: 1px solid color-mix(in srgb, var(--agent-accent) 60%, white 12%);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--agent-accent) 22%, transparent);
-}
-
-.agentBody {
-  margin-top: -1.25rem;
-  width: 0.6rem;
-  height: 0.6rem;
-  background: #fff7ef;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--agent-accent) 60%, transparent), 0 0 20px color-mix(in srgb, var(--agent-accent) 35%, transparent);
-}
-
-.agentTag {
-  padding: 0.26rem 0.44rem;
-  border-radius: 0.7rem;
-  background: rgba(10, 15, 24, 0.72);
-  font-size: 0.62rem;
-  line-height: 1;
-}
-
-.agentMarkerBlocked .agentBody {
-  background: #ff9aa3;
-}
-
-.agentMarkerWaiting .agentBody {
-  background: #ffd08a;
-}
-
-.projectRail {
-  grid-template-columns: repeat(auto-fit, minmax(8.4rem, 1fr));
-  margin: 0 0.25rem;
-}
-
-.projectChip {
-  display: grid;
-  gap: 0.24rem;
-  padding: 0.92rem;
-  border-radius: 1.15rem;
-  text-align: left;
-  color: #fffaf3;
-  background:
-    linear-gradient(180deg, rgba(18, 23, 35, 0.9), rgba(12, 17, 26, 0.8)),
-    linear-gradient(180deg, color-mix(in srgb, var(--chip-accent) 16%, transparent), transparent);
-}
-
-.projectChipActive {
-  border-color: color-mix(in srgb, var(--chip-accent) 70%, white 10%);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--chip-accent) 20%, transparent), 0 24px 50px rgba(0, 0, 0, 0.3);
-}
-
-.controlDeck {
-  grid-template-columns: 1.4fr 1fr;
-}
-
-.directiveCard,
-.summaryCard,
-.contentCard {
-  background: linear-gradient(180deg, var(--panel), var(--panel-strong));
-  backdrop-filter: blur(18px);
-}
-
-.statusRow {
-  display: flex;
-  align-items: center;
-}
-
-.viewNav {
-  display: flex;
-  gap: 0.6rem;
-  overflow-x: auto;
-  margin: 0 0.25rem;
-}
-
-.viewButton {
-  padding: 0.85rem 1rem;
-  border-radius: 999px;
-  background: rgba(15, 20, 31, 0.86);
-  color: rgba(248, 242, 232, 0.74);
-}
-
-.viewButtonActive {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 48%, #f4c98d), rgba(15, 19, 28, 0.9));
-  color: #fff;
-}
-
-.contentCard {
+.worldCard {
   display: grid;
   gap: 1rem;
   padding: 1rem;
 }
 
-.contentHeader,
-.timelineHeader {
-  display: flex;
-  justify-content: space-between;
+.worldMeta {
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-start;
+}
+
+.metricRow,
+.detailRow,
+.overviewGrid,
+.stack,
+.actionRow {
+  display: grid;
   gap: 0.75rem;
 }
 
-.contentHeader {
-  flex-direction: column;
+.metricRow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.contentHeader h2 {
-  margin: 0.3rem 0 0;
-  font-size: 1.5rem;
+.metricTile {
+  border-radius: 20px;
+  padding: 0.85rem;
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.metricTile span {
+  color: rgba(191, 203, 226, 0.74);
+  font-size: 0.74rem;
+}
+
+.officeScene {
+  position: relative;
+  min-height: 21rem;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid var(--soft-line);
+  background:
+    radial-gradient(circle at 50% 6%, rgba(255, 255, 255, 0.08), transparent 18%),
+    linear-gradient(180deg, rgba(20, 32, 52, 0.86), rgba(8, 12, 20, 0.98));
+}
+
+.ceilingGrid,
+.windowWall,
+.cityGlow,
+.leftWall,
+.rightWall,
+.floorStone,
+.floorWood,
+.corridor,
+.receptionDesk,
+.commandTable,
+.opsWall,
+.glassRoom,
+.archiveWall,
+.deskLane,
+.deskPod,
+.deskSurface,
+.deskMonitor,
+.deskChair,
+.glassTable,
+.glassScreen {
+  position: absolute;
+}
+
+.ceilingGrid {
+  inset: 0.9rem 1rem auto;
+  height: 2.6rem;
+  border-radius: 1rem;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78) 4.2rem, rgba(202, 212, 228, 0.74) 4.2rem, rgba(202, 212, 228, 0.74) 4.55rem),
+    linear-gradient(180deg, rgba(244, 247, 252, 0.88), rgba(227, 234, 243, 0.78));
+  opacity: 0.72;
+}
+
+.windowWall {
+  left: 12%;
+  right: 12%;
+  top: 4rem;
+  height: 2rem;
+  border-radius: 1rem;
+  background:
+    repeating-linear-gradient(90deg, rgba(208, 238, 255, 0.82), rgba(208, 238, 255, 0.82) 3.6rem, rgba(120, 146, 176, 0.48) 3.6rem, rgba(120, 146, 176, 0.48) 3.9rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(220, 231, 244, 0.52));
+}
+
+.cityGlow {
+  left: 18%;
+  right: 18%;
+  top: 4.6rem;
+  height: 5rem;
+  background: radial-gradient(circle at center, rgba(99, 213, 255, 0.18), transparent 62%);
+  filter: blur(14px);
+}
+
+.leftWall,
+.rightWall {
+  top: 5.6rem;
+  bottom: 5.5rem;
+  width: 19%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.leftWall {
+  left: -1%;
+  transform: skewY(10deg);
+}
+
+.rightWall {
+  right: -1%;
+  transform: skewY(-10deg);
+}
+
+.floorStone {
+  left: -8%;
+  right: -8%;
+  bottom: -1rem;
+  height: 10rem;
+  transform: perspective(1100px) rotateX(79deg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.28)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 3.4rem),
+    linear-gradient(180deg, rgba(23, 31, 47, 0.98), rgba(8, 12, 20, 1));
+}
+
+.floorWood {
+  left: 18%;
+  right: 18%;
+  bottom: 3.55rem;
+  height: 3rem;
+  border-radius: 1.4rem;
+  transform: perspective(920px) rotateX(76deg);
+  background:
+    repeating-linear-gradient(90deg, rgba(164, 117, 74, 0.34), rgba(164, 117, 74, 0.34) 1rem, rgba(105, 69, 40, 0.38) 1rem, rgba(105, 69, 40, 0.38) 1.16rem),
+    linear-gradient(180deg, rgba(121, 84, 52, 0.88), rgba(79, 54, 34, 0.95));
+}
+
+.corridor {
+  left: 38%;
+  right: 38%;
+  bottom: 2.8rem;
+  height: 7rem;
+  border-radius: 1.7rem;
+  transform: perspective(980px) rotateX(78deg);
+  background:
+    linear-gradient(180deg, rgba(210, 220, 233, 0.18), transparent 16%),
+    linear-gradient(180deg, rgba(78, 89, 106, 0.48), rgba(48, 55, 68, 0.68));
+}
+
+.receptionDesk,
+.commandTable,
+.archiveWall {
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  color: rgba(237, 242, 247, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.62rem;
+}
+
+.receptionDesk {
+  left: 50%;
+  bottom: 6.2rem;
+  width: 4.8rem;
+  height: 1.4rem;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(214, 176, 130, 0.96), rgba(168, 124, 82, 0.94));
+}
+
+.commandTable {
+  left: 50%;
+  top: 8.4rem;
+  width: 7.6rem;
+  height: 2.4rem;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(177, 136, 91, 0.94), rgba(133, 97, 61, 0.98));
+}
+
+.opsWall {
+  left: 50%;
+  top: 11.5rem;
+  width: 8.8rem;
+  height: 2.4rem;
+  transform: translateX(-50%);
+  border-radius: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  padding: 0.35rem;
+  background: rgba(7, 12, 21, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.opsScreen {
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 52%, white 8%), rgba(99, 213, 255, 0.74));
+  box-shadow: 0 0 14px rgba(99, 213, 255, 0.18);
+}
+
+.glassRoom {
+  right: 1rem;
+  top: 6rem;
+  width: 5rem;
+  height: 6.8rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(207, 227, 244, 0.24);
+  background: linear-gradient(180deg, rgba(194, 234, 255, 0.18), rgba(194, 234, 255, 0.08));
+  backdrop-filter: blur(6px);
+}
+
+.glassLabel {
+  position: absolute;
+  left: 0.6rem;
+  top: 0.55rem;
+  color: rgba(226, 232, 240, 0.88);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.glassTable {
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 1.2rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(176, 132, 89, 0.88), rgba(133, 94, 60, 0.92));
+}
+
+.glassScreen {
+  left: 1rem;
+  right: 1rem;
+  top: 2rem;
+  height: 1.2rem;
+  border-radius: 0.65rem;
+  background: linear-gradient(135deg, rgba(157, 123, 255, 0.7), rgba(99, 213, 255, 0.72));
+}
+
+.archiveWall {
+  left: 1rem;
+  top: 7.4rem;
+  width: 4.7rem;
+  height: 5.8rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    repeating-linear-gradient(180deg, rgba(173, 181, 192, 0.34) 0 0.75rem, transparent 0.75rem 1.3rem);
+}
+
+.deskLane {
+  inset: auto 0 4.2rem;
+  height: 3.6rem;
+}
+
+.deskPod {
+  left: calc(8% + (var(--desk-offset) * 20%));
+  bottom: 0;
+  width: 16%;
+  height: 3.6rem;
+}
+
+.deskSurface {
+  left: 10%;
+  right: 10%;
+  bottom: 0.95rem;
+  height: 1rem;
+  border-radius: 0.7rem;
+  background: linear-gradient(180deg, rgba(241, 245, 249, 0.86), rgba(205, 214, 224, 0.74));
+}
+
+.deskMonitor {
+  left: 19%;
+  right: 19%;
+  top: 0;
+  height: 1.15rem;
+  border-radius: 0.55rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--desk-accent) 68%, white 10%), rgba(99, 213, 255, 0.8));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--desk-accent) 30%, rgba(99, 213, 255, 0.26));
+}
+
+.deskChair {
+  left: 28%;
+  bottom: 0;
+  width: 44%;
+  height: 0.95rem;
+  border-radius: 999px 999px 0.35rem 0.35rem;
+  background: rgba(15, 23, 42, 0.92);
+}
+
+.agent {
+  position: absolute;
+  left: var(--agent-x);
+  top: var(--agent-y);
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+}
+
+.agentPing,
+.agentDot {
+  border-radius: 999px;
+}
+
+.agentPing {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--agent-accent) 56%, white 10%);
+  opacity: 0.42;
+}
+
+.agentDot {
+  position: absolute;
+  top: 0.49rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--active);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.86), 0 0 14px color-mix(in srgb, var(--agent-accent) 56%, white 8%);
+}
+
+.agentLabel {
+  padding: 0.28rem 0.42rem;
+  border-radius: 0.7rem;
+  background: rgba(8, 12, 24, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+  font-size: 0.62rem;
+}
+
+.agentBlocked .agentDot { background: var(--blocked); }
+.agentBlocked .agentPing { border-color: rgba(255, 123, 135, 0.78); }
+.agentWaiting .agentDot { background: var(--waiting); }
+
+.projectTabs,
+.viewNav {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.projectTab,
+.viewButton {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 22px;
+  text-align: left;
+}
+
+.projectTab {
+  display: grid;
+  gap: 0.25rem;
+  border-color: color-mix(in srgb, var(--tab-accent, var(--project-accent)) 22%, rgba(255, 255, 255, 0.12));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+    linear-gradient(180deg, color-mix(in srgb, var(--tab-accent, var(--project-accent)) 12%, transparent), transparent);
+}
+
+.projectTabActive,
+.viewButtonActive {
+  transform: translateY(-2px);
+  border-color: rgba(99, 213, 255, 0.42);
+}
+
+.detailRow {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.detailCard,
+.focusCard,
+.timelineCard,
+.alertCard,
+.agentCard {
+  border-radius: 24px;
+  padding: 1rem;
+}
+
+.viewNav {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.viewButton {
+  color: rgba(245, 247, 255, 0.74);
+  background: rgba(7, 12, 24, 0.74);
+}
+
+.contentCard {
+  display: grid;
+  gap: 0.95rem;
+  padding: 1rem;
+}
+
+.contentHeader {
+  align-items: flex-start;
 }
 
 .overviewGrid {
@@ -491,50 +499,71 @@
 
 .actionRow {
   grid-column: 1 / -1;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .primaryAction,
 .secondaryAction {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 3rem;
-  border-radius: 999px;
-  font-weight: 700;
+  display: block;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
 }
 
 .primaryAction {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 64%, #ffd59d), #f2c685);
-  color: #23170c;
+  background: linear-gradient(180deg, rgba(99, 213, 255, 0.24), rgba(157, 123, 255, 0.18));
+  border-color: rgba(99, 213, 255, 0.42);
 }
 
 .secondaryAction {
   background: rgba(255, 255, 255, 0.04);
-  color: #fff8ef;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-@media (max-width: 760px) {
-  .topBar,
-  .controlDeck,
+.timelineHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.stack {
+  grid-template-columns: 1fr;
+}
+
+.agentCard {
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.agentCard:hover,
+.projectTab:hover,
+.viewButton:hover,
+.primaryAction:hover,
+.secondaryAction:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 420px) {
+  .metricRow,
+  .detailRow,
   .overviewGrid,
-  .actionRow,
-  .metricRail,
-  .projectRail {
+  .viewNav {
     grid-template-columns: 1fr;
   }
 
-  .topBar {
-    display: grid;
+  .projectTabs {
+    grid-template-columns: 1fr;
   }
 
-  .stageCard {
-    min-height: 32rem;
+  .worldMeta {
+    grid-template-columns: 1fr;
   }
 
-  .contentHeader,
-  .timelineHeader {
-    flex-direction: column;
+  .officeScene {
+    min-height: 19rem;
+  }
+
+  .glassRoom,
+  .archiveWall {
+    display: none;
   }
 }
