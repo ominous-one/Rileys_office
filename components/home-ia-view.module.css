@@ -1,4 +1,4 @@
-.page {
+﻿.page {
   --surface: rgba(11, 17, 29, 0.92);
   --surface-2: rgba(16, 24, 40, 0.9);
   --line: rgba(255, 255, 255, 0.1);
@@ -567,3 +567,7 @@
     display: none;
   }
 }
+
+.officeScene > :not(.agent) { opacity: 0.32; }
+.officeScene::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,16,24,0.06), rgba(12,16,24,0.58) 78%, rgba(12,16,24,0.82)); pointer-events: none; }
+
