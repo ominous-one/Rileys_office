@@ -1,18 +1,20 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { StatusPill } from '@/components/ui/status-pill';
-import type { OfficeSnapshot, ProjectSummary } from '@/lib/domain/types';
+import type { AgentSummary, OfficeSnapshot, ProjectSummary } from '@/lib/domain/types';
 import styles from './home-ia-view.module.css';
 
 type HomeView = 'overview' | 'live' | 'team';
+
+type SafeProject = ProjectSummary & { agents: AgentSummary[] };
 
 type RoomAgent = {
   id: string;
   name: string;
   role: string;
-  status: ProjectSummary['agents'][number]['status'];
+  status: AgentSummary['status'];
   currentTask: string;
   blocker?: string;
   x: number;
@@ -38,7 +40,14 @@ const viewLabels: Record<HomeView, { eyebrow: string; title: string; description
   },
 };
 
-function getSafeProject(projects: ProjectSummary[]) {
+function getSafeProjects(projects: ProjectSummary[]): SafeProject[] {
+  return (projects ?? []).map((project) => ({
+    ...project,
+    agents: Array.isArray(project.agents) ? project.agents : [],
+  }));
+}
+
+function getSafeProject(projects: SafeProject[]) {
   return projects[0] ?? null;
 }
 
@@ -46,7 +55,7 @@ function getPressure(activeAgents: number, alerts: number) {
   return Math.min(96, 24 + activeAgents * 17 + alerts * 14);
 }
 
-function buildRoomAgents(project: ProjectSummary | null): RoomAgent[] {
+function buildRoomAgents(project: SafeProject | null): RoomAgent[] {
   if (!project) return [];
 
   const anchors = [
@@ -70,7 +79,7 @@ function buildRoomAgents(project: ProjectSummary | null): RoomAgent[] {
 }
 
 export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
-  const projects = snapshot.projects ?? [];
+  const projects = useMemo(() => getSafeProjects(snapshot.projects ?? []), [snapshot.projects]);
   const [activeProjectId, setActiveProjectId] = useState(() => getSafeProject(projects)?.id ?? '');
   const [activeView, setActiveView] = useState<HomeView>('overview');
 
@@ -78,22 +87,26 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
     return projects.find((project) => project.id === activeProjectId) ?? getSafeProject(projects);
   }, [activeProjectId, projects]);
 
+  const alerts = Array.isArray(snapshot.alerts) ? snapshot.alerts : [];
+  const activity = Array.isArray(snapshot.activity) ? snapshot.activity : [];
+  const conversations = Array.isArray(snapshot.conversations) ? snapshot.conversations : [];
+
   const projectAlerts = useMemo(() => {
     if (!activeProject) return [];
-    return snapshot.alerts.filter((alert) => alert.projectId === activeProject.id).slice(0, 3);
-  }, [activeProject, snapshot.alerts]);
+    return alerts.filter((alert) => alert.projectId === activeProject.id).slice(0, 3);
+  }, [activeProject, alerts]);
 
   const projectActivity = useMemo(() => {
-    if (!activeProject) return snapshot.activity.slice(0, 4);
-    return snapshot.activity.filter((event) => event.projectId === activeProject.id).slice(0, 4);
-  }, [activeProject, snapshot.activity]);
+    if (!activeProject) return activity.slice(0, 4);
+    return activity.filter((event) => event.projectId === activeProject.id).slice(0, 4);
+  }, [activeProject, activity]);
 
   const roomAgents = useMemo(() => buildRoomAgents(activeProject), [activeProject]);
   const leadAgent = activeProject?.agents[0] ?? null;
   const activeAgents = activeProject?.agents.filter((agent) => agent.status === 'active').length ?? 0;
   const totalAgents = activeProject?.agents.length ?? 0;
   const pressure = getPressure(activeAgents, projectAlerts.length);
-  const conversation = snapshot.conversations.find((item) => item.title.toLowerCase().includes('riley')) ?? snapshot.conversations[0] ?? null;
+  const conversation = conversations.find((item) => item.title.toLowerCase().includes('riley')) ?? conversations[0] ?? null;
 
   return (
     <main className={`page-stack page-stack--world ${styles.page}`}>
@@ -121,7 +134,7 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
             <div className={styles.metricRail}>
               <article className={styles.metricTile}>
                 <span>Run state</span>
-                <strong>{activeProject?.activeRun.progressLabel ?? 'Standby'}</strong>
+                <strong>{activeProject?.activeRun?.progressLabel ?? 'Standby'}</strong>
               </article>
               <article className={styles.metricTile}>
                 <span>Operators</span>
@@ -186,7 +199,7 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
               style={{ ['--chip-accent' as string]: project.accent }}
             >
               <span>{project.name}</span>
-              <small>{project.activeRun.progressLabel}</small>
+              <small>{project.activeRun?.progressLabel ?? 'Standby'}</small>
             </button>
           ))}
         </section>
@@ -196,7 +209,7 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
             <section className={styles.controlDeck}>
               <div className={styles.directiveCard}>
                 <span className={styles.sectionLabel}>Current directive</span>
-                <strong>{activeProject.activeRun.summary}</strong>
+                <strong>{activeProject.activeRun?.summary ?? 'No active directive'}</strong>
                 <p>{activeProject.tagline}</p>
               </div>
               <div className={styles.summaryCard}>
@@ -238,7 +251,7 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
                   <article className={styles.focusCard}>
                     <span className={styles.cardLabel}>Mission posture</span>
                     <strong>{activeProject.mission}</strong>
-                    <p>{activeProject.activeRun.progressLabel}</p>
+                    <p>{activeProject.activeRun?.progressLabel ?? 'Standby'}</p>
                   </article>
                   <article className={styles.focusCard}>
                     <span className={styles.cardLabel}>Conversation rail</span>
@@ -293,7 +306,17 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
               ) : null}
             </section>
           </>
-        ) : null}
+        ) : (
+          <section className={styles.contentCard}>
+            <div className={styles.contentHeader}>
+              <div>
+                <span className={styles.sectionLabel}>No project data</span>
+                <h2>Office world ready</h2>
+              </div>
+              <p>The shell is live, but the office snapshot has not returned any projects yet.</p>
+            </div>
+          </section>
+        )}
       </section>
     </main>
   );
