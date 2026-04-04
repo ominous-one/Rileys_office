@@ -3,218 +3,442 @@
 }
 
 .shell {
+  --panel: rgba(15, 21, 33, 0.78);
+  --panel-strong: rgba(12, 17, 28, 0.88);
   position: relative;
-  overflow: hidden;
   display: grid;
   gap: 1rem;
-  min-height: calc(100dvh - 5.5rem);
-  padding: 1rem 1rem 7rem;
-  color: #f3f6ff;
-  background:
-    radial-gradient(circle at top, rgba(88, 124, 255, 0.22), transparent 30%),
-    linear-gradient(180deg, #07111f 0%, #050a14 52%, #03060c 100%);
+  min-height: calc(100dvh - 6rem);
+  padding: 0.75rem 0 7rem;
+  color: #f7f4ee;
 }
 
-.heroArt,
-.heroGlow,
-.heroGrid,
-.heroHorizon,
-.heroRing,
-.heroPanel {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.heroGlow {
-  background:
-    radial-gradient(circle at 18% 20%, rgba(88, 124, 255, 0.2), transparent 28%),
-    radial-gradient(circle at 82% 16%, rgba(65, 230, 205, 0.14), transparent 26%),
-    radial-gradient(circle at 50% 58%, rgba(255, 255, 255, 0.06), transparent 38%);
-}
-
-.heroGrid {
-  inset: auto -20% 20%;
-  height: 30%;
-  background:
-    linear-gradient(rgba(116, 140, 189, 0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(116, 140, 189, 0.12) 1px, transparent 1px);
-  background-size: 2.4rem 2.4rem;
-  transform: perspective(720px) rotateX(78deg);
-  opacity: 0.32;
-}
-
-.heroHorizon {
-  inset: 16% 12% auto;
-  height: 14rem;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(76, 103, 255, 0.2) 0%, rgba(76, 103, 255, 0) 72%);
-  filter: blur(18px);
-}
-
-.heroRing {
-  inset: 7rem auto auto 50%;
-  width: 18rem;
-  height: 18rem;
-  border: 1px solid rgba(133, 154, 255, 0.22);
-  border-radius: 999px;
-  transform: translateX(-50%);
-  box-shadow: 0 0 80px rgba(76, 103, 255, 0.16), inset 0 0 40px rgba(76, 103, 255, 0.08);
-}
-
-.heroPanel {
-  inset: 5.5rem 8% auto;
-  height: 16rem;
-  border-radius: 2rem;
-  background: linear-gradient(180deg, rgba(13, 25, 44, 0.5), rgba(8, 14, 26, 0.08));
-  border: 1px solid rgba(161, 180, 255, 0.1);
-  backdrop-filter: blur(10px);
-}
-
-.hero,
-.controlStrip,
+.topBar,
+.stageCard,
+.projectRail,
+.controlDeck,
 .viewNav,
-.contentCard,
-.projectTabs {
+.contentCard {
   position: relative;
   z-index: 1;
 }
 
-.hero {
-  display: grid;
-  gap: 1rem;
-  padding-top: 1.25rem;
+.topBar,
+.stageCard,
+.controlDeck,
+.contentCard,
+.projectChip,
+.viewButton,
+.directiveCard,
+.summaryCard,
+.focusCard,
+.timelineCard,
+.alertCard,
+.agentCard,
+.metricTile {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
-.heroTopline,
-.contentHeader,
-.agentRow,
-.timelineHeader {
+.topBar,
+.stageCard,
+.controlDeck,
+.contentCard {
+  margin: 0 0.25rem;
+  border-radius: 1.8rem;
+}
+
+.topBar {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 0.8rem;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem;
+  background: linear-gradient(180deg, rgba(16, 20, 29, 0.76), rgba(16, 20, 29, 0.36));
+  backdrop-filter: blur(18px);
 }
 
 .eyebrow,
 .sectionLabel,
 .cardLabel,
-.heroCardLabel {
+.sceneLabel {
+  display: inline-block;
   font-size: 0.72rem;
-  line-height: 1;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #8ea0cb;
-}
-
-.connection {
-  padding: 0.45rem 0.75rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #dfe7ff;
-  font-size: 0.78rem;
-}
-
-.headlineBlock {
-  display: grid;
-  gap: 1rem;
+  color: rgba(247, 242, 233, 0.66);
 }
 
 .title {
-  margin: 0;
-  font-size: clamp(2.4rem, 9vw, 4.2rem);
-  line-height: 0.95;
+  margin: 0.3rem 0 0;
+  max-width: 14ch;
+  font-size: clamp(2.25rem, 7.5vw, 4.2rem);
+  line-height: 0.94;
   letter-spacing: -0.05em;
 }
 
-.lede,
-.contentHeader p,
-.primaryBrief p,
-.featureCard p,
-.timelineCard p,
-.agentCard p,
-.emptyCard p,
-.heroCard p {
-  margin: 0;
-  color: #a9b7da;
-  line-height: 1.5;
-}
-
-.heroCard,
-.controlStrip,
-.contentCard,
-.projectTab,
-.viewButton,
-.featureCard,
-.timelineCard,
-.agentCard,
-.emptyCard,
-.metricCard {
-  border: 1px solid rgba(160, 178, 255, 0.12);
-  background: linear-gradient(180deg, rgba(10, 18, 32, 0.9), rgba(7, 12, 22, 0.82));
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
-}
-
-.heroCard {
+.connectionBadge {
+  min-width: 7.8rem;
   display: grid;
-  gap: 0.7rem;
-  padding: 1rem;
-  border-radius: 1.5rem;
+  gap: 0.16rem;
+  padding: 0.9rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 248, 238, 0.08);
 }
 
-.heroCard strong,
-.primaryBrief strong,
-.featureCard strong,
-.metricCard strong,
+.connectionBadge span,
+.connectionBadge small,
+.metricTile span,
+.projectChip small,
+.timelineHeader span,
+.focusCard p,
+.directiveCard p,
+.summaryCard p,
+.timelineCard p,
+.alertCard p,
+.agentCard p,
+.sceneLead p {
+  color: rgba(236, 231, 222, 0.72);
+}
+
+.connectionBadge strong,
+.metricTile strong,
+.directiveCard strong,
+.summaryCard strong,
+.focusCard strong,
+.timelineCard strong,
+.alertCard strong,
 .agentCard strong,
-.timelineCard strong {
-  font-size: 1.05rem;
+.sceneLead strong {
+  color: #fff9f2;
 }
 
-.heroStats,
-.miniMetrics,
+.stageCard {
+  overflow: hidden;
+  display: grid;
+  gap: 1rem;
+  min-height: 34rem;
+  padding: 1.1rem;
+  background:
+    radial-gradient(circle at 16% 14%, rgba(255, 194, 118, 0.16), transparent 22%),
+    radial-gradient(circle at 82% 10%, rgba(124, 163, 255, 0.2), transparent 26%),
+    linear-gradient(180deg, #1b2030 0%, #101520 62%, #0d1119 100%);
+}
+
+.sceneCopy {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.sceneLead {
+  max-width: 32rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.sceneLead p,
+.contentHeader p,
+.timelineCard p,
+.alertCard p,
+.agentCard p,
+.focusCard p,
+.directiveCard p,
+.summaryCard p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.metricRail,
 .overviewGrid,
 .actionRow,
 .stack,
-.projectTabs {
+.projectRail,
+.controlDeck {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.75rem;
 }
 
-.heroStats {
+.metricRail {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.heroStats span,
-.metricCard span {
-  color: #8ea0cb;
-  font-size: 0.78rem;
-}
-
-.controlStrip,
-.contentCard {
-  border-radius: 1.5rem;
-  padding: 1rem;
-}
-
-.primaryBrief {
+.metricTile,
+.directiveCard,
+.summaryCard,
+.focusCard,
+.timelineCard,
+.alertCard,
+.agentCard {
   display: grid;
   gap: 0.45rem;
-}
-
-.miniMetrics {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.metricCard {
-  display: grid;
-  gap: 0.55rem;
-  border-radius: 1.2rem;
   padding: 0.95rem;
+  border-radius: 1.2rem;
+  background: linear-gradient(180deg, rgba(255, 248, 238, 0.08), rgba(10, 14, 21, 0.3));
+  backdrop-filter: blur(14px);
 }
 
-.metricInline {
+.roomStage {
+  position: relative;
+  min-height: 22rem;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(250, 225, 184, 0.08), rgba(13, 16, 24, 0) 38%),
+    linear-gradient(180deg, rgba(21, 28, 40, 0.2), rgba(12, 17, 24, 0.18));
+}
+
+.skyGlow,
+.windowBand,
+.wallLeft,
+.wallRight,
+.ceiling,
+.floor,
+.walkwayGlow,
+.centralTable,
+.tableLight,
+.opsWall,
+.deskRow,
+.agentMarker {
+  position: absolute;
+}
+
+.skyGlow {
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(255, 240, 212, 0.28), transparent 22%),
+    radial-gradient(circle at 50% 25%, rgba(136, 166, 255, 0.16), transparent 34%);
+}
+
+.windowBand {
+  left: 16%;
+  right: 16%;
+  top: 12%;
+  height: 1.3rem;
+  border-radius: 999px;
+  background:
+    repeating-linear-gradient(90deg, rgba(220, 238, 255, 0.82), rgba(220, 238, 255, 0.82) 4rem, rgba(157, 178, 201, 0.5) 4rem, rgba(157, 178, 201, 0.5) 4.25rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.16));
+}
+
+.wallLeft,
+.wallRight {
+  top: 18%;
+  bottom: 24%;
+  width: 20%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.wallLeft {
+  left: -2%;
+  transform: skewY(10deg);
+}
+
+.wallRight {
+  right: -2%;
+  transform: skewY(-10deg);
+}
+
+.ceiling {
+  left: 11%;
+  right: 11%;
+  top: 3%;
+  height: 22%;
+  border-radius: 1.4rem 1.4rem 0.8rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 251, 243, 0.9), rgba(255, 251, 243, 0.9) 4rem, rgba(225, 216, 201, 0.95) 4rem, rgba(225, 216, 201, 0.95) 4.35rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02));
+  transform: perspective(1000px) rotateX(70deg);
+  transform-origin: top;
+}
+
+.floor {
+  left: -10%;
+  right: -10%;
+  bottom: -14%;
+  height: 48%;
+  transform: perspective(1200px) rotateX(78deg);
+  transform-origin: bottom;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 54px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 42px),
+    linear-gradient(180deg, #6b7078, #2e3138 44%, #121722 100%);
+}
+
+.walkwayGlow {
+  left: 18%;
+  right: 18%;
+  bottom: 18%;
+  height: 28%;
+  background: radial-gradient(circle at center, rgba(255, 203, 120, 0.16), transparent 60%);
+  filter: blur(18px);
+}
+
+.centralTable {
+  left: 50%;
+  bottom: 25%;
+  width: min(62vw, 18rem);
+  height: 5rem;
+  transform: translateX(-50%) perspective(1000px) rotateX(72deg);
+  border-radius: 1.4rem;
+  background: linear-gradient(180deg, rgba(182, 138, 93, 0.92), rgba(126, 92, 59, 0.95));
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+}
+
+.tableLight {
+  left: 50%;
+  bottom: 19%;
+  width: min(66vw, 19rem);
+  height: 5rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 214, 153, 0.24);
+  box-shadow: 0 0 38px rgba(255, 196, 112, 0.16), inset 0 0 18px rgba(255, 255, 255, 0.06);
+}
+
+.opsWall {
+  left: 50%;
+  top: 33%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.opsScreen {
+  width: 2.6rem;
+  height: 1.4rem;
+  border-radius: 0.55rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 58%, white 12%), rgba(255, 208, 122, 0.82));
+  box-shadow: 0 0 18px rgba(255, 203, 139, 0.16);
+}
+
+.deskRow {
+  left: 0;
+  right: 0;
+  bottom: 21%;
+  height: 18%;
+}
+
+.deskPod {
+  position: absolute;
+  left: calc(11% + (var(--desk-index) * 18%));
+  bottom: calc(6% + (var(--desk-index) * 1.5%));
+  width: 15%;
+  height: 56%;
+  transform: perspective(900px) rotateX(72deg);
+}
+
+.deskMonitor,
+.deskSurface,
+.deskChair {
+  position: absolute;
+  display: block;
+}
+
+.deskMonitor {
+  left: 14%;
+  top: 0;
+  width: 72%;
+  height: 44%;
+  border-radius: 0.45rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--desk-accent) 66%, white 12%), rgba(255, 228, 187, 0.82));
+}
+
+.deskSurface {
+  inset: 26% 4% auto;
+  height: 28%;
+  border-radius: 0.6rem;
+  background: linear-gradient(180deg, #e4d8c8, #baab95);
+}
+
+.deskChair {
+  left: 28%;
+  bottom: 0;
+  width: 42%;
+  height: 22%;
+  border-radius: 999px 999px 0.35rem 0.35rem;
+  background: #1e2530;
+}
+
+.agentMarker {
+  left: var(--agent-x);
+  top: var(--agent-y);
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 0.28rem;
+}
+
+.agentPulse,
+.agentBody {
+  border-radius: 999px;
+}
+
+.agentPulse {
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 1px solid color-mix(in srgb, var(--agent-accent) 60%, white 12%);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--agent-accent) 22%, transparent);
+}
+
+.agentBody {
+  margin-top: -1.25rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  background: #fff7ef;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--agent-accent) 60%, transparent), 0 0 20px color-mix(in srgb, var(--agent-accent) 35%, transparent);
+}
+
+.agentTag {
+  padding: 0.26rem 0.44rem;
+  border-radius: 0.7rem;
+  background: rgba(10, 15, 24, 0.72);
+  font-size: 0.62rem;
+  line-height: 1;
+}
+
+.agentMarkerBlocked .agentBody {
+  background: #ff9aa3;
+}
+
+.agentMarkerWaiting .agentBody {
+  background: #ffd08a;
+}
+
+.projectRail {
+  grid-template-columns: repeat(auto-fit, minmax(8.4rem, 1fr));
+  margin: 0 0.25rem;
+}
+
+.projectChip {
+  display: grid;
+  gap: 0.24rem;
+  padding: 0.92rem;
+  border-radius: 1.15rem;
+  text-align: left;
+  color: #fffaf3;
+  background:
+    linear-gradient(180deg, rgba(18, 23, 35, 0.9), rgba(12, 17, 26, 0.8)),
+    linear-gradient(180deg, color-mix(in srgb, var(--chip-accent) 16%, transparent), transparent);
+}
+
+.projectChipActive {
+  border-color: color-mix(in srgb, var(--chip-accent) 70%, white 10%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--chip-accent) 20%, transparent), 0 24px 50px rgba(0, 0, 0, 0.3);
+}
+
+.controlDeck {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+.directiveCard,
+.summaryCard,
+.contentCard {
+  background: linear-gradient(180deg, var(--panel), var(--panel-strong));
+  backdrop-filter: blur(18px);
+}
+
+.statusRow {
   display: flex;
   align-items: center;
 }
@@ -223,22 +447,33 @@
   display: flex;
   gap: 0.6rem;
   overflow-x: auto;
-  padding-bottom: 0.1rem;
+  margin: 0 0.25rem;
 }
 
 .viewButton {
   padding: 0.85rem 1rem;
   border-radius: 999px;
-  color: #c8d3f3;
+  background: rgba(15, 20, 31, 0.86);
+  color: rgba(248, 242, 232, 0.74);
 }
 
 .viewButtonActive {
-  background: linear-gradient(180deg, rgba(105, 130, 255, 0.28), rgba(27, 41, 82, 0.92));
-  color: #ffffff;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 48%, #f4c98d), rgba(15, 19, 28, 0.9));
+  color: #fff;
 }
 
 .contentCard {
+  display: grid;
   gap: 1rem;
+  padding: 1rem;
+}
+
+.contentHeader,
+.timelineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
 }
 
 .contentHeader {
@@ -246,113 +481,60 @@
 }
 
 .contentHeader h2 {
-  margin: 0.35rem 0 0;
-  font-size: 1.55rem;
+  margin: 0.3rem 0 0;
+  font-size: 1.5rem;
 }
 
-.featureCard,
-.timelineCard,
-.agentCard,
-.emptyCard {
-  display: grid;
-  gap: 0.55rem;
-  border-radius: 1.2rem;
-  padding: 1rem;
+.overviewGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .actionRow {
-  margin-top: 0.2rem;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .primaryAction,
 .secondaryAction {
   display: inline-flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   min-height: 3rem;
   border-radius: 999px;
-  text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .primaryAction {
-  background: linear-gradient(135deg, #7a90ff, #9d6bff);
-  color: #030611;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 64%, #ffd59d), #f2c685);
+  color: #23170c;
 }
 
 .secondaryAction {
-  border: 1px solid rgba(160, 178, 255, 0.18);
-  background: rgba(255, 255, 255, 0.03);
-  color: #edf2ff;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff8ef;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.agentStatus {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.liveDot {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 999px;
-  background: #60708f;
-}
-
-.liveDotActive {
-  background: #74ffd9;
-  box-shadow: 0 0 0 0 rgba(116, 255, 217, 0.6);
-  animation: pulse 1.8s ease-out infinite;
-}
-
-.projectTabs {
-  margin-top: 0.25rem;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-}
-
-.projectTab {
-  display: grid;
-  gap: 0.2rem;
-  padding: 0.9rem 0.95rem;
-  border-radius: 1.2rem;
-  color: #dbe4ff;
-  text-align: left;
-}
-
-.projectTab small {
-  color: #9dafd8;
-}
-
-.projectTabActive {
-  border-color: color-mix(in srgb, var(--tab-accent) 68%, white 12%);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tab-accent) 24%, transparent), 0 22px 40px rgba(0, 0, 0, 0.34);
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(116, 255, 217, 0.45); }
-  70% { box-shadow: 0 0 0 12px rgba(116, 255, 217, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(116, 255, 217, 0); }
-}
-
-@media (min-width: 780px) {
-  .shell {
-    max-width: 860px;
-    margin: 0 auto;
-    padding-bottom: 7rem;
+@media (max-width: 760px) {
+  .topBar,
+  .controlDeck,
+  .overviewGrid,
+  .actionRow,
+  .metricRail,
+  .projectRail {
+    grid-template-columns: 1fr;
   }
 
-  .headlineBlock,
-  .controlStrip,
-  .overviewGrid {
-    grid-template-columns: 1.4fr 1fr;
+  .topBar {
+    display: grid;
   }
 
-  .contentHeader {
-    flex-direction: row;
+  .stageCard {
+    min-height: 32rem;
   }
 
-  .actionRow {
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .contentHeader,
+  .timelineHeader {
+    flex-direction: column;
   }
 }

@@ -6,28 +6,67 @@ import { StatusPill } from '@/components/ui/status-pill';
 import type { OfficeSnapshot, ProjectSummary } from '@/lib/domain/types';
 import styles from './home-ia-view.module.css';
 
-type HomeView = 'overview' | 'activity' | 'team';
+type HomeView = 'overview' | 'live' | 'team';
+
+type RoomAgent = {
+  id: string;
+  name: string;
+  role: string;
+  status: ProjectSummary['agents'][number]['status'];
+  currentTask: string;
+  blocker?: string;
+  x: number;
+  y: number;
+  accent: string;
+};
 
 const viewLabels: Record<HomeView, { eyebrow: string; title: string; description: string }> = {
   overview: {
     eyebrow: 'Overview',
-    title: 'Command brief',
-    description: 'Mission posture, delivery signal, and the fastest route into the active project room.',
+    title: 'Room brief',
+    description: 'Read the room first: active mission, occupied desks, and the path into the live project suite.',
   },
-  activity: {
-    eyebrow: 'Activity',
-    title: 'Live execution feed',
-    description: 'Recent movement for the selected project, curated for a clean read on mobile.',
+  live: {
+    eyebrow: 'Live feed',
+    title: 'OpenClaw activity on the floor',
+    description: 'Fresh movement, alerting, and thread state pulled into the office instead of floating above it.',
   },
   team: {
-    eyebrow: 'Team',
-    title: 'Active operators',
-    description: 'Current desks, roles, and who is carrying the frontline work right now.',
+    eyebrow: 'Operators',
+    title: 'People in the room',
+    description: 'Agents are represented as stationed operators with live status and current work pinned to their desk.',
   },
 };
 
 function getSafeProject(projects: ProjectSummary[]) {
   return projects[0] ?? null;
+}
+
+function getPressure(activeAgents: number, alerts: number) {
+  return Math.min(96, 24 + activeAgents * 17 + alerts * 14);
+}
+
+function buildRoomAgents(project: ProjectSummary | null): RoomAgent[] {
+  if (!project) return [];
+
+  const anchors = [
+    { x: 23, y: 63 },
+    { x: 40, y: 56 },
+    { x: 60, y: 58 },
+    { x: 77, y: 65 },
+  ];
+
+  return project.agents.slice(0, 4).map((agent, index) => ({
+    id: agent.id,
+    name: agent.name,
+    role: agent.role,
+    status: agent.status,
+    currentTask: agent.currentTask,
+    blocker: agent.blocker,
+    x: anchors[index]?.x ?? 50,
+    y: anchors[index]?.y ?? 60,
+    accent: project.accent,
+  }));
 }
 
 export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
@@ -49,81 +88,124 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
     return snapshot.activity.filter((event) => event.projectId === activeProject.id).slice(0, 4);
   }, [activeProject, snapshot.activity]);
 
+  const roomAgents = useMemo(() => buildRoomAgents(activeProject), [activeProject]);
   const leadAgent = activeProject?.agents[0] ?? null;
   const activeAgents = activeProject?.agents.filter((agent) => agent.status === 'active').length ?? 0;
   const totalAgents = activeProject?.agents.length ?? 0;
-  const pressure = Math.min(98, 26 + activeAgents * 18 + projectAlerts.length * 15);
-  const focusLabel = activeProject?.activeRun.progressLabel ?? 'Standby';
+  const pressure = getPressure(activeAgents, projectAlerts.length);
+  const conversation = snapshot.conversations.find((item) => item.title.toLowerCase().includes('riley')) ?? snapshot.conversations[0] ?? null;
 
   return (
     <main className={`page-stack page-stack--world ${styles.page}`}>
-      <section className={styles.shell}>
-        <div className={styles.heroArt} aria-hidden="true">
-          <div className={styles.heroGlow} />
-          <div className={styles.heroGrid} />
-          <div className={styles.heroHorizon} />
-          <div className={styles.heroRing} style={{ opacity: 0.3 + pressure / 180 }} />
-          <div className={styles.heroPanel} />
-        </div>
-
-        <header className={styles.hero}>
-          <div className={styles.heroTopline}>
-            <span className={styles.eyebrow}>Riley&apos;s Office HQ</span>
-            <span className={styles.connection}>
-              {snapshot.connection.mode} relay - {snapshot.connection.state}
-            </span>
+      <section className={styles.shell} style={{ ['--project-accent' as string]: activeProject?.accent ?? '#9d7bff' }}>
+        <header className={styles.topBar}>
+          <div>
+            <span className={styles.eyebrow}>Riley&apos;s Office</span>
+            <h1 className={styles.title}>A furnished command world that lets the room do the talking.</h1>
           </div>
-
-          <div className={styles.headlineBlock}>
-            <div>
-              <h1 className={styles.title}>Premium command lobby for the work that matters now.</h1>
-              <p className={styles.lede}>
-                Calm, dark, and signal-first. The lobby keeps a cinematic shell while the selected project surfaces the
-                live snapshot that actually drives decisions.
-              </p>
-            </div>
-
-            <div className={styles.heroCard}>
-              <span className={styles.heroCardLabel}>Selected project</span>
-              <strong>{activeProject?.name ?? 'No project loaded'}</strong>
-              <p>{activeProject?.tagline ?? 'Waiting for office snapshot data.'}</p>
-              <div className={styles.heroStats}>
-                <div>
-                  <span>Pressure</span>
-                  <strong>{pressure}%</strong>
-                </div>
-                <div>
-                  <span>Operators</span>
-                  <strong>{activeAgents}/{totalAgents}</strong>
-                </div>
-                <div>
-                  <span>Alerts</span>
-                  <strong>{projectAlerts.length}</strong>
-                </div>
-              </div>
-            </div>
+          <div className={styles.connectionBadge}>
+            <span>{snapshot.connection.mode}</span>
+            <strong>{snapshot.connection.state}</strong>
+            <small>{snapshot.connection.lastUpdated}</small>
           </div>
         </header>
 
+        <section className={styles.stageCard}>
+          <div className={styles.sceneCopy}>
+            <div className={styles.sceneLead}>
+              <span className={styles.sceneLabel}>Active suite</span>
+              <strong>{activeProject?.name ?? 'No active project'}</strong>
+              <p>{activeProject?.mission ?? 'Waiting on office snapshot data.'}</p>
+            </div>
+
+            <div className={styles.metricRail}>
+              <article className={styles.metricTile}>
+                <span>Run state</span>
+                <strong>{activeProject?.activeRun.progressLabel ?? 'Standby'}</strong>
+              </article>
+              <article className={styles.metricTile}>
+                <span>Operators</span>
+                <strong>{activeAgents}/{totalAgents}</strong>
+              </article>
+              <article className={styles.metricTile}>
+                <span>Pressure</span>
+                <strong>{pressure}%</strong>
+              </article>
+            </div>
+          </div>
+
+          <div className={styles.roomStage} aria-hidden="true">
+            <div className={styles.skyGlow} />
+            <div className={styles.windowBand} />
+            <div className={styles.wallLeft} />
+            <div className={styles.wallRight} />
+            <div className={styles.ceiling} />
+            <div className={styles.floor} />
+            <div className={styles.walkwayGlow} />
+            <div className={styles.centralTable} />
+            <div className={styles.tableLight} />
+            <div className={styles.opsWall}>
+              {projectAlerts.length ? projectAlerts.map((alert) => <span key={alert.id} className={styles.opsScreen} />) : <span className={styles.opsScreen} />}
+            </div>
+
+            <div className={styles.deskRow}>
+              {projects.slice(0, 4).map((project, index) => (
+                <div key={project.id} className={styles.deskPod} style={{ ['--desk-index' as string]: `${index}`, ['--desk-accent' as string]: project.accent }}>
+                  <span className={styles.deskMonitor} />
+                  <span className={styles.deskSurface} />
+                  <span className={styles.deskChair} />
+                </div>
+              ))}
+            </div>
+
+            {roomAgents.map((agent) => (
+              <div
+                key={agent.id}
+                className={`${styles.agentMarker} ${styles[`agentMarker${agent.status.charAt(0).toUpperCase()}${agent.status.slice(1)}`] ?? ''}`}
+                style={{
+                  ['--agent-x' as string]: `${agent.x}%`,
+                  ['--agent-y' as string]: `${agent.y}%`,
+                  ['--agent-accent' as string]: agent.accent,
+                }}
+              >
+                <span className={styles.agentPulse} />
+                <span className={styles.agentBody} />
+                <span className={styles.agentTag}>{agent.name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.projectRail} aria-label="Projects">
+          {projects.map((project) => (
+            <button
+              key={project.id}
+              type="button"
+              className={`${styles.projectChip} ${project.id === activeProject?.id ? styles.projectChipActive : ''}`}
+              onClick={() => setActiveProjectId(project.id)}
+              style={{ ['--chip-accent' as string]: project.accent }}
+            >
+              <span>{project.name}</span>
+              <small>{project.activeRun.progressLabel}</small>
+            </button>
+          ))}
+        </section>
+
         {activeProject ? (
           <>
-            <section className={styles.controlStrip}>
-              <div className={styles.primaryBrief}>
+            <section className={styles.controlDeck}>
+              <div className={styles.directiveCard}>
                 <span className={styles.sectionLabel}>Current directive</span>
                 <strong>{activeProject.activeRun.summary}</strong>
-                <p>{activeProject.mission}</p>
+                <p>{activeProject.tagline}</p>
               </div>
-              <div className={styles.miniMetrics}>
-                <article className={styles.metricCard}>
-                  <span>Delivery state</span>
-                  <strong>{focusLabel}</strong>
-                </article>
-                <article className={styles.metricCard}>
-                  <span>Health</span>
-                  <div className={styles.metricInline}>
-                    <StatusPill state={activeProject.health} />
-                  </div>
-                </article>
+              <div className={styles.summaryCard}>
+                <span className={styles.sectionLabel}>Lead desk</span>
+                <strong>{leadAgent?.name ?? 'Unassigned'}</strong>
+                <p>{leadAgent?.currentTask ?? 'Assign a lead to surface workstation details.'}</p>
+                <div className={styles.statusRow}>
+                  <StatusPill state={activeProject.health} />
+                </div>
               </div>
             </section>
 
@@ -153,45 +235,43 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
 
               {activeView === 'overview' ? (
                 <div className={styles.overviewGrid}>
-                  <article className={styles.featureCard}>
-                    <span className={styles.cardLabel}>Mission</span>
-                    <strong>{activeProject.tagline}</strong>
+                  <article className={styles.focusCard}>
+                    <span className={styles.cardLabel}>Mission posture</span>
+                    <strong>{activeProject.mission}</strong>
                     <p>{activeProject.activeRun.progressLabel}</p>
                   </article>
-                  <article className={styles.featureCard}>
-                    <span className={styles.cardLabel}>Lead operator</span>
-                    <strong>{leadAgent?.name ?? 'Unassigned'}</strong>
-                    <p>{leadAgent?.currentTask ?? 'Assign a lead to surface workstation details here.'}</p>
+                  <article className={styles.focusCard}>
+                    <span className={styles.cardLabel}>Conversation rail</span>
+                    <strong>{conversation?.title ?? 'No active thread'}</strong>
+                    <p>{conversation?.latestMessage ?? 'Conversation updates will appear here.'}</p>
                   </article>
                   <div className={styles.actionRow}>
                     <Link href={`/projects/${activeProject.id}`} className={styles.primaryAction}>Open project room</Link>
-                    {leadAgent ? (
-                      <Link href={`/agents/${leadAgent.id}`} className={styles.secondaryAction}>
-                        Open lead workstation
-                      </Link>
-                    ) : null}
+                    {leadAgent ? <Link href={`/agents/${leadAgent.id}`} className={styles.secondaryAction}>Open lead workstation</Link> : null}
                   </div>
                 </div>
               ) : null}
 
-              {activeView === 'activity' ? (
+              {activeView === 'live' ? (
                 <div className={styles.stack}>
-                  {projectActivity.length ? (
-                    projectActivity.map((event) => (
-                      <article key={event.id} className={styles.timelineCard}>
-                        <div className={styles.timelineHeader}>
-                          <strong>{event.label}</strong>
-                          <span>{event.timestamp}</span>
-                        </div>
-                        <p>{event.detail}</p>
-                      </article>
-                    ))
-                  ) : (
-                    <article className={styles.emptyCard}>
-                      <strong>No recent activity</strong>
-                      <p>Signals will land here as the live feed updates.</p>
+                  {projectActivity.map((event) => (
+                    <article key={event.id} className={styles.timelineCard}>
+                      <div className={styles.timelineHeader}>
+                        <strong>{event.label}</strong>
+                        <span>{event.timestamp}</span>
+                      </div>
+                      <p>{event.detail}</p>
                     </article>
-                  )}
+                  ))}
+                  {projectAlerts.map((alert) => (
+                    <article key={alert.id} className={styles.alertCard}>
+                      <div className={styles.timelineHeader}>
+                        <strong>{alert.title}</strong>
+                        <span>{alert.level}</span>
+                      </div>
+                      <p>{alert.detail}</p>
+                    </article>
+                  ))}
                 </div>
               ) : null}
 
@@ -199,54 +279,21 @@ export function HomeIAView({ snapshot }: { snapshot: OfficeSnapshot }) {
                 <div className={styles.stack}>
                   {activeProject.agents.map((agent) => (
                     <Link key={agent.id} href={`/agents/${agent.id}`} className={styles.agentCard}>
-                      <div className={styles.agentRow}>
+                      <div className={styles.timelineHeader}>
                         <div>
                           <strong>{agent.name}</strong>
                           <p>{agent.role}</p>
                         </div>
-                        <div className={styles.agentStatus}>
-                          <span
-                            className={`${styles.liveDot} ${agent.status === 'active' ? styles.liveDotActive : ''}`}
-                            aria-hidden="true"
-                          />
-                          <StatusPill state={agent.status} />
-                        </div>
+                        <StatusPill state={agent.status} />
                       </div>
-                      <p>{agent.currentTask}</p>
+                      <p>{agent.status === 'blocked' ? agent.blocker ?? agent.currentTask : agent.currentTask}</p>
                     </Link>
                   ))}
                 </div>
               ) : null}
             </section>
           </>
-        ) : (
-          <section className={styles.contentCard}>
-            <div className={styles.contentHeader}>
-              <div>
-                <span className={styles.sectionLabel}>No project data</span>
-                <h2>Lobby ready</h2>
-              </div>
-              <p>The shell is live, but the office snapshot has not returned any projects yet.</p>
-            </div>
-          </section>
-        )}
-
-        <nav className={styles.projectTabs} role="tablist" aria-label="Projects">
-          {projects.map((project) => (
-            <button
-              key={project.id}
-              type="button"
-              className={`${styles.projectTab} ${project.id === activeProject?.id ? styles.projectTabActive : ''}`}
-              onClick={() => setActiveProjectId(project.id)}
-              role="tab"
-              aria-selected={project.id === activeProject?.id}
-              style={{ ['--tab-accent' as string]: project.accent }}
-            >
-              <span>{project.name}</span>
-              <small>{project.activeRun.progressLabel}</small>
-            </button>
-          ))}
-        </nav>
+        ) : null}
       </section>
     </main>
   );
