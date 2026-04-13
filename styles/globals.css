@@ -2577,8 +2577,8 @@ h3 {
 /* Three-column layout */
 .layout-three-column { display: flex; width: 100%; height: 100%; }
 .layout-center { flex: 1; min-width: 0; position: relative; }
-.layout-left { width: 220px; background: #111520; border-right: 1px solid #23293a; overflow-y: auto; flex-shrink: 0; }
-.layout-right { width: 300px; background: #111520; border-left: 1px solid #23293a; overflow-y: auto; flex-shrink: 0; }
+.layout-left { width: 200px; min-width: 160px; background: #111520; border-right: 1px solid #23293a; overflow-y: auto; flex-shrink: 0; }
+.layout-right { width: 280px; min-width: 200px; background: #111520; border-left: 1px solid #23293a; overflow-y: auto; flex-shrink: 0; }
 
 /* Mobile stacked */
 .layout-mobile { display: flex; flex-direction: column; height: 100%; }
@@ -2760,13 +2760,23 @@ h3 {
 .project-tab-btn.active { border-color: var(--tab-accent, #9d7bff); color: #e7ecf7; background: rgba(255,255,255,0.03); }
 
 /* Mobile overrides */
-@media (max-width: 768px) {
-  .layout-left { display: none; }
-  .layout-right { display: none; }
-  .layout-three-column { display: block; }
-  .layout-center { height: 100%; }
-  .map-status { top: 8px; left: 8px; padding: 4px 8px; }
+@media (max-width: 1024px) {
+  .layout-three-column { flex-wrap: wrap; }
+  .layout-left { width: 100%; min-width: 100%; order: 2; border-right: none; border-top: 1px solid #23293a; max-height: 180px; flex-direction: row; display: flex; overflow-x: auto; }
+  .layout-left .sidebar-section { min-width: 200px; flex-shrink: 0; }
+  .layout-center { width: 100%; order: 1; height: 55vh; min-height: 300px; flex-shrink: 0; }
+  .layout-right { width: 100%; min-width: 100%; order: 3; border-left: none; border-top: 1px solid #23293a; max-height: 250px; }
+  .map-status { top: 8px; left: 8px; padding: 4px 8px; gap: 5px; }
   .office-title { font-size: 8px; }
+}
+
+@media (max-width: 480px) {
+  .layout-left { max-height: 140px; }
+  .layout-center { height: 45vh; }
+  .layout-right { max-height: 200px; }
+  .map-scroll { padding: 8px; }
+  .project-tabs-bar { padding: 4px 6px; }
+  .project-tab-btn { padding: 6px 10px; font-size: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2774,3 +2784,4 @@ h3 {
   .sprite-pulse { animation: none; opacity: 0.5; }
   .speech-bubble { animation: none; }
 }
+
