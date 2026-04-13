@@ -1,0 +1,6 @@
+
+> rileys-office@0.1.0 typecheck
+> tsc --noEmit
+
+components/world/hq-world-canvas.tsx(16,10): error TS2300: Duplicate identifier 'WarRoomChair'.
+components/world/hq-world-canvas.tsx(18,10): error TS2300: Duplicate identifier 'WarRoomChair'.

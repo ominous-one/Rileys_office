@@ -1,0 +1,9 @@
+
+> rileys-office@0.1.0 typecheck
+> tsc --noEmit
+
+components/world/accent-display.tsx(8,8): error TS2304: Cannot find name 'RoundedBox'.
+components/world/accent-display.tsx(10,9): error TS2304: Cannot find name 'RoundedBox'.
+components/world/hq-world-canvas.tsx(17,10): error TS2440: Import declaration conflicts with local declaration of 'AccentDisplay'.
+components/world/hq-world-canvas.tsx(659,72): error TS2322: Type '{ key: string; project: ProjectSummary; x: number; hexToRgb: (hex: string) => { r: number; g: number; b: number; }; }' is not assignable to type 'IntrinsicAttributes & { project: ProjectSummary; x: number; }'.
+  Property 'hexToRgb' does not exist on type 'IntrinsicAttributes & { project: ProjectSummary; x: number; }'.

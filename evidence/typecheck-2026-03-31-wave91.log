@@ -1,0 +1,5 @@
+
+> rileys-office@0.1.0 typecheck
+> tsc --noEmit
+
+components/world/hq-world-canvas.tsx(507,8): error TS2304: Cannot find name 'Atmosphere'.

@@ -1,0 +1,6 @@
+
+> rileys-office@0.1.0 typecheck
+> tsc --noEmit
+
+components/world/hq-world-canvas.tsx(14,10): error TS2300: Duplicate identifier 'DeskLegs'.
+components/world/hq-world-canvas.tsx(15,10): error TS2300: Duplicate identifier 'DeskLegs'.
