@@ -209,7 +209,7 @@ export function OfficeWorld({
         <div className={styles.mapBackground}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/reference/office-world-home.jpg"
+            src="/reference/office-map-pixel.png"
             alt="Office floor plan"
             className={styles.mapImage}
           />
@@ -250,3 +250,4 @@ export function OfficeWorld({
     </div>
   );
 }
+
