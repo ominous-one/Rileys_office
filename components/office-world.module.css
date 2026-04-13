@@ -1,139 +1,72 @@
-﻿/* Office World styles */
-
-.officeWorld {
-  position: relative;
-  width: 100%;
-  min-height: 100dvh;
+﻿/* ── Office World ───────────────────────────────────── */
+.world {
+  position: absolute;
+  inset: 0;
   background: #0b0d12;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.statusBar {
+/* Status bar */
+.status {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 30;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(13, 16, 24, 0.92);
-  border: 2px solid #22293b;
-  padding: 6px 12px;
+  gap: 6px;
+  background: rgba(11, 13, 18, 0.88);
+  border: 1px solid #2a3448;
+  padding: 5px 10px;
   border-radius: 4px;
+  pointer-events: auto;
 }
 
-.officeTitle {
+.title {
   font-family: 'Courier New', monospace;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: bold;
   color: #e7ecf7;
   letter-spacing: 0.5px;
 }
 
-.statusBadge {
+.live {
   font-family: 'Courier New', monospace;
-  font-size: 8px;
+  font-size: 7px;
   text-transform: uppercase;
-  padding: 2px 6px;
-  border: 1px solid currentColor;
-  letter-spacing: 0.06em;
-  border-radius: 2px;
-}
-
-.statusLive {
-  color: #78f7b5;
-  background: rgba(120, 247, 181, 0.08);
-}
-
-.connectionInfo {
-  font-size: 10px;
-  color: #8792a8;
-}
-
-.agentCountBadge {
-  font-family: 'Courier New', monospace;
-  font-size: 9px;
-  color: #95d8ff;
-}
-
-.mapContainer {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 2 / 1;
-  min-height: 480px;
-  max-height: 85dvh;
-  overflow: hidden;
-}
-
-.mapBackground {
-  position: absolute;
-  inset: 0;
-}
-
-.mapImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  image-rendering: pixelated; image-rendering: crisp-edges;
-}
-
-.mapDarken {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(7,10,16,0.12), rgba(7,10,16,0.06) 40%, rgba(7,10,16,0.18) 85%, rgba(7,10,16,0.38));
-  pointer-events: none;
-}
-
-.roomOverlay {
-  position: absolute;
-  border: 1px solid rgba(149, 216, 255, 0.16);
-  border-radius: 6px;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.roomLabel {
-  position: absolute;
-  top: 4px;
-  left: 8px;
-  font-family: 'Courier New', monospace;
-  font-size: 9px;
-  color: rgba(231, 236, 247, 0.8);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-}
-
-.roomCount {
-  position: absolute;
-  top: 4px;
-  right: 8px;
-  font-family: 'Courier New', monospace;
-  font-size: 8px;
-  color: #95d8ff;
-  background: rgba(13, 16, 24, 0.8);
   padding: 1px 5px;
-  border-radius: 3px;
+  border: 1px solid #78f7b5;
+  color: #78f7b5;
+  border-radius: 2px;
+  letter-spacing: 0.06em;
 }
 
-.furnitureSprite {
-  position: absolute;
-  z-index: 8;
-  pointer-events: none;
+.conn { font-size: 9px; color: #8792a8; }
+.count { font-family: 'Courier New', monospace; font-size: 8px; color: #95d8ff; }
+
+/* Map fills container */
+.map {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.pixelArt {
+.mapImg {
   width: 100%;
   height: 100%;
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
-.agentSprite {
+/* ── Agent sprites ──────────────────────────────────── */
+.agent {
   position: absolute;
-  z-index: 15;
+  z-index: 10;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -143,126 +76,110 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.15s;
 }
 
-.agentSprite:hover {
-  transform: translate(-50%, -50%) scale(1.1);
-  z-index: 20;
+.agent:hover {
+  transform: translate(-50%, -50%) scale(1.12);
+  z-index: 15;
 }
 
-.agentSelected {
-  z-index: 25 !important;
-  transform: translate(-50%, -50%) scale(1.15);
+.agentSel {
+  z-index: 18 !important;
+  transform: translate(-50%, -50%) scale(1.18);
 }
 
-.presenceRing {
+/* Presence ring */
+.ring {
   position: absolute;
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
-  border: 2px solid var(--presence-color);
-  opacity: 0.5;
+  border: 2px solid var(--c);
+  opacity: 0.4;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -55%);
   pointer-events: none;
 }
 
-.agentWorking .presenceRing {
-  animation: presence-pulse 2s ease-in-out infinite;
+.agentActive .ring {
+  animation: pulse 2s ease-in-out infinite;
 }
 
-@keyframes presence-pulse {
-  0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.2); }
+@keyframes pulse {
+  0%, 100% { opacity: 0.35; transform: translate(-50%, -55%) scale(1); }
+  50% { opacity: 0.65; transform: translate(-50%, -55%) scale(1.25); }
 }
 
-.spriteContainer {
-  width: 48px;
-  height: 48px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spriteImg {
-  width: 48px;
-  height: 48px;
+/* Sprite image */
+.sprite {
+  width: 40px;
+  height: 40px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
 }
 
-.agentNameLabel {
+/* Name label */
+.label {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   font-family: 'Courier New', monospace;
-  font-size: 8px;
+  font-size: 7px;
   color: #fff;
-  background: rgba(0,0,0,0.78);
-  padding: 2px 7px;
+  background: rgba(0, 0, 0, 0.82);
+  padding: 2px 6px;
   border-radius: 3px;
   white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
 }
 
-.presenceDot {
-  width: 6px;
-  height: 6px;
+.dot {
+  width: 5px;
+  height: 5px;
   border-radius: 999px;
-  background: var(--presence-color);
+  background: var(--c);
   flex-shrink: 0;
 }
 
-.speechBubble {
+/* Speech bubble */
+.bubble {
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(13, 16, 24, 0.94);
-  border: 1px solid var(--bubble-accent, #95d8ff);
-  border-radius: 6px;
-  padding: 5px 9px;
-  max-width: 180px;
-  z-index: 30;
+  background: rgba(11, 13, 18, 0.94);
+  border: 1px solid var(--accent, #95d8ff);
+  border-radius: 5px;
+  padding: 4px 8px;
+  max-width: 160px;
+  z-index: 25;
   pointer-events: none;
-}
-
-.speechText {
-  font-size: 9px;
+  font-family: 'Courier New', monospace;
+  font-size: 8px;
   color: #e7ecf7;
   line-height: 1.4;
-  font-family: 'Courier New', monospace;
 }
 
-.speechTail {
+.bubbleTail {
   position: absolute;
-  bottom: -5px;
+  bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid rgba(13, 16, 24, 0.94);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid rgba(11, 13, 18, 0.94);
 }
 
-@media (max-width: 640px) {
-  .mapContainer {
-    aspect-ratio: 4 / 5;
-    min-height: 400px;
-  }
-  .statusBar { top: 6px; left: 6px; padding: 4px 8px; gap: 5px; }
-  .officeTitle { font-size: 9px; }
-  .spriteContainer { width: 36px; height: 36px; }
-  .spriteImg { width: 36px; height: 36px; }
-  .presenceRing { width: 40px; height: 40px; }
-  .agentNameLabel { font-size: 7px; }
-  .speechBubble { max-width: 140px; }
-  .speechText { font-size: 8px; }
-  .roomLabel { font-size: 7px; }
+/* ── Mobile ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sprite { width: 32px; height: 32px; }
+  .ring { width: 36px; height: 36px; }
+  .label { font-size: 6px; }
+  .status { top: 6px; left: 6px; padding: 3px 7px; }
+  .title { font-size: 8px; }
+  .bubble { max-width: 120px; font-size: 7px; }
 }
-
